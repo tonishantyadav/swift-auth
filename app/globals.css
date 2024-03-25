@@ -39,8 +39,8 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
@@ -55,5 +55,19 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .hero-shadow {
+    text-shadow:
+      0 0.1rem 0 hsla(0, 0%, 100%, 0.1),
+      0 0 5rem hsla(0, 0%, 100%, 0.5);
+  }
+  .bg-primary {
+    background: #289ef9;
+  }
+  .bg-hover {
+    background: #0284c7;
   }
 }
