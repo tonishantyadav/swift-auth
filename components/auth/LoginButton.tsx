@@ -1,29 +1,29 @@
 'use client'
 
+import { Button } from '@/components/ui'
+import { ButtonProps } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
-import React from 'react'
 
-interface LoginButtonProps {
-  children: React.ReactNode
+interface LoginButtonProps extends Omit<ButtonProps, 'onClick'> {
+  label?: string
   mode?: 'modal' | 'redirect'
-  asChild?: boolean
 }
 
 const LoginButton = ({
-  children,
+  label = 'Login',
   mode = 'redirect',
-  asChild,
+  ...buttonProps
 }: LoginButtonProps) => {
   const router = useRouter()
 
-  const onClick = () => {
+  const handleOnClick = () => {
     router.push('/auth/login')
   }
 
   return (
-    <span onClick={onClick} className="cursor-pointer">
-      {children}
-    </span>
+    <Button {...buttonProps} onClick={handleOnClick}>
+      {label}
+    </Button>
   )
 }
 

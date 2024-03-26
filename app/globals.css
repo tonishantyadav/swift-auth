@@ -64,10 +64,13 @@
       0 0.1rem 0 hsla(0, 0%, 100%, 0.1),
       0 0 5rem hsla(0, 0%, 100%, 0.5);
   }
-  .bg-primary {
+  .btn-primary {
     background: #289ef9;
   }
-  .bg-hover {
+  .btn-hover {
     background: #0284c7;
+  }
+  .text-glow {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   }
 }
