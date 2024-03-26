@@ -7,3 +7,12 @@ export const LoginFormSchema = z.object({
     .min(8, 'Invalid password.')
     .max(255, 'Password is too long.'),
 })
+
+export const RegisterFormSchema = z.object({
+  name: z.string().min(1, 'Invalid name.').max(255, 'Name is too long'),
+  email: z.string().email('Invalid email.'),
+  password: z
+    .string()
+    .min(8, 'Invalid password.')
+    .max(255, 'Password is too long.'),
+})
