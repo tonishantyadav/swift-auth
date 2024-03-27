@@ -1,21 +1,16 @@
 'use client'
 
-import { RegisterFormSchema } from '@/app/validation-schemaa'
-import { Button, Input } from '@/components/ui'
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { RegisterFormSchema } from '@/app/schemas/form-validation'
+import { Field } from '@/app/types/form-card'
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+  FormCard,
+  FormCardBody,
+  FormCardFooter,
+  FormCardHeader,
+} from '@/components/FormCard'
+import { Form } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { FaGithub } from 'react-icons/fa'
-import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
 
 type LoginFormData = z.infer<typeof RegisterFormSchema>
@@ -30,101 +25,29 @@ const RegisterForm = () => {
     },
   })
 
+  const fields: Field[] = [
+    { label: 'Name', placeholder: 'Jane Doe', type: 'text' },
+    { label: 'Email', placeholder: 'janedoe@example.com', type: 'email' },
+    { label: 'Password', placeholder: '******', type: 'password' },
+  ]
+
   const onSubmit = (data: LoginFormData) => {}
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Card className="mx-2 max-w-md shadow-md">
-          <CardHeader className="text-2xl md:text-3xl lg:text-3xl">
-            Register a new account
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="max-w-lg"
-                      type="text"
-                      placeholder="Jane Smith"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="max-w-lg"
-                      type="email"
-                      placeholder="janesmith@example.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="max-w-lg"
-                      type="password"
-                      placeholder="********"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-          <CardFooter className="flex flex-col gap-y-5">
-            <Button className="text-md w-full font-semibold" type="submit">
-              Register
-            </Button>
-            <span className="text-sm text-gray-300">Or Register with</span>
-            <div className="flex gap-3">
-              {socialAuths.map((s) => (
-                <Button size="icon" className="rounded-full" key={s.label}>
-                  {s.icon}
-                </Button>
-              ))}
-            </div>
-            <div className="flex gap-2 text-xs md:text-sm lg:text-sm">
-              <p>Already have an account?</p>
-              <Link
-                href="/auth/login"
-                className="text-gray-300 hover:underline"
-              >
-                Login
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
+        <FormCard>
+          <FormCardHeader formHeader="Register a new account" />
+          <FormCardBody form={form} fields={fields} />
+          <FormCardFooter
+            actionBtnLabel="Register"
+            backBtnMessage="Already have an account?"
+            backBtnLinkLabel="Login"
+            backBtnLinkHref="/auth/login"
+          />
+        </FormCard>
       </form>
     </Form>
   )
 }
-
-const socialAuths: { label: string; icon: React.ReactNode }[] = [
-  { label: 'google', icon: <FcGoogle fontSize="1.5rem" /> },
-  { label: 'github', icon: <FaGithub fontSize="1.5rem" /> },
-]
 
 export default RegisterForm
