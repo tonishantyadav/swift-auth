@@ -1,6 +1,6 @@
 'use client'
 
-import { RegisterFormSchema } from '@/app/schemas'
+import { RegisterFormSchema } from '@/app/validation-schemaa'
 import { Button, Input } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import {
@@ -24,6 +24,7 @@ const RegisterForm = () => {
   const form = useForm<LoginFormData>({
     resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
     },
@@ -48,7 +49,7 @@ const RegisterForm = () => {
                     <Input
                       className="max-w-lg"
                       type="text"
-                      placeholder="Enter your name"
+                      placeholder="Jane Smith"
                       {...field}
                     />
                   </FormControl>
@@ -66,7 +67,7 @@ const RegisterForm = () => {
                     <Input
                       className="max-w-lg"
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="janesmith@example.com"
                       {...field}
                     />
                   </FormControl>
@@ -84,7 +85,7 @@ const RegisterForm = () => {
                     <Input
                       className="max-w-lg"
                       type="password"
-                      placeholder="Enter your password"
+                      placeholder="********"
                       {...field}
                     />
                   </FormControl>
@@ -95,7 +96,7 @@ const RegisterForm = () => {
           </CardContent>
           <CardFooter className="flex flex-col gap-y-5">
             <Button className="text-md w-full font-semibold" type="submit">
-              Login
+              Register
             </Button>
             <span className="text-sm text-gray-300">Or Register with</span>
             <div className="flex gap-3">
@@ -107,7 +108,10 @@ const RegisterForm = () => {
             </div>
             <div className="flex gap-2 text-xs md:text-sm lg:text-sm">
               <p>Already have an account?</p>
-              <Link href="" className="text-gray-300 hover:underline">
+              <Link
+                href="/auth/login"
+                className="text-gray-300 hover:underline"
+              >
                 Login
               </Link>
             </div>

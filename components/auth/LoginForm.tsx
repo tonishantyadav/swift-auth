@@ -1,6 +1,6 @@
 'use client'
 
-import { LoginFormSchema } from '@/app/schemas'
+import { LoginFormSchema } from '@/app/validation-schemaa'
 import { Button, Input } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import {
@@ -36,7 +36,7 @@ const LoginForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Card className="mx-2 max-w-md shadow-md">
-          <CardHeader className="text-2xl md:text-4xl lg:text-4xl">
+          <CardHeader className="text-2xl md:text-3xl lg:text-3xl">
             Login to your account
           </CardHeader>
           <CardContent className="space-y-5">
@@ -50,7 +50,7 @@ const LoginForm = () => {
                     <Input
                       className="max-w-lg"
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="Jane Smith"
                       {...field}
                     />
                   </FormControl>
@@ -68,7 +68,7 @@ const LoginForm = () => {
                     <Input
                       className="max-w-lg"
                       type="password"
-                      placeholder="Enter your password"
+                      placeholder="********"
                       {...field}
                     />
                   </FormControl>
@@ -97,7 +97,10 @@ const LoginForm = () => {
             </div>
             <div className="flex gap-2 text-xs md:text-sm lg:text-sm">
               <p>Don't have an account?</p>
-              <Link href="" className="text-gray-300 hover:underline">
+              <Link
+                href="/auth/register"
+                className="text-gray-300 hover:underline"
+              >
                 Register
               </Link>
             </div>
