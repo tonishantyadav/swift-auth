@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-export type LoginFormData = z.infer<typeof LoginFormSchema>
+type LoginFormData = z.infer<typeof LoginFormSchema>
 
 const LoginForm = () => {
   const form = useForm<LoginFormData>({
@@ -23,10 +23,6 @@ const LoginForm = () => {
       password: '',
     },
   })
-  const fields: Field[] = [
-    { label: 'Email', placeholder: 'janedoe@example.com', type: 'email' },
-    { label: 'Password', placeholder: '******', type: 'password' },
-  ]
 
   const onSubmit = (data: LoginFormData) => {
     console.log(data)
@@ -49,5 +45,10 @@ const LoginForm = () => {
     </Form>
   )
 }
+
+const fields: Field[] = [
+  { label: 'Email', placeholder: 'janedoe@example.com', type: 'email' },
+  { label: 'Password', placeholder: '********', type: 'password' },
+]
 
 export default LoginForm

@@ -25,12 +25,6 @@ const RegisterForm = () => {
     },
   })
 
-  const fields: Field[] = [
-    { label: 'Name', placeholder: 'Jane Doe', type: 'text' },
-    { label: 'Email', placeholder: 'janedoe@example.com', type: 'email' },
-    { label: 'Password', placeholder: '******', type: 'password' },
-  ]
-
   const onSubmit = (data: LoginFormData) => {}
   return (
     <Form {...form}>
@@ -49,5 +43,11 @@ const RegisterForm = () => {
     </Form>
   )
 }
+
+const fields: Field[] = [
+  { label: 'Name', placeholder: 'Jane Doe', type: 'text' },
+  { label: 'Email', placeholder: 'janedoe@example.com', type: 'email' },
+  { label: 'Password', placeholder: '******', type: 'password' },
+]
 
 export default RegisterForm

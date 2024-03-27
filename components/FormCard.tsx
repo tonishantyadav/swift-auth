@@ -1,5 +1,6 @@
-import { FormFields, FormFooter, FormHeader } from '@/app/types/form-card'
+import { FormBody, FormFooter, FormHeader } from '@/app/types/form-card'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import React from 'react'
 import { FaGithub } from 'react-icons/fa'
@@ -30,9 +31,9 @@ const FormCardHeader = ({ formHeader, formDescription }: FormHeader) => {
   )
 }
 
-const FormCardBody = ({ form, fields }: FormFields) => {
+const FormCardBody = ({ form, fields }: FormBody) => {
   return (
-    <CardContent>
+    <CardContent className="space-y-2">
       {fields.map((f, index) => (
         <FormField
           key={index}
@@ -87,9 +88,19 @@ const FormCardFooter = ({
   )
 }
 
+const FormCardError = ({ message }: { message: string }) => {
+  if (!message) return null
+  return (
+    <div className="mx-6 my-2 flex items-center justify-center gap-x-2 rounded-md bg-destructive/50 p-3 text-sm text-red-300">
+      <ExclamationTriangleIcon className="h-4 w-4" />
+      {message}
+    </div>
+  )
+}
+
 const socialAuths: { label: string; icon: React.ReactNode }[] = [
   { label: 'google', icon: <FcGoogle fontSize="1.5rem" /> },
   { label: 'github', icon: <FaGithub fontSize="1.5rem" /> },
 ]
 
-export { FormCard, FormCardBody, FormCardFooter, FormCardHeader }
+export { FormCard, FormCardBody, FormCardError, FormCardFooter, FormCardHeader }

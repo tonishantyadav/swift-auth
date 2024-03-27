@@ -18,7 +18,7 @@ export interface FormFooter {
   backBtnLinkHref: string
 }
 
-export interface FormFields {
+export interface FormBody {
   form: UseFormReturn<any>
   fields: Field[]
 }
