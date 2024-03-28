@@ -1,7 +1,5 @@
 'use client'
 
-import { LoginFormSchema } from '@/app/schemas/form-validation'
-import { Field } from '@/app/types/form-card'
 import {
   FormCard,
   FormCardBody,
@@ -9,15 +7,17 @@ import {
   FormCardHeader,
 } from '@/components/FormCard'
 import { Form } from '@/components/ui/form'
+import { LoginSchema } from '@/schemas/user-validation'
+import { Field } from '@/types/form-card'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-type LoginFormData = z.infer<typeof LoginFormSchema>
+type LoginFormData = z.infer<typeof LoginSchema>
 
 const LoginForm = () => {
   const form = useForm<LoginFormData>({
-    resolver: zodResolver(LoginFormSchema),
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: '',
       password: '',

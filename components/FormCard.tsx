@@ -1,4 +1,3 @@
-import { FormBody, FormFooter, FormHeader } from '@/app/types/form-card'
 import { Button, Input } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import {
@@ -8,6 +7,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { FormBody, FormFooter, FormHeader } from '@/types/form-card'
 import {
   CheckCircledIcon,
   ExclamationTriangleIcon,
