@@ -1,6 +1,6 @@
 'use client'
 
-import {
+import FormActionButton, {
   FormCard,
   FormCardBody,
   FormCardFooter,
@@ -35,11 +35,12 @@ const LoginForm = () => {
           <FormCardHeader formHeader="Login to your account" />
           <FormCardBody form={form} fields={fields} />
           <FormCardFooter
-            actionBtnLabel="Login"
-            backBtnMessage="Don't have an account?"
-            backBtnLinkLabel="Register"
-            backBtnLinkHref="/auth/register"
-          />
+            redirectMessage="Don't have an account?"
+            redirectLinkLabel="Register"
+            redirectLinkHref="/auth/register"
+          >
+            <FormActionButton label="Login" />
+          </FormCardFooter>
         </FormCard>
       </form>
     </Form>
@@ -47,8 +48,8 @@ const LoginForm = () => {
 }
 
 const fields: Field[] = [
-  { label: 'Email', placeholder: 'janedoe@example.com', type: 'email' },
-  { label: 'Password', placeholder: '********', type: 'password' },
+  { label: 'Email', placeholder: 'Enter your email', type: 'email' },
+  { label: 'Password', placeholder: 'Enter your password', type: 'password' },
 ]
 
 export default LoginForm

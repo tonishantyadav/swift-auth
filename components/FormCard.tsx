@@ -63,16 +63,14 @@ const FormCardBody = ({ form, fields }: FormBody) => {
 }
 
 const FormCardFooter = ({
-  actionBtnLabel,
-  backBtnMessage,
-  backBtnLinkLabel,
-  backBtnLinkHref,
+  redirectMessage,
+  redirectLinkLabel,
+  redirectLinkHref,
+  children,
 }: FormFooter) => {
   return (
     <CardFooter className="flex flex-col gap-y-5">
-      <Button className="text-md w-full font-semibold" type="submit">
-        {actionBtnLabel}
-      </Button>
+      {children}
       <span className="text-sm text-gray-300">Or Login with</span>
       <div className="flex gap-3">
         {socialAuths.map((social) => (
@@ -82,9 +80,9 @@ const FormCardFooter = ({
         ))}
       </div>
       <div className="flex gap-2 text-xs md:text-sm lg:text-sm">
-        <p>{backBtnMessage}</p>
-        <Link href={backBtnLinkHref} className="text-gray-300 hover:underline">
-          {backBtnLinkLabel}
+        <p>{redirectMessage}</p>
+        <Link href={redirectLinkHref} className="text-gray-300 hover:underline">
+          {redirectLinkLabel}
         </Link>
       </div>
     </CardFooter>
@@ -111,12 +109,33 @@ const FormCardSuccess = ({ message }: { message: string }) => {
   )
 }
 
+const FormActionButton = ({
+  label,
+  disabled = false,
+}: {
+  label: string
+  disabled?: boolean
+}) => {
+  return (
+    <Button
+      className="text-md w-full font-semibold"
+      type="submit"
+      disabled={disabled}
+    >
+      {label}
+    </Button>
+  )
+}
+
+export default FormActionButton
+
 const socialAuths: { label: string; icon: React.ReactNode }[] = [
   { label: 'google', icon: <FcGoogle fontSize="1.5rem" /> },
   { label: 'github', icon: <FaGithub fontSize="1.5rem" /> },
 ]
 
 export {
+  FormActionButton,
   FormCard,
   FormCardBody,
   FormCardError,

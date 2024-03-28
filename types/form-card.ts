@@ -1,3 +1,4 @@
+import React from 'react'
 import { UseFormReturn } from 'react-hook-form'
 
 export interface Field {
@@ -12,10 +13,10 @@ export interface FormHeader {
 }
 
 export interface FormFooter {
-  actionBtnLabel: string
-  backBtnMessage: string
-  backBtnLinkLabel: string
-  backBtnLinkHref: string
+  redirectMessage: string
+  redirectLinkLabel: string
+  redirectLinkHref: string
+  children: React.ReactNode
 }
 
 export interface FormBody {
