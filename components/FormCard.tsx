@@ -1,18 +1,21 @@
 import { FormBody, FormFooter, FormHeader } from '@/app/types/form-card'
+import { Button, Input } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
-import Link from 'next/link'
-import React from 'react'
-import { FaGithub } from 'react-icons/fa'
-import { FcGoogle } from 'react-icons/fc'
-import { Button, Input } from './ui'
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form'
+} from '@/components/ui/form'
+import {
+  CheckCircledIcon,
+  ExclamationTriangleIcon,
+} from '@radix-ui/react-icons'
+import Link from 'next/link'
+import React from 'react'
+import { FaGithub } from 'react-icons/fa'
+import { FcGoogle } from 'react-icons/fc'
 
 const FormCard = ({ children }: { children: React.ReactNode }) => {
   return <Card className="mx-2 max-w-md shadow-md">{children}</Card>
@@ -98,9 +101,26 @@ const FormCardError = ({ message }: { message: string }) => {
   )
 }
 
+const FormCardSuccess = ({ message }: { message: string }) => {
+  if (!message) return null
+  return (
+    <div className="mx-6 my-2 flex items-center justify-center gap-x-2 rounded-md bg-emerald-500/15 p-3 text-sm text-emerald-500">
+      <CheckCircledIcon className="h-4 w-4" />
+      {message}
+    </div>
+  )
+}
+
 const socialAuths: { label: string; icon: React.ReactNode }[] = [
   { label: 'google', icon: <FcGoogle fontSize="1.5rem" /> },
   { label: 'github', icon: <FaGithub fontSize="1.5rem" /> },
 ]
 
-export { FormCard, FormCardBody, FormCardError, FormCardFooter, FormCardHeader }
+export {
+  FormCard,
+  FormCardBody,
+  FormCardError,
+  FormCardFooter,
+  FormCardHeader,
+  FormCardSuccess,
+}
