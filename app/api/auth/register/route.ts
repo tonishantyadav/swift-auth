@@ -1,5 +1,5 @@
 import prisma from '@/prisma/client'
-import { RegisterSchema } from '@/schemas/user-validation'
+import { RegisterSchema } from '@/schemas/userValidation'
 import bcrypt from 'bcrypt'
 import { NextRequest, NextResponse } from 'next/server'
 

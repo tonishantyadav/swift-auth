@@ -9,19 +9,20 @@ import {
   FormCardHeader,
 } from '@/components/FormCard'
 import { Form } from '@/components/ui/form'
-import { RegisterSchema } from '@/schemas/user-validation'
+import { handleError } from '@/lib/handleError'
+import { RegisterSchema } from '@/schemas/userValidation'
 import { Field } from '@/types/form-card'
 import { zodResolver } from '@hookform/resolvers/zod'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-type LoginFormData = z.infer<typeof RegisterSchema>
+type RegisterFormData = z.infer<typeof RegisterSchema>
 
 const RegisterForm = () => {
-  const form = useForm<LoginFormData>({
+  const form = useForm<RegisterFormData>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       name: '',
@@ -33,21 +34,15 @@ const RegisterForm = () => {
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const onSubmit = async (data: LoginFormData) => {
-    await axios
-      .post('/api/auth/register', data)
-      .then((response) => {
-        setIsSubmitting(true)
-        router.push('/auth/login')
-      })
-      .catch((error: Error | AxiosError) => {
-        setIsSubmitting(false)
-        if (axios.isAxiosError(error))
-          setError(
-            error.response?.data.error || 'An unexpected error occurred!'
-          )
-        else setError('An unexpected error occurred!')
-      })
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      setIsSubmitting(true)
+      await axios.post('/api/auth/register', data)
+    } catch (error) {
+      const err = handleError(error)
+      setIsSubmitting(false)
+      setError(err)
+    }
   }
 
   return (

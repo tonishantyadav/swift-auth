@@ -7,7 +7,7 @@ import FormActionButton, {
   FormCardHeader,
 } from '@/components/FormCard'
 import { Form } from '@/components/ui/form'
-import { LoginSchema } from '@/schemas/user-validation'
+import { LoginSchema } from '@/schemas/userValidation'
 import { Field } from '@/types/form-card'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
