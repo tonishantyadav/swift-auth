@@ -37,7 +37,6 @@ const RegisterForm = () => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       setIsSubmitting(true)
-      console.log(data)
       await axios.post('/api/auth/register', data)
     } catch (error) {
       const err = handleError(error)
