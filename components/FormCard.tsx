@@ -7,7 +7,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { FormBody, FormFooter, FormHeader } from '@/types/form-card'
+import { FormBody, FormFooter, FormHeader } from '@/types/formCard'
 import {
   CheckCircledIcon,
   ExclamationTriangleIcon,
@@ -126,8 +126,6 @@ const FormActionButton = ({
     </Button>
   )
 }
-
-export default FormActionButton
 
 const socialAuths: { label: string; icon: React.ReactNode }[] = [
   { label: 'google', icon: <FcGoogle fontSize="1.5rem" /> },

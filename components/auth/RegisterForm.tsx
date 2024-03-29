@@ -11,7 +11,7 @@ import {
 import { Form } from '@/components/ui/form'
 import { handleError } from '@/lib/handleError'
 import { RegisterSchema } from '@/schemas/userValidation'
-import { Field } from '@/types/form-card'
+import { Field } from '@/types/formCard'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -37,6 +37,7 @@ const RegisterForm = () => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       setIsSubmitting(true)
+      console.log(data)
       await axios.post('/api/auth/register', data)
     } catch (error) {
       const err = handleError(error)

@@ -1,6 +1,7 @@
 'use client'
 
-import FormActionButton, {
+import {
+  FormActionButton,
   FormCard,
   FormCardBody,
   FormCardFooter,
@@ -8,7 +9,7 @@ import FormActionButton, {
 } from '@/components/FormCard'
 import { Form } from '@/components/ui/form'
 import { LoginSchema } from '@/schemas/userValidation'
-import { Field } from '@/types/form-card'
+import { Field } from '@/types/formCard'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
