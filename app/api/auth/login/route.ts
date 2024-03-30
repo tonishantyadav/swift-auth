@@ -1,7 +1,7 @@
 import { signIn } from '@/auth'
 import prisma from '@/prisma/client'
 import { LoginSchema } from '@/schemas/userValidation'
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcrypt'
 import { AuthError } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
 
