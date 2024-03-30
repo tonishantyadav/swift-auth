@@ -1,6 +1,6 @@
 import prisma from '@/prisma/client'
 import { RegisterSchema } from '@/schemas/userValidation'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {

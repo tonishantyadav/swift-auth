@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { FormBody, FormFooter, FormHeader } from '@/types/formCard'
+
 import {
   CheckCircledIcon,
   ExclamationTriangleIcon,
@@ -16,6 +17,7 @@ import Link from 'next/link'
 import React from 'react'
 import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
+import Spinner from './ui/spinner'
 
 const FormCard = ({ children }: { children: React.ReactNode }) => {
   return <Card className="mx-2 max-w-md shadow-md">{children}</Card>
@@ -111,18 +113,18 @@ const FormCardSuccess = ({ message }: { message: string }) => {
 
 const FormActionButton = ({
   label,
-  disabled = false,
+  isSubmitting = false,
 }: {
   label: string
-  disabled?: boolean
+  isSubmitting?: boolean
 }) => {
   return (
     <Button
       className="text-md w-full font-semibold"
       type="submit"
-      disabled={disabled}
+      disabled={isSubmitting}
     >
-      {label}
+      {label} {isSubmitting && <Spinner />}
     </Button>
   )
 }

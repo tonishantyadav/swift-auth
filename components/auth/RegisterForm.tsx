@@ -38,6 +38,7 @@ const RegisterForm = () => {
     try {
       setIsSubmitting(true)
       await axios.post('/api/auth/register', data)
+      router.push('/')
     } catch (error) {
       const err = handleError(error)
       setIsSubmitting(false)
@@ -57,7 +58,7 @@ const RegisterForm = () => {
             redirectLinkLabel="Login"
             redirectLinkHref="/auth/login"
           >
-            <FormActionButton label="Register" disabled={isSubmitting} />
+            <FormActionButton label="Register" isSubmitting={isSubmitting} />
           </FormCardFooter>
         </FormCard>
       </form>

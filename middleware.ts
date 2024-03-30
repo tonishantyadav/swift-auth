@@ -1,8 +1,6 @@
 import authConfig from '@/auth.config'
 import NextAuth from 'next-auth'
 
-const DEFAULT_LOGIN_REDIRECT = '/'
-
 const apiAuthPrefix = '/api/auth'
 const publicRoutes = ['/']
 const authRoutes = ['/auth/login', '/auth/register']
@@ -18,16 +16,16 @@ export default middleware((req) => {
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
 
   if (isApiAuthRoute) return
-
   if (isAuthRoute) {
     if (session)
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
     return
   }
-
   if (!session && !isPublicRoute)
     return Response.redirect(new URL('/auth/login', nextUrl))
 })
+
+export const DEFAULT_LOGIN_REDIRECT = '/'
 
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
