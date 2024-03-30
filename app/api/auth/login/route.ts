@@ -17,6 +17,10 @@ export async function POST(request: NextRequest) {
   const user = await prisma.user.findUnique({
     where: { email },
   })
+  const checkEmail = email === user?.email ? true : false
+
+  if (!checkEmail)
+    return NextResponse.json({ error: 'Invalid email!' }, { status: 404 })
 
   if (!user || !user.password)
     return NextResponse.json({ error: 'User not found!' }, { status: 404 })
@@ -24,7 +28,7 @@ export async function POST(request: NextRequest) {
   const checkPassowrd = await bcrypt.compare(password, user.password)
 
   if (!checkPassowrd)
-    return NextResponse.json({ error: 'Invalid password!' }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid password!' }, { status: 404 })
 
   try {
     await signIn('credentials', user)
@@ -33,8 +37,8 @@ export async function POST(request: NextRequest) {
       switch (error.type) {
         case 'CredentialsSignin':
           return NextResponse.json(
-            { error: 'Invalid credentials' },
-            { status: 401 }
+            { error: 'Failed to login! Try again after sometime.' },
+            { status: 500 }
           )
       }
     }
