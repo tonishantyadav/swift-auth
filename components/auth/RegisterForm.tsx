@@ -8,33 +8,19 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
-import { Form } from '@/components/ui/form'
 import { handleError } from '@/lib/handleError'
 import { RegisterSchema } from '@/schemas/userValidation'
-import { Field } from '@/types/formCard'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Field, RegisterFormData } from '@/types/formCard'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
-type RegisterFormData = z.infer<typeof RegisterSchema>
 
 const RegisterForm = () => {
-  const form = useForm<RegisterFormData>({
-    resolver: zodResolver(RegisterSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
-  })
   const router = useRouter()
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const onSubmit = async (data: RegisterFormData) => {
+  const onSubmit = async (data: Partial<RegisterFormData>) => {
     try {
       setIsSubmitting(true)
       await axios.post('/api/auth/register', data)
@@ -47,24 +33,27 @@ const RegisterForm = () => {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormCard>
-          <FormCardHeader formHeader="Register a new account" />
-          <FormCardBody form={form} fields={fields} />
-          {error && <FormCardError message={error} />}
-          <FormCardFooter
-            redirectMessage="Already have an account?"
-            redirectLinkLabel="Login"
-            redirectLinkHref="/auth/login"
-          >
-            <FormActionButton label="Register" isSubmitting={isSubmitting} />
-          </FormCardFooter>
-        </FormCard>
-      </form>
-    </Form>
+    <FormCard>
+      <FormCardHeader formHeader="Register a new account" />
+      <FormCardBody
+        onSubmit={onSubmit}
+        schema={RegisterSchema}
+        fields={fields}
+        defaultValues={defaultValues}
+      >
+        <FormActionButton label="Register" isSubmitting={isSubmitting} />
+        {error && <FormCardError message={error} />}
+      </FormCardBody>
+      <FormCardFooter
+        redirectMessage="Already have an account?"
+        redirectLinkLabel="Login"
+        redirectLinkHref="/auth/login"
+      />
+    </FormCard>
   )
 }
+
+const defaultValues: RegisterFormData = { name: '', email: '', password: '' }
 
 const fields: Field[] = [
   { label: 'Name', placeholder: 'Enter your name', type: 'text' },

@@ -1,22 +1,26 @@
 import { Button, Input } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { FormBody, FormFooter, FormHeader } from '@/types/formCard'
+import { FormBody, FormFields, FormFooter, FormHeader } from '@/types/formCard'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   CheckCircledIcon,
   ExclamationTriangleIcon,
 } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import React from 'react'
+import { useForm } from 'react-hook-form'
 import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
+import { z } from 'zod'
 import Spinner from './ui/spinner'
 
 const FormCard = ({ children }: { children: React.ReactNode }) => {
@@ -36,9 +40,32 @@ const FormCardHeader = ({ formHeader, formDescription }: FormHeader) => {
   )
 }
 
-const FormCardBody = ({ form, fields }: FormBody) => {
+const FormCardBody = ({
+  children,
+  onSubmit,
+  schema,
+  fields,
+  defaultValues,
+}: FormBody) => {
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: { ...defaultValues },
+  })
   return (
-    <CardContent className="space-y-2">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <CardContent className="space-y-5">
+          <FormCardFields form={form} fields={fields} />
+          {children}
+        </CardContent>
+      </form>
+    </Form>
+  )
+}
+
+const FormCardFields = ({ fields, form }: FormFields) => {
+  return (
+    <>
       {fields.map((f, index) => (
         <FormField
           key={index}
@@ -60,7 +87,7 @@ const FormCardBody = ({ form, fields }: FormBody) => {
           )}
         />
       ))}
-    </CardContent>
+    </>
   )
 }
 
@@ -68,11 +95,9 @@ const FormCardFooter = ({
   redirectMessage,
   redirectLinkLabel,
   redirectLinkHref,
-  children,
 }: FormFooter) => {
   return (
     <CardFooter className="flex flex-col gap-y-5">
-      {children}
       <span className="text-sm text-gray-300">Or Login with</span>
       <div className="flex gap-3">
         {socialAuths.map((social) => (
@@ -94,7 +119,7 @@ const FormCardFooter = ({
 const FormCardError = ({ message }: { message: string }) => {
   if (!message) return null
   return (
-    <div className="mx-6 my-2 flex items-center justify-center gap-x-2 rounded-md bg-destructive/50 p-3 text-sm text-red-300">
+    <div className="mx-6 my-2 flex max-w-full items-center justify-center gap-x-2 rounded-md bg-destructive/50 p-3 text-sm text-red-300">
       <ExclamationTriangleIcon className="h-4 w-4" />
       {message}
     </div>

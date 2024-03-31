@@ -8,27 +8,14 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
-import { Form } from '@/components/ui/form'
 import { handleError } from '@/lib/handleError'
 import { LoginSchema } from '@/schemas/userValidation'
-import { Field } from '@/types/formCard'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Field, LoginFormData } from '@/types/formCard'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
-type LoginFormData = z.infer<typeof LoginSchema>
 
 const LoginForm = () => {
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  })
   const router = useRouter()
   const [error, setError] = useState('')
 
@@ -43,23 +30,29 @@ const LoginForm = () => {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormCard>
-          <FormCardHeader formHeader="Login to your account" />
-          <FormCardBody form={form} fields={fields} />
-          {error && <FormCardError message={error} />}
-          <FormCardFooter
-            redirectMessage="Don't have an account?"
-            redirectLinkLabel="Register"
-            redirectLinkHref="/auth/register"
-          >
-            <FormActionButton label="Login" />
-          </FormCardFooter>
-        </FormCard>
-      </form>
-    </Form>
+    <FormCard>
+      <FormCardHeader formHeader="Login to your account" />
+      <FormCardBody
+        onSubmit={onSubmit}
+        fields={fields}
+        schema={LoginSchema}
+        defaultValues={defaultValues}
+      >
+        <FormActionButton label="Login" />
+        {error && <FormCardError message={error} />}
+      </FormCardBody>
+      <FormCardFooter
+        redirectMessage="Don't have an account?"
+        redirectLinkLabel="Register"
+        redirectLinkHref="/auth/register"
+      />
+    </FormCard>
   )
+}
+
+const defaultValues: LoginFormData = {
+  email: '',
+  password: '',
 }
 
 const fields: Field[] = [
