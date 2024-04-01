@@ -1,13 +1,13 @@
 import { signIn } from '@/auth'
 import prisma from '@/prisma/client'
-import { LoginSchema } from '@/schemas/userValidation'
+import { SigninSchema } from '@/schemas/userValidation'
 import bcrypt from 'bcrypt'
 import { AuthError } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
-  const validation = LoginSchema.safeParse(body)
+  const validation = SigninSchema.safeParse(body)
 
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 })

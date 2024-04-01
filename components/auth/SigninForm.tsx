@@ -9,19 +9,19 @@ import {
   FormCardHeader,
 } from '@/components/FormCard'
 import { handleError } from '@/lib/handleError'
-import { LoginSchema } from '@/schemas/userValidation'
-import { Field, LoginFormData } from '@/types/formCard'
+import { SigninSchema } from '@/schemas/userValidation'
+import { Field, SigninFormData } from '@/types/formCard'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-const LoginForm = () => {
+const SigninForm = () => {
   const router = useRouter()
   const [error, setError] = useState('')
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: SigninFormData) => {
     try {
-      await axios.post('/api/auth/login', data)
+      await axios.post('/api/auth/signin', data)
       router.push('/')
     } catch (error) {
       const err = handleError(error)
@@ -31,26 +31,26 @@ const LoginForm = () => {
 
   return (
     <FormCard>
-      <FormCardHeader formHeader="Login to your account" />
+      <FormCardHeader header="Signin to your account" />
       <FormCardBody
         onSubmit={onSubmit}
         fields={fields}
-        schema={LoginSchema}
+        schema={SigninSchema}
         defaultValues={defaultValues}
       >
         <FormActionButton label="Login" />
         {error && <FormCardError message={error} />}
       </FormCardBody>
       <FormCardFooter
-        redirectMessage="Don't have an account?"
-        redirectLinkLabel="Register"
-        redirectLinkHref="/auth/register"
+        message="Don't have an account?"
+        linkLabel="Signup"
+        linkHref="/auth/signup"
       />
     </FormCard>
   )
 }
 
-const defaultValues: LoginFormData = {
+const defaultValues: SigninFormData = {
   email: '',
   password: '',
 }
@@ -60,4 +60,4 @@ const fields: Field[] = [
   { label: 'Password', placeholder: 'Enter your password', type: 'password' },
 ]
 
-export default LoginForm
+export default SigninForm

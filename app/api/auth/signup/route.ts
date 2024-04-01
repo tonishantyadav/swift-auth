@@ -1,11 +1,11 @@
 import prisma from '@/prisma/client'
-import { RegisterSchema } from '@/schemas/userValidation'
+import { SignupSchema } from '@/schemas/userValidation'
 import bcrypt from 'bcrypt'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
-  const validation = RegisterSchema.safeParse(body)
+  const validation = SignupSchema.safeParse(body)
 
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 })

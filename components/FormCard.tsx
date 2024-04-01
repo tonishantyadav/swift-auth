@@ -8,8 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { FormBody, FormFields, FormFooter, FormHeader } from '@/types/formCard'
-
+import { Field, FormBody } from '@/types/formCard'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   CheckCircledIcon,
@@ -17,25 +16,22 @@ import {
 } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { UseFormReturn, useForm } from 'react-hook-form'
 import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
 import Spinner from './ui/spinner'
 
 const FormCard = ({ children }: { children: React.ReactNode }) => {
-  return <Card className="mx-2 max-w-md shadow-md">{children}</Card>
+  return <Card className="mx-2 shadow-lg lg:container">{children}</Card>
 }
 
-const FormCardHeader = ({ formHeader, formDescription }: FormHeader) => {
+const FormCardHeader = ({ header }: { header: string }) => {
   return (
     <CardHeader>
-      <h1 className="text-2xl md:text-3xl lg:text-3xl">{formHeader}</h1>
-      {formDescription && (
-        <p className="py-2 text-center text-sm text-gray-400">
-          {formDescription}
-        </p>
-      )}
+      <h1 className="text-xl font-semibold md:text-2xl lg:text-3xl">
+        {header}
+      </h1>
     </CardHeader>
   )
 }
@@ -63,7 +59,13 @@ const FormCardBody = ({
   )
 }
 
-const FormCardFields = ({ fields, form }: FormFields) => {
+const FormCardFields = ({
+  fields,
+  form,
+}: {
+  fields: Field[]
+  form: UseFormReturn<any>
+}) => {
   return (
     <>
       {fields.map((f, index) => (
@@ -75,12 +77,7 @@ const FormCardFields = ({ fields, form }: FormFields) => {
             <FormItem>
               <FormLabel>{f.label}</FormLabel>
               <FormControl>
-                <Input
-                  className="max-w-lg"
-                  type={f.type}
-                  placeholder={f.placeholder}
-                  {...field}
-                />
+                <Input type={f.type} placeholder={f.placeholder} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -92,13 +89,17 @@ const FormCardFields = ({ fields, form }: FormFields) => {
 }
 
 const FormCardFooter = ({
-  redirectMessage,
-  redirectLinkLabel,
-  redirectLinkHref,
-}: FormFooter) => {
+  message,
+  linkLabel,
+  linkHref,
+}: {
+  message: string
+  linkLabel: string
+  linkHref: string
+}) => {
   return (
     <CardFooter className="flex flex-col gap-y-5">
-      <span className="text-sm text-gray-300">Or Login with</span>
+      <span className="text-sm text-gray-300">Or Signin with</span>
       <div className="flex gap-3">
         {socialAuths.map((social) => (
           <Button size="icon" className="rounded-full" key={social.label}>
@@ -107,9 +108,9 @@ const FormCardFooter = ({
         ))}
       </div>
       <div className="flex gap-2 text-xs md:text-sm lg:text-sm">
-        <p>{redirectMessage}</p>
-        <Link href={redirectLinkHref} className="text-gray-300 hover:underline">
-          {redirectLinkLabel}
+        <p>{message}</p>
+        <Link href={linkHref} className="text-gray-300 hover:underline">
+          {linkLabel}
         </Link>
       </div>
     </CardFooter>
@@ -119,7 +120,7 @@ const FormCardFooter = ({
 const FormCardError = ({ message }: { message: string }) => {
   if (!message) return null
   return (
-    <div className="mx-6 my-2 flex max-w-full items-center justify-center gap-x-2 rounded-md bg-destructive/50 p-3 text-sm text-red-300">
+    <div className="flex justify-center gap-x-2 rounded-lg bg-destructive/100 p-3 text-sm text-red-200/80">
       <ExclamationTriangleIcon className="h-4 w-4" />
       {message}
     </div>
