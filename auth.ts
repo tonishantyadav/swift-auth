@@ -18,6 +18,7 @@ export const {
   signOut,
 } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  // trustHost: true,
   callbacks: {
     async session({ token, session }) {
       const userRole = await prisma.user.findUnique({

@@ -14,6 +14,7 @@ import {
   CheckCircledIcon,
   ExclamationTriangleIcon,
 } from '@radix-ui/react-icons'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import React from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
@@ -102,7 +103,12 @@ const FormCardFooter = ({
       <span className="text-sm text-gray-300">Or Signin with</span>
       <div className="flex gap-3">
         {socialAuths.map((social) => (
-          <Button size="icon" className="rounded-full" key={social.label}>
+          <Button
+            size="icon"
+            className="rounded-full"
+            key={social.label}
+            onClick={() => signIn(social.label.toLowerCase())}
+          >
             {social.icon}
           </Button>
         ))}

@@ -1,8 +1,10 @@
+import { auth } from '@/auth'
 import GetStartedButton from '@/components/home/GetStartedButton'
 import shieldIcon from '@/public/shield.png'
 import Image from 'next/image'
 
 const HomePage = async () => {
+  const session = await auth()
   return (
     <main className="grid min-h-screen items-center justify-center gap-2">
       <div className="flex flex-col items-center gap-2 p-5 md:flex-row lg:flex-row">
@@ -20,9 +22,11 @@ const HomePage = async () => {
               Authentication made easy
             </p>
           </div>
-          <div className="py-1">
-            <GetStartedButton />
-          </div>
+          {!session?.user && (
+            <div className="py-1">
+              <GetStartedButton />
+            </div>
+          )}
         </div>
       </div>
     </main>
