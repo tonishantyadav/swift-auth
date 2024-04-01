@@ -1,15 +1,14 @@
 import { PrismaAdapter } from '@auth/prisma-adapter'
-import { PrismaClient, UserRole } from '@prisma/client'
+import { UserRole } from '@prisma/client'
 import NextAuth from 'next-auth'
 import authConfig from './auth.config'
+import prisma from './prisma/client'
 
 declare module 'next-auth' {
   interface User {
     userRole: UserRole
   }
 }
-
-const prisma = new PrismaClient()
 
 export const {
   handlers: { GET, POST },
@@ -21,15 +20,24 @@ export const {
   // trustHost: true,
   callbacks: {
     async session({ token, session }) {
-      const userRole = await prisma.user.findUnique({
+      const user = await prisma.user.findUnique({
         where: { email: session.user.email },
-        select: { userRole: true },
+        select: { userRole: true, emailVerified: true },
       })
 
-      return session && session.user
+      let emailVerified
+      if (user)
+        emailVerified = user.emailVerified ? user.emailVerified : new Date()
+
+      return session && session.user && user
         ? {
             ...session,
-            user: { ...session.user, ...userRole, id: token.sub },
+            user: {
+              ...session.user,
+              id: token.sub,
+              userRole: user.userRole,
+              emailVerified,
+            },
           }
         : session
     },

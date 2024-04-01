@@ -1,4 +1,4 @@
-import { Button, Input } from '@/components/ui'
+import { Button, Input, Spinner } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import {
   Form,
@@ -21,7 +21,6 @@ import { UseFormReturn, useForm } from 'react-hook-form'
 import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
-import Spinner from './ui/spinner'
 
 const FormCard = ({ children }: { children: React.ReactNode }) => {
   return <Card className="mx-2 shadow-lg lg:container">{children}</Card>
