@@ -5,11 +5,11 @@ import Image from 'next/image'
 const SigninPage = () => {
   return (
     <div className="grid min-h-screen items-center justify-center gap-2 md:grid-cols-2 lg:grid-cols-2">
-      <div className="hidden border md:block">
+      <div className="relative hidden  min-h-full md:block">
         <Image
           src={basketPattern}
           alt="Black and white basket pattern"
-          className="h-screen min-w-full object-cover"
+          className="absolute left-0 top-0 h-full w-full object-cover"
           priority
         />
       </div>

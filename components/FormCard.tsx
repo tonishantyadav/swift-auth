@@ -150,7 +150,10 @@ const FormActionButton = ({
       type="submit"
       disabled={isSubmitting}
     >
-      {label} {isSubmitting && <Spinner />}
+      <div className="flex gap-2">
+        <span>{label}</span>
+        {isSubmitting && <Spinner />}
+      </div>
     </Button>
   )
 }

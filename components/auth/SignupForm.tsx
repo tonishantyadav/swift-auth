@@ -41,7 +41,7 @@ const SignupForm = () => {
         fields={fields}
         defaultValues={defaultValues}
       >
-        <FormActionButton label="Register" isSubmitting={isSubmitting} />
+        <FormActionButton label="Signup" isSubmitting={isSubmitting} />
         {error && <FormCardError message={error} />}
       </FormCardBody>
       <FormCardFooter

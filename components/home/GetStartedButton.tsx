@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui'
-import { signIn } from 'next-auth/react'
+import Link from 'next/link'
 import { useMediaQuery } from 'react-responsive'
 
 const GetStartedButton = () => {
@@ -11,9 +11,8 @@ const GetStartedButton = () => {
     <Button
       className="hover:btn-hover btn-primary rounded-full text-white"
       size={isMobile ? 'sm' : 'lg'}
-      onClick={() => signIn('github')}
     >
-      Get Started
+      <Link href="/auth/signin">Get Started</Link>
     </Button>
   )
 }
