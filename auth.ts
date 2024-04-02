@@ -18,6 +18,10 @@ export const {
 } = NextAuth({
   adapter: PrismaAdapter(prisma),
   // trustHost: true,
+  pages: {
+    signIn: '/auth/signin',
+    error: '/auth/error',
+  },
   callbacks: {
     async session({ token, session }) {
       const user = await prisma.user.findUnique({
