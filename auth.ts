@@ -23,6 +23,20 @@ export const {
     error: '/auth/error',
   },
   callbacks: {
+    async signIn({ user, account }) {
+      console.log(account)
+      if (account?.provider === 'google' || account?.provider === 'github')
+        return true
+      else if (account?.provider === 'credentials') {
+        const existingUser = await prisma.user.findUnique({
+          where: { id: user.id },
+        })
+        console.log(existingUser)
+        return existingUser ? true : false
+      }
+      return false
+    },
+
     async session({ token, session }) {
       const user = await prisma.user.findUnique({
         where: { email: session.user.email },

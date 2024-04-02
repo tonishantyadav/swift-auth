@@ -1,3 +1,4 @@
+import { generateVerificationToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { SignupSchema } from '@/schemas/userValidation'
 import bcrypt from 'bcrypt'
@@ -23,14 +24,29 @@ export async function POST(request: NextRequest) {
     )
 
   const hashedPassword = await bcrypt.hash(password, 10)
+  await generateVerificationToken(email)
 
-  const newUser = await prisma.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  })
-
-  return NextResponse.json(newUser)
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    })
+    return NextResponse.json(
+      {
+        user: { ...newUser },
+        success: 'Check your email for the verification!',
+      },
+      { status: 201 }
+    )
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: 'Failed to register! Try again after sometime.',
+      },
+      { status: 500 }
+    )
+  }
 }
