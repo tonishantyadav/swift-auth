@@ -8,15 +8,17 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
-import { handleError } from '@/lib/handleError'
+import { handleError, handleProviderError } from '@/lib/handleError'
 import { SignupSchema } from '@/schemas/userValidation'
 import { Field, SignupFormData } from '@/types/formCard'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 const SignupForm = () => {
   const router = useRouter()
+  const params = useSearchParams()
+  const providerError = handleProviderError(params)
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -42,7 +44,9 @@ const SignupForm = () => {
         defaultValues={defaultValues}
       >
         <FormActionButton label="Signup" isSubmitting={isSubmitting} />
-        {error && <FormCardError message={error} />}
+        {(error || providerError) && (
+          <FormCardError message={error || providerError} />
+        )}
       </FormCardBody>
       <FormCardFooter
         message="Already have an account?"

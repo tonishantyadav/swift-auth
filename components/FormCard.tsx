@@ -23,7 +23,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
 
 const FormCard = ({ children }: { children: React.ReactNode }) => {
-  return <Card className="mx-2 shadow-lg lg:container">{children}</Card>
+  return <Card className="mx-2 lg:container">{children}</Card>
 }
 
 const FormCardHeader = ({ header }: { header: string }) => {
@@ -125,7 +125,7 @@ const FormCardFooter = ({
 const FormCardError = ({ message }: { message: string }) => {
   if (!message) return null
   return (
-    <div className="flex justify-center gap-x-2 rounded-lg bg-destructive/100 p-3 text-sm text-red-200/80">
+    <div className="flex items-center justify-center gap-x-2 rounded-lg bg-destructive/100 p-3 text-sm text-red-200/80">
       <ExclamationTriangleIcon className="h-4 w-4" />
       {message}
     </div>

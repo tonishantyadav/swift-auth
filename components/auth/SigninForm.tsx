@@ -8,15 +8,17 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
-import { handleError } from '@/lib/handleError'
+import { handleError, handleProviderError } from '@/lib/handleError'
 import { SigninSchema } from '@/schemas/userValidation'
 import { Field, SigninFormData } from '@/types/formCard'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 const SigninForm = () => {
   const router = useRouter()
+  const params = useSearchParams()
+  const providerError = handleProviderError(params)
   const [error, setError] = useState('')
 
   const onSubmit = async (data: SigninFormData) => {
@@ -39,7 +41,9 @@ const SigninForm = () => {
         defaultValues={defaultValues}
       >
         <FormActionButton label="Login" />
-        {error && <FormCardError message={error} />}
+        {(error || providerError) && (
+          <FormCardError message={error || providerError} />
+        )}
       </FormCardBody>
       <FormCardFooter
         message="Don't have an account?"
