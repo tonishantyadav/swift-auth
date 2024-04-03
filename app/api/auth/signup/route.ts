@@ -24,6 +24,7 @@ export async function POST(request: NextRequest) {
     )
 
   const hashedPassword = await bcrypt.hash(password, 10)
+
   await generateVerificationToken(email)
 
   try {
@@ -35,17 +36,12 @@ export async function POST(request: NextRequest) {
       },
     })
     return NextResponse.json(
-      {
-        user: { ...newUser },
-        success: 'Check your email for the verification!',
-      },
+      { success: 'Check your email for the verification!' },
       { status: 201 }
     )
   } catch (error) {
     return NextResponse.json(
-      {
-        error: 'Failed to register! Try again after sometime.',
-      },
+      { error: 'Failed to signup! Try again after sometime.' },
       { status: 500 }
     )
   }

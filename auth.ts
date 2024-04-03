@@ -24,37 +24,30 @@ export const {
   },
   callbacks: {
     async signIn({ user, account }) {
-      console.log(account)
-      if (account?.provider === 'google' || account?.provider === 'github')
-        return true
-      else if (account?.provider === 'credentials') {
+      if (account?.provider === 'credentials') {
         const existingUser = await prisma.user.findUnique({
           where: { id: user.id },
         })
-        console.log(existingUser)
         return existingUser ? true : false
       }
-      return false
+      return true
     },
-
     async session({ token, session }) {
       const user = await prisma.user.findUnique({
         where: { email: session.user.email },
         select: { userRole: true, emailVerified: true },
       })
-
       let emailVerified
       if (user)
         emailVerified = user.emailVerified ? user.emailVerified : new Date()
-
       return session && session.user && user
         ? {
             ...session,
             user: {
               ...session.user,
+              emailVerified,
               id: token.sub,
               userRole: user.userRole,
-              emailVerified,
             },
           }
         : session

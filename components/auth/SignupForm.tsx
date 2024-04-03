@@ -26,6 +26,10 @@ const SignupForm = () => {
     try {
       setIsSubmitting(true)
       await axios.post('/api/auth/signup', data)
+      await axios.post('/api/auth/signin', {
+        email: data.email,
+        password: data.password,
+      })
       router.push('/')
     } catch (error) {
       const err = handleError(error)

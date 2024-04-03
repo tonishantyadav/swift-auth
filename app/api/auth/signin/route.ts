@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof AuthError) {
       return NextResponse.json(
-        { error: 'Failed to login! Try again after sometime.' },
+        { error: 'Failed to signin! Try again after sometime.' },
         { status: 500 }
       )
     }
