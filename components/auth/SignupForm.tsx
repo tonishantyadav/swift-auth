@@ -8,32 +8,27 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
+import { useSignup } from '@/hooks/auth/useSignup'
 import { handleError, handleProviderError } from '@/lib/handleError'
 import { SignupSchema } from '@/schemas/userValidation'
 import { Field, SignupFormData } from '@/types/formCard'
-import axios from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 const SignupForm = () => {
   const router = useRouter()
   const params = useSearchParams()
-  const providerError = handleProviderError(params)
+  const signupMutation = useSignup()
   const [error, setError] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const providerError = handleProviderError(params)
 
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
-      setIsSubmitting(true)
-      await axios.post('/api/auth/signup', data)
-      await axios.post('/api/auth/signin', {
-        email: data.email,
-        password: data.password,
-      })
+      await signupMutation.mutateAsync(data)
       router.push('/')
     } catch (error) {
       const err = handleError(error)
-      setIsSubmitting(false)
       setError(err)
     }
   }
@@ -47,7 +42,10 @@ const SignupForm = () => {
         fields={fields}
         defaultValues={defaultValues}
       >
-        <FormActionButton label="Signup" isSubmitting={isSubmitting} />
+        <FormActionButton
+          label="Signup"
+          isSubmitting={signupMutation.isPending}
+        />
         {(error || providerError) && (
           <FormCardError message={error || providerError} />
         )}

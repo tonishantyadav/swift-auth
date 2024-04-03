@@ -8,22 +8,25 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
+import { useSignin } from '@/hooks/auth/useSignin'
 import { handleError, handleProviderError } from '@/lib/handleError'
 import { SigninSchema } from '@/schemas/userValidation'
 import { Field, SigninFormData } from '@/types/formCard'
-import axios from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 const SigninForm = () => {
   const router = useRouter()
   const params = useSearchParams()
-  const providerError = handleProviderError(params)
+  const signinMutation = useSignin()
   const [error, setError] = useState('')
+
+  const providerError = handleProviderError(params)
 
   const onSubmit = async (data: SigninFormData) => {
     try {
-      await axios.post('/api/auth/signin', data)
+      const response = await signinMutation.mutateAsync(data)
+      console.log(response)
       router.push('/')
     } catch (error) {
       const err = handleError(error)
