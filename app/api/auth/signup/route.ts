@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
   if (user)
     return NextResponse.json(
-      { error: 'Email already in use!' },
+      { error: 'Email is already in use.' },
       { status: 409 }
     )
 
@@ -33,15 +33,19 @@ export async function POST(request: NextRequest) {
         password: hashedPassword,
       },
     })
-    await generateVerificationToken(email)
+    const verificationToken = await generateVerificationToken(email)
     return NextResponse.json(
-      { success: 'Check your email for the verification!' },
+      {
+        data: {
+          email: verificationToken?.email,
+          token: verificationToken?.token,
+          expiredAt: verificationToken?.expiredAt,
+        },
+        success: 'A verification link is been sent to your email.',
+      },
       { status: 201 }
     )
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to signup! Try again after sometime.' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Unable to signup.' }, { status: 500 })
   }
 }

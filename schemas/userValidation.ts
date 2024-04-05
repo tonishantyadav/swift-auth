@@ -13,3 +13,8 @@ export const SignupSchema = z.object({
     .min(1, 'Password must be at least 8 characters long.')
     .max(255, 'Password is too long.'),
 })
+
+export const EmailSchema = z.object({
+  email: z.string().email(),
+  token: z.string(),
+})

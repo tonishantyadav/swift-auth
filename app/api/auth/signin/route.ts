@@ -17,11 +17,11 @@ export async function POST(request: NextRequest) {
   const user = await prisma.user.findUnique({ where: { email } })
 
   if (!user || !user.password)
-    return NextResponse.json({ error: 'Invalid credentials!' }, { status: 404 })
+    return NextResponse.json({ error: 'User doesn`t exists.' }, { status: 404 })
 
   const checkPassowrd = await bcrypt.compare(password, user.password)
   if (!checkPassowrd)
-    return NextResponse.json({ error: 'Invalid password!' }, { status: 404 })
+    return NextResponse.json({ error: 'Invalid password.' }, { status: 404 })
 
   try {
     await signIn('credentials', user)
@@ -36,7 +36,8 @@ export async function POST(request: NextRequest) {
         case 'AccessDenied':
           return NextResponse.json(
             {
-              error: 'Unable to signin! Check your email for the verification.',
+              error:
+                'Unable to signin! Check your email for the verification link.',
             },
             { status: 401 }
           )

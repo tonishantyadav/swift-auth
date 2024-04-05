@@ -1,5 +1,4 @@
 import authConfig from '@/auth.config'
-import { DateToIST } from '@/lib/formatDate'
 import prisma from '@/prisma/client'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { UserRole } from '@prisma/client'
@@ -37,11 +36,7 @@ export const {
   callbacks: {
     async signIn({ account, user }) {
       if (account?.type === 'credentials') {
-        const now = new Date(Date.now() - 6000)
-        const nowAt = DateToIST(now)
-        const createdAt = DateToIST(user.createdAt)
-
-        return createdAt <= nowAt && !!user.emailVerified ? false : true
+        return !!user.emailVerified ? false : true
       }
       return true
     },

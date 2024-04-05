@@ -14,11 +14,11 @@ export const generateVerificationToken = async (
   }
 
   const token = uuidv4()
-  const expires = new Date(new Date().getTime() + 3600 * 1000)
+  const expiredAt = new Date(new Date().getTime() + 3600 * 1000) // In one hour
 
   try {
     const newVerificationToken = await prisma.verificationToken.create({
-      data: { email, token, expires },
+      data: { email, token, expiredAt },
     })
     return newVerificationToken
   } catch (error) {
