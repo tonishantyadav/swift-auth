@@ -25,8 +25,6 @@ export async function POST(request: NextRequest) {
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  await generateVerificationToken(email)
-
   try {
     const newUser = await prisma.user.create({
       data: {
@@ -35,6 +33,7 @@ export async function POST(request: NextRequest) {
         password: hashedPassword,
       },
     })
+    await generateVerificationToken(email)
     return NextResponse.json(
       { success: 'Check your email for the verification!' },
       { status: 201 }

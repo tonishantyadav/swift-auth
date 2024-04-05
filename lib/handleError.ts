@@ -3,8 +3,7 @@ import { ReadonlyURLSearchParams } from 'next/navigation'
 
 export const handleError = (error: any): string => {
   const err = error as Error | AxiosError
-  if (axios.isAxiosError(err))
-    return err.response?.data.error || 'An unexpected error occurred!'
+  if (axios.isAxiosError(err)) return err.response?.data.error
   return 'An unexpected error occurred!'
 }
 

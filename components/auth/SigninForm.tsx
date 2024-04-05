@@ -43,7 +43,10 @@ const SigninForm = () => {
         schema={SigninSchema}
         defaultValues={defaultValues}
       >
-        <FormActionButton label="Login" />
+        <FormActionButton
+          label="Login"
+          isSubmitting={signinMutation.isPending}
+        />
         {(error || providerError) && (
           <FormCardError message={error || providerError} />
         )}

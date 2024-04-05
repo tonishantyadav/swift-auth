@@ -1,4 +1,3 @@
-import { getVerificationToken } from '@/lib/query'
 import prisma from '@/prisma/client'
 import { VerificationToken } from '@prisma/client'
 import { v4 as uuidv4 } from 'uuid'
@@ -8,17 +7,10 @@ export const generateVerificationToken = async (
 ): Promise<VerificationToken | null> => {
   const oldVerificationToken = await getVerificationToken(email)
 
-  try {
-    if (oldVerificationToken) {
-      await prisma.verificationToken.delete({
-        where: { id: oldVerificationToken.id },
-      })
-    }
-  } catch (error) {
-    console.log(
-      `Failed to delete the old verification token for this ${email}:`,
-      error
-    )
+  if (oldVerificationToken) {
+    await prisma.verificationToken.delete({
+      where: { id: oldVerificationToken.id },
+    })
   }
 
   const token = uuidv4()
@@ -32,6 +24,20 @@ export const generateVerificationToken = async (
   } catch (error) {
     console.log(
       `Failed to generate the verification token for this ${email}:`,
+      error
+    )
+    return null
+  }
+}
+
+export const getVerificationToken = async (
+  email: string
+): Promise<VerificationToken | null> => {
+  try {
+    return await prisma.verificationToken.findFirst({ where: { email } })
+  } catch (error) {
+    console.log(
+      `Failed to get the verification token for this ${email}:`,
       error
     )
     return null

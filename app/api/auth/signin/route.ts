@@ -27,10 +27,25 @@ export async function POST(request: NextRequest) {
     await signIn('credentials', user)
   } catch (error) {
     if (error instanceof AuthError) {
-      return NextResponse.json(
-        { error: 'Failed to signin! Try again after sometime.' },
-        { status: 500 }
-      )
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return NextResponse.json(
+            { error: 'Unable to signin! Check your credentials.' },
+            { status: 401 }
+          )
+        case 'AccessDenied':
+          return NextResponse.json(
+            {
+              error: 'Unable to signin! Check your email for the verification.',
+            },
+            { status: 401 }
+          )
+        default:
+          return NextResponse.json(
+            { error: 'An unexpected error occurred!' },
+            { status: 500 }
+          )
+      }
     }
     throw error
   }

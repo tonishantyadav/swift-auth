@@ -7,25 +7,25 @@ import {
   FormCardError,
   FormCardFooter,
   FormCardHeader,
+  FormCardSuccess,
 } from '@/components/FormCard'
 import { useSignup } from '@/hooks/auth/useSignup'
-import { handleError, handleProviderError } from '@/lib/handleError'
+import { handleError } from '@/lib/handleError'
 import { SignupSchema } from '@/schemas/userValidation'
 import { Field, SignupFormData } from '@/types/formCard'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 const SignupForm = () => {
   const router = useRouter()
-  const params = useSearchParams()
   const signupMutation = useSignup()
   const [error, setError] = useState('')
-
-  const providerError = handleProviderError(params)
+  const [success, setSuccess] = useState('')
 
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
-      await signupMutation.mutateAsync(data)
+      const response = await signupMutation.mutateAsync(data)
+      setSuccess(response.data.success)
       router.push('/')
     } catch (error) {
       const err = handleError(error)
@@ -46,9 +46,8 @@ const SignupForm = () => {
           label="Signup"
           isSubmitting={signupMutation.isPending}
         />
-        {(error || providerError) && (
-          <FormCardError message={error || providerError} />
-        )}
+        {error && <FormCardError message={error} />}
+        {success && <FormCardSuccess message={success} />}
       </FormCardBody>
       <FormCardFooter
         message="Already have an account?"

@@ -2,11 +2,14 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import { UserRole } from '@prisma/client'
 import NextAuth from 'next-auth'
 import authConfig from './auth.config'
+import { DateToIST } from './lib/formatDate'
 import prisma from './prisma/client'
 
 declare module 'next-auth' {
   interface User {
     userRole: UserRole
+    emailVerified: Date
+    createdAt: Date
   }
 }
 
@@ -22,32 +25,40 @@ export const {
     signIn: '/auth/signin',
     error: '/auth/error',
   },
+  events: {
+    // Verify the email of those accounts that are connected with oAuth providers.
+    async linkAccount({ user }) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      })
+    },
+  },
   callbacks: {
-    async signIn({ user, account }) {
-      if (account?.provider === 'credentials') {
-        const existingUser = await prisma.user.findUnique({
-          where: { id: user.id },
-        })
-        return existingUser ? true : false
+    async signIn({ account, user }) {
+      console.log(account)
+
+      if (account?.type === 'credentials') {
+        const now = new Date(Date.now() - 6000)
+        const nowAt = DateToIST(now)
+        const createdAt = DateToIST(user.createdAt)
+
+        return createdAt <= nowAt && !!user.emailVerified ? false : true
       }
       return true
     },
     async session({ token, session }) {
-      const user = await prisma.user.findUnique({
+      const userRole = await prisma.user.findUnique({
         where: { email: session.user.email },
-        select: { userRole: true, emailVerified: true },
+        select: { userRole: true },
       })
-      let emailVerified
-      if (user)
-        emailVerified = user.emailVerified ? user.emailVerified : new Date()
-      return session && session.user && user
+      return session && session.user
         ? {
             ...session,
             user: {
               ...session.user,
-              emailVerified,
+              ...userRole,
               id: token.sub,
-              userRole: user.userRole,
             },
           }
         : session
