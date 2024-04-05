@@ -1,9 +1,9 @@
+import authConfig from '@/auth.config'
+import { DateToIST } from '@/lib/formatDate'
+import prisma from '@/prisma/client'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { UserRole } from '@prisma/client'
 import NextAuth from 'next-auth'
-import authConfig from './auth.config'
-import { DateToIST } from './lib/formatDate'
-import prisma from './prisma/client'
 
 declare module 'next-auth' {
   interface User {
@@ -36,8 +36,6 @@ export const {
   },
   callbacks: {
     async signIn({ account, user }) {
-      console.log(account)
-
       if (account?.type === 'credentials') {
         const now = new Date(Date.now() - 6000)
         const nowAt = DateToIST(now)
