@@ -39,7 +39,7 @@ const SignupForm = () => {
 
   return (
     <FormCard>
-      <FormCardHeader header="Signup a new account" />
+      <FormCardHeader header="Signup a New Account" />
       <FormCardBody
         onSubmit={onSubmit}
         schema={SignupSchema}

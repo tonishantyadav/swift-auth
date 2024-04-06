@@ -40,7 +40,7 @@ const SigninForm = () => {
 
   return (
     <FormCard>
-      <FormCardHeader header="Signin to your account" />
+      <FormCardHeader header="Signin to Your Account" />
       <FormCardBody
         onSubmit={onSubmit}
         fields={fields}

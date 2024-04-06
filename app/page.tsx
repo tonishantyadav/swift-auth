@@ -13,7 +13,7 @@ const HomePage = async () => {
             <div className="max-w-12 md:max-w-16 lg:max-w-20">
               <Image src={shieldIcon} alt="A blue shield icon" priority />
             </div>
-            <h1 className="text-center text-5xl font-semibold md:text-6xl lg:text-8xl">
+            <h1 className="hero-text text-center text-5xl font-semibold md:text-6xl lg:text-8xl">
               Swift Auth
             </h1>
           </div>
