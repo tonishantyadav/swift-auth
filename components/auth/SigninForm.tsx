@@ -48,7 +48,7 @@ const SigninForm = () => {
         defaultValues={defaultValues}
       >
         <FormActionButton
-          label="Login"
+          label="Signin"
           isSubmitting={signinMutation.isPending}
         />
       </FormCardBody>

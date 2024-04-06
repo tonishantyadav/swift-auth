@@ -22,7 +22,7 @@ const FormCard = ({ children }: { children: React.ReactNode }) => {
 const FormCardHeader = ({ header }: { header: string }) => {
   return (
     <CardHeader>
-      <h1 className="text-xl font-semibold md:text-2xl lg:text-3xl">
+      <h1 className="bg-none text-xl font-semibold md:text-2xl lg:text-3xl">
         {header}
       </h1>
     </CardHeader>
