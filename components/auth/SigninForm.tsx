@@ -4,7 +4,6 @@ import {
   FormActionButton,
   FormCard,
   FormCardBody,
-  FormCardError,
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
@@ -13,15 +12,21 @@ import { handleError, handleProviderError } from '@/lib/handleError'
 import { SigninSchema } from '@/schemas/userValidation'
 import { Field, SigninFormData } from '@/types/formCard'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import ToastContainer from '../ui/toast'
+import SocialAuth from './SocialAuth'
 
 const SigninForm = () => {
   const router = useRouter()
   const params = useSearchParams()
   const signinMutation = useSignin()
-  const [error, setError] = useState('')
 
   const providerError = handleProviderError(params)
+
+  useEffect(() => {
+    if (providerError) toast.error(providerError)
+  }, [providerError])
 
   const onSubmit = async (data: SigninFormData) => {
     try {
@@ -29,7 +34,7 @@ const SigninForm = () => {
       router.push('/')
     } catch (error) {
       const err = handleError(error)
-      setError(err)
+      toast.error(err)
     }
   }
 
@@ -46,15 +51,15 @@ const SigninForm = () => {
           label="Login"
           isSubmitting={signinMutation.isPending}
         />
-        {(error || providerError) && (
-          <FormCardError message={error || providerError} />
-        )}
       </FormCardBody>
       <FormCardFooter
         message="Don't have an account?"
         linkLabel="Signup"
         linkHref="/auth/signup"
-      />
+      >
+        <ToastContainer />
+        <SocialAuth message="Or Signin with" />
+      </FormCardFooter>
     </FormCard>
   )
 }

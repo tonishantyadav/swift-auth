@@ -11,6 +11,6 @@ export const handleProviderError = (
   params: ReadonlyURLSearchParams
 ): string => {
   return params.get('error') === 'OAuthAccountNotLinked'
-    ? 'Email is already in use with different provider!'
+    ? 'Email is already in use with different provider.'
     : ''
 }

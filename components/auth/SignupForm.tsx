@@ -4,32 +4,36 @@ import {
   FormActionButton,
   FormCard,
   FormCardBody,
-  FormCardError,
   FormCardFooter,
   FormCardHeader,
-  FormCardSuccess,
 } from '@/components/FormCard'
 import { useSignup } from '@/hooks/auth/useSignup'
-import { handleError } from '@/lib/handleError'
+import { handleError, handleProviderError } from '@/lib/handleError'
 import { SignupSchema } from '@/schemas/userValidation'
 import { Field, SignupFormData } from '@/types/formCard'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import ToastContainer from '../ui/toast'
+import SocialAuth from './SocialAuth'
 
 const SignupForm = () => {
-  const router = useRouter()
+  const params = useSearchParams()
   const signupMutation = useSignup()
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
+
+  const providerError = handleProviderError(params)
+
+  useEffect(() => {
+    if (providerError) toast.error(providerError)
+  }, [providerError])
 
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
       const response = await signupMutation.mutateAsync(data)
-      setSuccess(response.data.success)
-      router.push('/')
+      toast.success(response.success)
     } catch (error) {
       const err = handleError(error)
-      setError(err)
+      toast.error(err)
     }
   }
 
@@ -42,18 +46,19 @@ const SignupForm = () => {
         fields={fields}
         defaultValues={defaultValues}
       >
+        <ToastContainer />
         <FormActionButton
           label="Signup"
           isSubmitting={signupMutation.isPending}
         />
-        {error && <FormCardError message={error} />}
-        {success && <FormCardSuccess message={success} />}
       </FormCardBody>
       <FormCardFooter
         message="Already have an account?"
         linkLabel="Signin"
         linkHref="/auth/signin"
-      />
+      >
+        <SocialAuth message="Or Signup with" />
+      </FormCardFooter>
     </FormCard>
   )
 }
