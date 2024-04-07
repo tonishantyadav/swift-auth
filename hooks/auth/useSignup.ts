@@ -11,7 +11,6 @@ export const useSignup = () => {
     onSuccess: async (response) => {
       if (response) {
         const { email, token } = response.data
-        console.log({ email, token })
         await axios.post('/api/auth/send', { email, token })
       }
     },

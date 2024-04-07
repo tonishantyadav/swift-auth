@@ -3,7 +3,7 @@ import NextAuth from 'next-auth'
 
 const apiAuthPrefix = '/api/auth'
 const publicRoutes = ['/']
-const authRoutes = ['/auth/signin', '/auth/signup']
+const authRoutes = ['/auth/signin', '/auth/signup', '/auth/verification']
 
 const { auth: middleware } = NextAuth(authConfig)
 
@@ -15,12 +15,18 @@ export default middleware((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
 
+  if (nextUrl.pathname === '/auth/verification' && !nextUrl.search) {
+    return Response.redirect(new URL('/auth/signin', nextUrl))
+  }
+
   if (isApiAuthRoute) return
+
   if (isAuthRoute) {
     if (session)
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
     return
   }
+
   if (!session && !isPublicRoute)
     return Response.redirect(new URL('/auth/signin', nextUrl))
 })

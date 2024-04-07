@@ -8,29 +8,23 @@ import {
   FormCardHeader,
 } from '@/components/FormCard'
 import { useSignup } from '@/hooks/auth/useSignup'
-import { handleError, handleProviderError } from '@/lib/handleError'
+import { handleError } from '@/lib/handleError'
 import { SignupSchema } from '@/schemas/userValidation'
 import { Field, SignupFormData } from '@/types/formCard'
-import { useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import ToastContainer from '../ui/toast'
 import SocialAuth from './SocialAuth'
 
 const SignupForm = () => {
-  const params = useSearchParams()
+  const router = useRouter()
   const signupMutation = useSignup()
-
-  const providerError = handleProviderError(params)
-
-  useEffect(() => {
-    if (providerError) toast.error(providerError)
-  }, [providerError])
 
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
       const response = await signupMutation.mutateAsync(data)
       toast.success(response.success)
+      router.push('/auth/signin')
     } catch (error) {
       const err = handleError(error)
       toast.error(err)
@@ -38,28 +32,30 @@ const SignupForm = () => {
   }
 
   return (
-    <FormCard>
-      <FormCardHeader header="Signup a New Account" />
-      <FormCardBody
-        onSubmit={onSubmit}
-        schema={SignupSchema}
-        fields={fields}
-        defaultValues={defaultValues}
-      >
-        <ToastContainer />
-        <FormActionButton
-          label="Signup"
-          isSubmitting={signupMutation.isPending}
-        />
-      </FormCardBody>
-      <FormCardFooter
-        message="Already have an account?"
-        linkLabel="Signin"
-        linkHref="/auth/signin"
-      >
-        <SocialAuth message="Or Signup with" />
-      </FormCardFooter>
-    </FormCard>
+    <>
+      <ToastContainer />
+      <FormCard>
+        <FormCardHeader header="Signup a New Account" />
+        <FormCardBody
+          onSubmit={onSubmit}
+          schema={SignupSchema}
+          fields={fields}
+          defaultValues={defaultValues}
+        >
+          <FormActionButton
+            label="Signup"
+            isSubmitting={signupMutation.isPending}
+          />
+        </FormCardBody>
+        <FormCardFooter
+          message="Already have an account?"
+          linkLabel="Signin"
+          linkHref="/auth/signin"
+        >
+          <SocialAuth message="Or Signup with" />
+        </FormCardFooter>
+      </FormCard>
+    </>
   )
 }
 

@@ -7,12 +7,12 @@ const Email = ({ name, verificationLink }: EmailProps) => {
   return (
     <div className="mx-auto max-w-md rounded-md bg-white p-8 shadow-md">
       <h1 className="mb-6 text-center text-2xl font-semibold">
-        Welcome to Next Simple Auth
+        Welcome to Swift Auth
       </h1>
       <p className="mb-4 text-center text-lg">Hello {name},</p>
       <p className="mb-4 text-center text-base">
-        Thank you for joining Next Simple Auth! To complete your registration,
-        please click the confirmation link below:
+        Thank you for joining Swift Auth! To complete your registration, please
+        click the confirmation link below:
       </p>
       <a
         href={verificationLink}
@@ -27,7 +27,7 @@ const Email = ({ name, verificationLink }: EmailProps) => {
       <p className="text-center text-base">
         Best regards,
         <br />
-        The Next Simple Auth Team
+        The Swift Auth Team
       </p>
     </div>
   )
