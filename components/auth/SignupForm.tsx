@@ -24,7 +24,6 @@ const SignupForm = () => {
     try {
       const response = await signupMutation.mutateAsync(data)
       toast.success(response.success)
-      router.push('/auth/signin')
     } catch (error) {
       const err = handleError(error)
       toast.error(err)
