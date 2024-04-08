@@ -8,7 +8,7 @@ import {
   FormCardHeader,
 } from '@/components/FormCard'
 import { useSignin } from '@/hooks/auth/useSignin'
-import { handleError, handleProviderError } from '@/lib/handleError'
+import { handleError } from '@/lib/handleError'
 import { SigninSchema } from '@/schemas/userValidation'
 import { Field, SigninFormData } from '@/types/formCard'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -22,11 +22,15 @@ const SigninForm = () => {
   const params = useSearchParams()
   const signinMutation = useSignin()
 
-  const providerError = handleProviderError(params)
-
   useEffect(() => {
-    if (providerError) toast.error(providerError)
-  }, [providerError])
+    if (params.get('error') === 'OAuthAccountNotLinked') {
+      toast.error('Email is already in use with different provider.')
+      router.replace('/auth/signin')
+    } else if (params.get('verificationLink') === 'sent') {
+      toast.success('Verification link has been sent to your email.')
+      router.replace('/auth/signin')
+    }
+  }, [params])
 
   const onSubmit = async (data: SigninFormData) => {
     try {

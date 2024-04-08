@@ -22,8 +22,8 @@ const SignupForm = () => {
 
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
-      const response = await signupMutation.mutateAsync(data)
-      toast.success(response.success)
+      await signupMutation.mutateAsync(data)
+      router.push('/auth/signin/?verificationLink=sent')
     } catch (error) {
       const err = handleError(error)
       toast.error(err)
