@@ -20,18 +20,15 @@ export default middleware((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
 
-  if (nextUrl.pathname === '/auth/verification' && !nextUrl.search) {
+  if (nextUrl.pathname === '/auth/verification' && !nextUrl.search)
     return Response.redirect(new URL('/auth/signin', nextUrl))
-  }
 
   if (isApiAuthRoute) return
-
   if (isAuthRoute) {
     if (session)
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
     return
   }
-
   if (!session && !isPublicRoute)
     return Response.redirect(new URL('/auth/signin', nextUrl))
 })
