@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/form'
 import { Field } from '@/types/formCard'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import React, { ReactNode } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 
@@ -50,6 +51,7 @@ const FormCardFields = ({
   fields: Field[]
   form: UseFormReturn<any>
 }) => {
+  const pathname = usePathname()
   return (
     <>
       {fields.map((f, index) => (
@@ -68,7 +70,21 @@ const FormCardFields = ({
                   className="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                 />
               </FormControl>
-              <FormMessage />
+              <div className="flex justify-between">
+                <div>
+                  <FormMessage />
+                </div>
+                {pathname === '/auth/signin' &&
+                  f.label.toLowerCase() === 'password' && (
+                    <Link
+                      href="/auth/forgot/password"
+                      className="text-sm text-muted-foreground transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-gray-300"
+                    >
+                      {' '}
+                      Forgot your password?
+                    </Link>
+                  )}
+              </div>
             </FormItem>
           )}
         />

@@ -3,7 +3,12 @@ import NextAuth from 'next-auth'
 
 const apiAuthPrefix = '/api/auth'
 const publicRoutes = ['/']
-const authRoutes = ['/auth/signin', '/auth/signup', '/auth/verification']
+const authRoutes = [
+  '/auth/signin',
+  '/auth/signup',
+  '/auth/verification',
+  '/auth/forgot/password',
+]
 
 const { auth: middleware } = NextAuth(authConfig)
 
