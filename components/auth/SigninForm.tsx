@@ -35,6 +35,7 @@ const SigninForm = () => {
       toast.error('Email is already in use with different provider.')
       router.replace('/auth/signin')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
   const onSubmit = async (data: SigninFormData) => {

@@ -6,9 +6,9 @@ import NextAuth from 'next-auth'
 
 declare module 'next-auth' {
   interface User {
-    userRole: UserRole
-    emailVerified: Date
-    createdAt: Date
+    userRole: UserRole | null
+    emailVerified: Date | null
+    createdAt: Date | null
   }
 }
 

@@ -1,6 +1,7 @@
 import { SigninForm } from '@/components/auth'
 import basketPattern from '@/public/basket-pattern.svg'
 import Image from 'next/image'
+import { Suspense } from 'react'
 
 const SigninPage = () => {
   return (
@@ -14,7 +15,9 @@ const SigninPage = () => {
         />
       </div>
       <div className="flex justify-center lg:m-8">
-        <SigninForm />
+        <Suspense>
+          <SigninForm />
+        </Suspense>
       </div>
     </div>
   )

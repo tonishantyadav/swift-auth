@@ -15,7 +15,7 @@ const SignupPage = () => {
 
 const HeroSection = () => {
   return (
-    <div className="absolute left-0 top-0 m-5 flex h-full w-full flex-col justify-center">
+    <div className="absolute left-0 top-0 mx-2 flex h-full w-full flex-col justify-center">
       <div className="flex-col gap-y-2">
         <p className="flex items-center font-medium md:gap-2 md:text-6xl lg:gap-5 lg:text-8xl">
           Welcome{' '}
@@ -23,6 +23,9 @@ const HeroSection = () => {
         </p>
         <p className="hero-text flex justify-end font-semibold md:text-6xl lg:text-8xl">
           Swift Auth
+        </p>
+        <p className="flex justify-end text-lg text-gray-300">
+          Simplify Authentication
         </p>
       </div>
     </div>

@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     const data = await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
       to: email,
-      subject: 'Welcome to Next Simple Auth - Complete Your Registration Now!',
+      subject: 'Welcome to Swift Auth - Complete Your Registration Now!',
       react: Email({ name: user.name!, verificationLink }),
     })
     return Response.json(data)

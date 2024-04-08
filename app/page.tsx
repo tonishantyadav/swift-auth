@@ -19,7 +19,7 @@ const HomePage = async () => {
           </div>
           <div>
             <p className="text-center text-lg font-semibold text-gray-300 md:text-2xl lg:text-2xl">
-              Simplify Authentication{' '}
+              Experience Seamless Authentication{' '}
             </p>
           </div>
           {!session?.user && (
