@@ -1,19 +1,16 @@
 import { Button, Input, Spinner } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Field, FormBody } from '@/types/formCard'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Field } from '@/types/formCard'
 import Link from 'next/link'
 import React, { ReactNode } from 'react'
-import { UseFormReturn, useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { UseFormReturn } from 'react-hook-form'
 
 const FormCard = ({ children }: { children: React.ReactNode }) => {
   return <Card className="mx-2 lg:container">{children}</Card>
@@ -31,24 +28,18 @@ const FormCardHeader = ({ header }: { header: string }) => {
 
 const FormCardBody = ({
   children,
-  onSubmit,
-  schema,
   fields,
-  defaultValues,
-}: FormBody) => {
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: { ...defaultValues },
-  })
+  form,
+}: {
+  children: ReactNode
+  fields: Field[]
+  form: UseFormReturn<any>
+}) => {
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <CardContent className="space-y-5">
-          <FormCardFields form={form} fields={fields} />
-          {children}
-        </CardContent>
-      </form>
-    </Form>
+    <CardContent className="space-y-5">
+      <FormCardFields form={form} fields={fields} />
+      {children}
+    </CardContent>
   )
 }
 

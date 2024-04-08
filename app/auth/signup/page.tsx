@@ -24,9 +24,6 @@ const HeroSection = () => {
         <p className="hero-text flex justify-end font-semibold md:text-6xl lg:text-8xl">
           Swift Auth
         </p>
-        <p className="mt-3 flex justify-end text-gray-300/75 md:text-sm lg:text-xl">
-          Experience seamless authentication.
-        </p>
       </div>
     </div>
   )

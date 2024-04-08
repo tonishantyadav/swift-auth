@@ -11,13 +11,21 @@ import { useSignin } from '@/hooks/auth/useSignin'
 import { handleError } from '@/lib/handleError'
 import { SigninSchema } from '@/schemas/userValidation'
 import { Field, SigninFormData } from '@/types/formCard'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import { z } from 'zod'
+import { Form } from '../ui/form'
 import ToastContainer from '../ui/toast'
 import SocialAuth from './SocialAuth'
 
 const SigninForm = () => {
+  const form = useForm<z.infer<typeof SigninSchema>>({
+    resolver: zodResolver(SigninSchema),
+    defaultValues: { ...defaultValues },
+  })
   const router = useRouter()
   const params = useSearchParams()
   const signinMutation = useSignin()
@@ -26,45 +34,44 @@ const SigninForm = () => {
     if (params.get('error') === 'OAuthAccountNotLinked') {
       toast.error('Email is already in use with different provider.')
       router.replace('/auth/signin')
-    } else if (params.get('verificationLink') === 'sent') {
-      toast.success('Verification link has been sent to your email.')
-      router.replace('/auth/signin')
     }
   }, [params])
 
   const onSubmit = async (data: SigninFormData) => {
     try {
-      const response = await signinMutation.mutateAsync(data)
+      await signinMutation.mutateAsync(data)
       router.push('/')
     } catch (error) {
-      const err = handleError(error)
-      toast.error(err)
+      const errorMessage = handleError(error)
+      toast.error(errorMessage)
     }
   }
 
   return (
-    <FormCard>
-      <FormCardHeader header="Signin to Your Account" />
-      <FormCardBody
-        onSubmit={onSubmit}
-        fields={fields}
-        schema={SigninSchema}
-        defaultValues={defaultValues}
-      >
-        <FormActionButton
-          label="Signin"
-          isSubmitting={signinMutation.isPending}
-        />
-      </FormCardBody>
-      <FormCardFooter
-        message="Don't have an account?"
-        linkLabel="Signup"
-        linkHref="/auth/signup"
-      >
-        <ToastContainer />
-        <SocialAuth message="Or Signin with" />
-      </FormCardFooter>
-    </FormCard>
+    <>
+      <ToastContainer />
+      <FormCard>
+        <FormCardHeader header="Signin to Your Account" />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormCardBody form={form} fields={fields}>
+              <FormActionButton
+                label="Signin"
+                isSubmitting={signinMutation.isPending}
+              />
+            </FormCardBody>
+          </form>
+        </Form>
+        <FormCardFooter
+          message="Don't have an account?"
+          linkLabel="Signup"
+          linkHref="/auth/signup"
+        >
+          <ToastContainer />
+          <SocialAuth message="Or Signin with" />
+        </FormCardFooter>
+      </FormCard>
+    </>
   )
 }
 

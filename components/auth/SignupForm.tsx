@@ -11,22 +11,29 @@ import { useSignup } from '@/hooks/auth/useSignup'
 import { handleError } from '@/lib/handleError'
 import { SignupSchema } from '@/schemas/userValidation'
 import { Field, SignupFormData } from '@/types/formCard'
-import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import { z } from 'zod'
+import { Form } from '../ui/form'
 import ToastContainer from '../ui/toast'
 import SocialAuth from './SocialAuth'
 
 const SignupForm = () => {
-  const router = useRouter()
+  const form = useForm<z.infer<typeof SignupSchema>>({
+    resolver: zodResolver(SignupSchema),
+    defaultValues: { ...defaultValues },
+  })
   const signupMutation = useSignup()
 
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
-      await signupMutation.mutateAsync(data)
-      router.push('/auth/signin/?verificationLink=sent')
+      const response = await signupMutation.mutateAsync(data)
+      toast.success(response.success)
+      form.reset()
     } catch (error) {
-      const err = handleError(error)
-      toast.error(err)
+      const errorMessage = handleError(error)
+      toast.error(errorMessage)
     }
   }
 
@@ -35,17 +42,16 @@ const SignupForm = () => {
       <ToastContainer />
       <FormCard>
         <FormCardHeader header="Signup a New Account" />
-        <FormCardBody
-          onSubmit={onSubmit}
-          schema={SignupSchema}
-          fields={fields}
-          defaultValues={defaultValues}
-        >
-          <FormActionButton
-            label="Signup"
-            isSubmitting={signupMutation.isPending}
-          />
-        </FormCardBody>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormCardBody form={form} fields={fields}>
+              <FormActionButton
+                label="Signup"
+                isSubmitting={signupMutation.isPending}
+              />
+            </FormCardBody>
+          </form>
+        </Form>
         <FormCardFooter
           message="Already have an account?"
           linkLabel="Signin"

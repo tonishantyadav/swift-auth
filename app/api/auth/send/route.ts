@@ -32,7 +32,6 @@ export async function POST(request: NextRequest) {
       subject: 'Welcome to Next Simple Auth - Complete Your Registration Now!',
       react: Email({ name: user.name!, verificationLink }),
     })
-
     return Response.json(data)
   } catch (error) {
     return Response.json({ error })
