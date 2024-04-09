@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Field } from '@/types/formCard'
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { ReactNode } from 'react'
@@ -99,7 +100,7 @@ const FormCardFooter = ({
   linkLabel,
   linkHref,
 }: {
-  children: ReactNode
+  children?: ReactNode
   message: string
   linkLabel: string
   linkHref: string
@@ -138,10 +139,23 @@ const FormActionButton = ({
   )
 }
 
+const FormCardError = ({ message }: { message: string }) => {
+  if (!message) return null
+  return (
+    <div className="flex justify-center gap-x-2 rounded-lg bg-destructive/100 text-sm text-red-200/80">
+      <div className="flex items-center justify-center gap-x-2 rounded-lg bg-destructive/100 p-3 text-sm text-red-200/80">
+        <ExclamationTriangleIcon className="h-4 w-4" />
+        {message}
+      </div>
+    </div>
+  )
+}
+
 export {
   FormActionButton,
   FormCard,
   FormCardBody,
+  FormCardError,
   FormCardFooter,
   FormCardHeader,
 }

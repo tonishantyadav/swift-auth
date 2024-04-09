@@ -4,16 +4,16 @@ import {
   FormActionButton,
   FormCard,
   FormCardBody,
+  FormCardError,
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
 import { useSignin } from '@/hooks/auth/useSignin'
-import { handleError } from '@/lib/handleError'
+import { handleError, handleProviderError } from '@/lib/handleError'
 import { SigninSchema } from '@/schemas/userValidation'
 import { Field, SigninFormData } from '@/types/formCard'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
@@ -30,13 +30,7 @@ const SigninForm = () => {
   const params = useSearchParams()
   const signinMutation = useSignin()
 
-  useEffect(() => {
-    if (params.get('error') === 'OAuthAccountNotLinked') {
-      toast.error('Email is already in use with different provider.')
-      router.replace('/auth/signin')
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params])
+  const providerError = handleProviderError(params)
 
   const onSubmit = async (data: SigninFormData) => {
     try {
@@ -60,6 +54,11 @@ const SigninForm = () => {
                 label="Signin"
                 isSubmitting={signinMutation.isPending}
               />
+              {providerError && (
+                <div>
+                  <FormCardError message={providerError} />
+                </div>
+              )}
             </FormCardBody>
           </form>
         </Form>
