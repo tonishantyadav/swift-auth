@@ -4,16 +4,18 @@ import {
   FormActionButton,
   FormCard,
   FormCardBody,
+  FormCardError,
   FormCardFooter,
   FormCardHeader,
+  FormCardSuccess,
 } from '@/components/FormCard'
 import { useSignup } from '@/hooks/auth/useSignup'
 import { handleError } from '@/lib/handleError'
 import { SignupSchema } from '@/schemas/userValidation'
 import { Field, SignupFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
 import { z } from 'zod'
 import { Form } from '../ui/form'
 import ToastContainer from '../ui/toast'
@@ -25,15 +27,17 @@ const SignupForm = () => {
     defaultValues: { ...defaultValues },
   })
   const signupMutation = useSignup()
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
       const response = await signupMutation.mutateAsync(data)
-      toast.success(response.success)
+      setSuccess(response.success)
       form.reset()
     } catch (error) {
       const errorMessage = handleError(error)
-      toast.error(errorMessage)
+      setError(errorMessage)
     }
   }
 
@@ -49,6 +53,8 @@ const SignupForm = () => {
                 label="Signup"
                 isSubmitting={signupMutation.isPending}
               />
+              {error && <FormCardError message={error} />}
+              {success && <FormCardSuccess message={success} />}
             </FormCardBody>
           </form>
         </Form>

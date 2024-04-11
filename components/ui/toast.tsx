@@ -4,16 +4,16 @@ import 'react-toastify/dist/ReactToastify.css'
 const ToastContainer = () => {
   return (
     <ReactToastContainer
-      position="bottom-left"
+      position="top-right"
       autoClose={5000}
-      hideProgressBar={false}
+      hideProgressBar={true}
       newestOnTop={false}
       closeOnClick={true}
       rtl={false}
-      pauseOnFocusLoss
+      pauseOnFocusLoss={false}
       draggable={false}
       pauseOnHover={false}
-      theme="dark"
+      theme="colored"
       transition={Slide}
     />
   )

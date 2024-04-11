@@ -14,11 +14,11 @@ import { SigninSchema } from '@/schemas/userValidation'
 import { Field, SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import { z } from 'zod'
 import { Form } from '../ui/form'
-import ToastContainer from '../ui/toast'
 import SocialAuth from './SocialAuth'
 
 const SigninForm = () => {
@@ -29,8 +29,8 @@ const SigninForm = () => {
   const router = useRouter()
   const params = useSearchParams()
   const signinMutation = useSignin()
-
   const providerError = handleProviderError(params)
+  const [error, setError] = useState('')
 
   const onSubmit = async (data: SigninFormData) => {
     try {
@@ -38,7 +38,7 @@ const SigninForm = () => {
       router.push('/')
     } catch (error) {
       const errorMessage = handleError(error)
-      toast.error(errorMessage)
+      setError(errorMessage)
     }
   }
 
@@ -54,11 +54,10 @@ const SigninForm = () => {
                 label="Signin"
                 isSubmitting={signinMutation.isPending}
               />
-              {providerError && (
-                <div>
-                  <FormCardError message={providerError} />
-                </div>
-              )}
+              {error ||
+                (providerError && (
+                  <FormCardError message={error || providerError} />
+                ))}
             </FormCardBody>
           </form>
         </Form>
@@ -67,7 +66,6 @@ const SigninForm = () => {
           linkLabel="Signup"
           linkHref="/auth/signup"
         >
-          <ToastContainer />
           <SocialAuth message="Or Signin with" />
         </FormCardFooter>
       </FormCard>

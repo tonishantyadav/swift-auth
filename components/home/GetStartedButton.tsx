@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useMediaQuery } from 'react-responsive'
 
 const GetStartedButton = () => {
-  const isMobile = useMediaQuery({ maxWidth: 640 })
+  const isMobile = useMediaQuery({ maxWidth: 768 })
 
   return (
     <Link href="/auth/signin">

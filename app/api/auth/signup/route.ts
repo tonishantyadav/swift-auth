@@ -1,7 +1,7 @@
 import { generateVerificationToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { SignupSchema } from '@/schemas/userValidation'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {

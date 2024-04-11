@@ -8,7 +8,10 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Field } from '@/types/form'
-import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
+import {
+  CheckCircledIcon,
+  ExclamationTriangleIcon,
+} from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { ReactNode } from 'react'
@@ -145,11 +148,19 @@ const FormActionButton = ({
 const FormCardError = ({ message }: { message: string }) => {
   if (!message) return null
   return (
-    <div className="flex justify-center gap-x-2 rounded-lg bg-destructive/100 text-sm text-red-200/80">
-      <div className="flex items-center justify-center gap-x-2 rounded-lg bg-destructive/100 p-3 text-sm text-red-200/80">
-        <ExclamationTriangleIcon className="h-4 w-4" />
-        {message}
-      </div>
+    <div className="flex items-center justify-center gap-x-2 rounded-lg bg-red-800/100 p-3 text-sm text-red-200/80">
+      <ExclamationTriangleIcon className="h-4 w-4" />
+      {message}
+    </div>
+  )
+}
+
+const FormCardSuccess = ({ message }: { message: string }) => {
+  if (!message) return null
+  return (
+    <div className="flex items-center justify-center gap-x-2 rounded-lg bg-emerald-500/15 p-3 text-sm text-emerald-500">
+      <CheckCircledIcon className="h-4 w-4" />
+      {message}
     </div>
   )
 }
@@ -162,4 +173,5 @@ export {
   FormCardFields,
   FormCardFooter,
   FormCardHeader,
+  FormCardSuccess,
 }
