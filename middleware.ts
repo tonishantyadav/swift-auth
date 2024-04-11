@@ -6,6 +6,7 @@ const publicRoutes = ['/']
 const authRoutes = [
   '/auth/signin',
   '/auth/signup',
+  '/auth/error',
   '/auth/verification',
   '/auth/forgot/password',
 ]

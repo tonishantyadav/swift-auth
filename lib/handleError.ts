@@ -1,9 +1,14 @@
 import axios, { AxiosError } from 'axios'
 import { ReadonlyURLSearchParams } from 'next/navigation'
 
-export const handleError = (error: any): string => {
+export const handleError = (error: any, action?: string): string => {
   const err = error as Error | AxiosError
-  if (axios.isAxiosError(err)) return err.response?.data.error
+  if (axios.isAxiosError(err))
+    return err.response?.data.error
+      ? error.response.data.error
+      : action
+        ? `Unable to ${action}. An unexpected error occurred!`
+        : 'An unexpected error occurred!'
   return 'An unexpected error occurred!'
 }
 

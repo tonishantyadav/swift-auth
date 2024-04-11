@@ -25,7 +25,7 @@ const HeroSection = () => {
           Swift Auth
         </p>
         <p className="flex justify-end text-lg text-gray-300">
-          Simplify Authentication
+          Simplify Authentication.
         </p>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { SignupFormData } from '@/types/formCard'
+import { SignupFormData } from '@/types/form'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 

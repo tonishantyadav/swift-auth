@@ -3,6 +3,7 @@ import prisma from '@/prisma/client'
 import { SigninSchema } from '@/schemas/userValidation'
 import bcrypt from 'bcrypt'
 import { AuthError } from 'next-auth'
+import { redirect } from 'next/navigation'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
@@ -30,20 +31,23 @@ export async function POST(request: NextRequest) {
       switch (error.type) {
         case 'CredentialsSignin':
           return NextResponse.json(
-            { error: 'Unable to signin! Check your credentials.' },
+            {
+              error:
+                'Unable to signin! Check your credentials or try again after sometime.',
+            },
             { status: 401 }
           )
         case 'AccessDenied':
+          redirect('/auth/error')
           return NextResponse.json(
             {
-              error:
-                'Unable to signin! Check your email for the verification link.',
+              error: 'Unable to signin! Email is not verified.',
             },
             { status: 401 }
           )
         default:
           return NextResponse.json(
-            { error: 'An unexpected error occurred!' },
+            { error: 'Unable to signin! An unexpected error occurred.' },
             { status: 500 }
           )
       }

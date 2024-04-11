@@ -37,7 +37,7 @@ export const {
     async signIn({ account, user }) {
       if (account?.type === 'credentials') {
         const existingUser = await prisma.user.findUnique({
-          where: { id: user.id },
+          where: { email: user.email! },
         })
         return existingUser?.emailVerified ? true : false
       }

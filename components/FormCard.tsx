@@ -7,7 +7,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Field } from '@/types/formCard'
+import { Field } from '@/types/form'
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -110,7 +110,10 @@ const FormCardFooter = ({
       {children}
       <div className="flex gap-2 text-xs md:text-sm lg:text-sm">
         <p>{message}</p>
-        <Link href={linkHref} className="text-gray-300 hover:underline">
+        <Link
+          href={linkHref}
+          className="text-gray-300 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:underline"
+        >
           {linkLabel}
         </Link>
       </div>
@@ -156,6 +159,7 @@ export {
   FormCard,
   FormCardBody,
   FormCardError,
+  FormCardFields,
   FormCardFooter,
   FormCardHeader,
 }

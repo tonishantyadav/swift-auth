@@ -10,7 +10,7 @@ import {
 import { useSignup } from '@/hooks/auth/useSignup'
 import { handleError } from '@/lib/handleError'
 import { SignupSchema } from '@/schemas/userValidation'
-import { Field, SignupFormData } from '@/types/formCard'
+import { Field, SignupFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
