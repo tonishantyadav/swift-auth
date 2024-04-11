@@ -16,7 +16,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { ToastContainer } from 'react-toastify'
 import { z } from 'zod'
 import { Form } from '../ui/form'
 import SocialAuth from './SocialAuth'
@@ -44,7 +43,6 @@ const SigninForm = () => {
 
   return (
     <>
-      <ToastContainer />
       <FormCard>
         <FormCardHeader header="Signin to Your Account" />
         <Form {...form}>
@@ -54,10 +52,9 @@ const SigninForm = () => {
                 label="Signin"
                 isSubmitting={signinMutation.isPending}
               />
-              {error ||
-                (providerError && (
-                  <FormCardError message={error || providerError} />
-                ))}
+              {(error || providerError) && (
+                <FormCardError message={error || providerError} />
+              )}
             </FormCardBody>
           </form>
         </Form>
