@@ -23,7 +23,6 @@ export default middleware((req) => {
 
   if (nextUrl.pathname === '/auth/verification' && !nextUrl.search)
     return Response.redirect(new URL('/auth/signin', nextUrl))
-
   if (isApiAuthRoute) return
   if (isAuthRoute) {
     if (session)

@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   })
 
   if (!verificationToken) {
-    return NextResponse.json({ error: 'Invalid token.' }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid token' }, { status: 400 })
   }
 
   const hasExpired = new Date(verificationToken.expiredAt) < new Date()

@@ -18,8 +18,3 @@ export const EmailSchema = z.object({
   email: z.string().email(),
   token: z.string(),
 })
-
-export const VerificationSchema = z.object({
-  token: z.string(),
-  password: z.string().min(8, 'Invalid password.').max(255, 'Invalid password'),
-})
