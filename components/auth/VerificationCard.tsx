@@ -1,7 +1,7 @@
 'use client'
 
-import { useVerification } from '@/hooks/auth/useVerification'
-import { handleError } from '@/lib/handleError'
+import { useVerifyEmail } from '@/hooks/auth/useVerification'
+import { handleCredentialsError } from '@/lib/error'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FormCardError } from '../FormCard'
@@ -12,20 +12,20 @@ import ToastContainer from '../ui/toast'
 const VerificationCard = () => {
   const params = useSearchParams()
   const router = useRouter()
-  const verification = useVerification()
+  const verifyEmail = useVerifyEmail()
   const [token, setToken] = useState('')
   const [error, setError] = useState('')
 
   const onClick = async () => {
     try {
       if (token) {
-        await verification.mutateAsync(token)
+        await verifyEmail.mutateAsync(token)
+        router.push('/auth/signin')
       }
     } catch (error) {
-      const errorMessage = handleError(error)
+      const errorMessage = handleCredentialsError(error)
       setError(errorMessage)
     }
-    router.push('/')
   }
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const VerificationCard = () => {
                 type="submit"
                 onClick={onClick}
               >
-                {verification.isPending ? <Spinner /> : 'Verify'}
+                {verifyEmail.isPending ? <Spinner /> : 'Verify'}
               </Button>
             </CardFooter>
           </Card>

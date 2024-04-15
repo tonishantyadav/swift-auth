@@ -11,7 +11,7 @@ export const useSignup = () => {
     onSuccess: async (response) => {
       if (response) {
         const { email, token } = response.data
-        await axios.post('/api/auth/send', { email, token })
+        await axios.post('/api/auth/verify/send', { email, token })
       }
     },
   })

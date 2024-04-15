@@ -1,7 +1,7 @@
 import { deleteVerificationToken } from '@/actions/deleteVerificationToken'
 import prisma from '@/prisma/client'
+import { VerificationTokenSchema } from '@/schemas/userValidation'
 import { NextRequest, NextResponse } from 'next/server'
-import { z } from 'zod'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
@@ -62,7 +62,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-
-const VerificationTokenSchema = z.object({
-  token: z.string(),
-})

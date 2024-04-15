@@ -2,10 +2,10 @@ import { deleteVerificationToken } from '@/actions/deleteVerificationToken'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 
-export const useVerification = () => {
+export const useVerifyEmail = () => {
   return useMutation({
     mutationFn: async (token: string) => {
-      await axios.post('/api/auth/verification', {
+      await axios.post('/api/auth/verify/email', {
         token,
       })
     },

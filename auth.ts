@@ -39,7 +39,6 @@ export const {
         const existingUser = await prisma.user.findUnique({
           where: { id: user.id },
         })
-        console.log(existingUser)
         if (existingUser) return existingUser?.emailVerified ? true : false
       }
       return false

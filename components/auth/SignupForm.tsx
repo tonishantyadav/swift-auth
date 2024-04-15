@@ -9,7 +9,7 @@ import {
   FormCardHeader,
 } from '@/components/FormCard'
 import { useSignup } from '@/hooks/auth/useSignup'
-import { handleError } from '@/lib/handleError'
+import { handleCredentialsError } from '@/lib/error'
 import { SignupSchema } from '@/schemas/userValidation'
 import { Field, SignupFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -35,7 +35,7 @@ const SignupForm = () => {
       toast.success(response.success)
       form.reset()
     } catch (error) {
-      const errorMessage = handleError(error)
+      const errorMessage = handleCredentialsError(error)
       setError(errorMessage)
     }
   }

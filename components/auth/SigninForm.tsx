@@ -9,7 +9,7 @@ import {
   FormCardHeader,
 } from '@/components/FormCard'
 import { useSignin } from '@/hooks/auth/useSignin'
-import { handleError, handleProviderError } from '@/lib/handleError'
+import { handleCredentialsError, handleOAuthError } from '@/lib/error'
 import { SigninSchema } from '@/schemas/userValidation'
 import { Field, SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -28,7 +28,7 @@ const SigninForm = () => {
   const router = useRouter()
   const params = useSearchParams()
   const signinMutation = useSignin()
-  const providerError = handleProviderError(params)
+  const OAuthError = handleOAuthError(params)
   const [error, setError] = useState('')
 
   const onSubmit = async (data: SigninFormData) => {
@@ -36,7 +36,7 @@ const SigninForm = () => {
       await signinMutation.mutateAsync(data)
       router.push('/')
     } catch (error) {
-      const errorMessage = handleError(error)
+      const errorMessage = handleCredentialsError(error)
       setError(errorMessage)
     }
   }
@@ -52,8 +52,8 @@ const SigninForm = () => {
                 label="Signin"
                 isSubmitting={signinMutation.isPending}
               />
-              {(error || providerError) && (
-                <FormCardError message={error || providerError} />
+              {(error || OAuthError) && (
+                <FormCardError message={error || OAuthError} />
               )}
             </FormCardBody>
           </form>
