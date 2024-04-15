@@ -17,11 +17,11 @@ export async function POST(request: NextRequest) {
   const user = await prisma.user.findUnique({ where: { email } })
 
   if (!user || !user.password)
-    return NextResponse.json({ error: 'User doesn`t exists.' }, { status: 404 })
+    return NextResponse.json({ error: 'User doesn`t exists' }, { status: 404 })
 
   const checkPassowrd = await bcrypt.compare(password, user.password)
   if (!checkPassowrd)
-    return NextResponse.json({ error: 'Invalid password.' }, { status: 404 })
+    return NextResponse.json({ error: 'Invalid password' }, { status: 404 })
 
   try {
     await signIn('credentials', user)
