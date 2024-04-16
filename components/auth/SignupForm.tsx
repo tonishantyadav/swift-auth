@@ -9,10 +9,11 @@ import {
   FormCardHeader,
 } from '@/components/FormCard'
 import { useSignup } from '@/hooks/auth/useSignup'
-import { handleCredentialsError } from '@/lib/error'
+import { handleError } from '@/lib/error'
 import { SignupSchema } from '@/schemas/validation'
 import { Field, SignupFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -26,6 +27,7 @@ const SignupForm = () => {
     resolver: zodResolver(SignupSchema),
     defaultValues: { ...defaultValues },
   })
+  const router = useRouter()
   const signupMutation = useSignup()
   const [error, setError] = useState('')
 
@@ -35,9 +37,13 @@ const SignupForm = () => {
       toast.success(response.success)
       form.reset()
     } catch (error) {
-      const errorMessage = handleCredentialsError(error)
+      const errorMessage = handleError(error)
       setError(errorMessage)
     }
+  }
+
+  if (signupMutation.isSuccess) {
+    setTimeout(() => router.push('/auth/signin'), 2000)
   }
 
   return (

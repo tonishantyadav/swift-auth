@@ -1,7 +1,7 @@
 'use client'
 
 import { useEmailVerify } from '@/hooks/auth/useEmailVerify'
-import { handleCredentialsError } from '@/lib/error'
+import { handleError } from '@/lib/error'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FormCardError } from '../FormCard'
@@ -22,7 +22,7 @@ const EmailVerifyCard = () => {
         await emailVerify.mutateAsync(token)
       }
     } catch (error) {
-      const errorMessage = handleCredentialsError(error)
+      const errorMessage = handleError(error)
       setError(errorMessage)
     }
   }

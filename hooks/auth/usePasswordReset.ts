@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-export const useResetPassword = () => {
+export const usePasswordReset = () => {
   const router = useRouter()
   return useMutation({
     mutationFn: async (data: PasswordResetFormData) => {

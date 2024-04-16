@@ -4,7 +4,7 @@ import { PasswordForgotSchema } from '@/schemas/validation'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  const body = request.json()
+  const body = await request.json()
   const validation = PasswordForgotSchema.safeParse(body)
 
   if (!validation.success)
@@ -15,14 +15,31 @@ export async function POST(request: NextRequest) {
   const user = await prisma.user.findUnique({ where: { email } })
 
   if (!user)
-    return NextResponse.json({ error: 'Invalid user.' }, { status: 404 })
+    return NextResponse.json({ error: 'Invalid user' }, { status: 404 })
+
+  if (!user.emailVerified)
+    return NextResponse.json(
+      { error: 'Email is not verified.' },
+      { status: 404 }
+    )
+
+  const isVerificationToken = await prisma.verificationToken.findFirst({
+    where: { email },
+  })
+
+  if (isVerificationToken)
+    return NextResponse.json(
+      { error: 'Password reset link is already been sent to your email.' },
+      { status: 409 }
+    )
 
   try {
     const verificationToken = await generateVerificationToken(email)
+    console.log(verificationToken)
     return NextResponse.json(
       {
         data: { token: verificationToken?.token },
-        success: 'A reset link is been sent to your email.',
+        success: 'Password reset link is been sent to your email.',
       },
       { status: 201 }
     )

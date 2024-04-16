@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import { ReadonlyURLSearchParams } from 'next/navigation'
 
-export const handleCredentialsError = (error: any, action?: string): string => {
+export const handleError = (error: any, action?: string): string => {
   const err = error as Error | AxiosError
   if (axios.isAxiosError(err))
     return err.response?.data.error

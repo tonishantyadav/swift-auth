@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
   const user = await prisma.user.findUnique({ where: { email } })
 
   if (!user)
-    return NextResponse.json({ error: 'User doesn`t exists.' }, { status: 404 })
+    return NextResponse.json({ error: 'Invalid user.' }, { status: 404 })
 
   try {
     const data = await resend.emails.send({
@@ -38,4 +38,4 @@ export async function POST(request: NextRequest) {
   }
 }
 
-const content = 'To reset your password, please click the reset link below:'
+const content = 'To reset your password, Please click the link below:'

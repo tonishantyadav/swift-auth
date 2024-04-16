@@ -9,7 +9,7 @@ import {
   FormCardHeader,
 } from '@/components/FormCard'
 import { useSignin } from '@/hooks/auth/useSignin'
-import { handleCredentialsError, handleOAuthError } from '@/lib/error'
+import { handleError, handleOAuthError } from '@/lib/error'
 import { SigninSchema } from '@/schemas/validation'
 import { Field, SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -36,7 +36,7 @@ const SigninForm = () => {
       await signinMutation.mutateAsync(data)
       router.push('/')
     } catch (error) {
-      const errorMessage = handleCredentialsError(error)
+      const errorMessage = handleError(error)
       setError(errorMessage)
     }
   }
