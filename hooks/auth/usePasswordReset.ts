@@ -16,10 +16,6 @@ export const usePasswordReset = () => {
     },
     onSuccess: (response) => {
       toast.success(response.success)
-      setTimeout(() => router.push('/auth/signin'), 4000)
-    },
-    onError: (error) => {
-      router.push('/auth/signin')
     },
   })
 }

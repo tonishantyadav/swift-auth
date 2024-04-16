@@ -1,11 +1,11 @@
 'use client'
 
-import { Input } from '@/components/ui'
+import { Input, Spinner } from '@/components/ui'
 import { usePasswordReset } from '@/hooks/auth/usePasswordReset'
 import { handleError } from '@/lib/error'
 import { PasswordInputSchema } from '@/schemas/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -20,6 +20,7 @@ const PasswordResetCard = () => {
     defaultValues: { password: '' },
   })
   const params = useSearchParams()
+  const router = useRouter()
   const passwordReset = usePasswordReset()
   const [token, setToken] = useState('')
   const [error, setError] = useState('')
@@ -38,6 +39,7 @@ const PasswordResetCard = () => {
       const errorMessage = handleError(error)
       setError(errorMessage)
     }
+    setTimeout(() => router.push('/auth/signin'), 4000)
   }
 
   return (
@@ -75,9 +77,9 @@ const PasswordResetCard = () => {
             <Button
               className="btn-primary hover:btn-hover w-full rounded-full text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
               type="submit"
-              disabled={!token}
+              disabled={!token || passwordReset.isPending}
             >
-              Reset
+              {passwordReset.isPending ? <Spinner /> : 'Reset'}
             </Button>
           </CardFooter>
         </Card>

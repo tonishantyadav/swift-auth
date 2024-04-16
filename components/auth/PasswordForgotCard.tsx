@@ -37,10 +37,7 @@ const PasswordForgotCard = () => {
       const errorMessage = handleError(error)
       setError(errorMessage)
     }
-  }
-
-  if (passwordForgot.isSuccess || passwordForgot.isError) {
-    setTimeout(() => router.push('/auth/signin'), 3000)
+    setTimeout(() => router.push('/auth/signin'), 4000)
   }
 
   return (
