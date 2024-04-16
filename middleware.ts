@@ -22,6 +22,9 @@ export default middleware((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
 
+  if (nextUrl.pathname === '/auth/reset/password' && !nextUrl.search)
+    return Response.redirect(new URL('/auth/signin', nextUrl))
+
   if (nextUrl.pathname === '/auth/verify/email' && !nextUrl.search)
     return Response.redirect(new URL('/auth/signin', nextUrl))
 
