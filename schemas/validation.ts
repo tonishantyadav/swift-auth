@@ -19,18 +19,7 @@ export const SendEmailSchema = z.object({
   token: z.string(),
 })
 
-export const EmailVerifySchema = z.object({
-  token: z.string(),
-})
-
-export const ClientPasswordResetSchema = z.object({
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters long.')
-    .max(255, 'Password is too long.'),
-})
-
-export const ApiPasswordResetSchema = z.object({
+export const PasswordResetSchema = z.object({
   token: z.string(),
   password: z
     .string()

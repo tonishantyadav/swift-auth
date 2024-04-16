@@ -1,12 +1,12 @@
 import { deleteVerificationToken } from '@/actions/deleteVerificationToken'
 import prisma from '@/prisma/client'
-import { ApiPasswordResetSchema } from '@/schemas/validation'
+import { PasswordResetSchema } from '@/schemas/validation'
 import bcrypt from 'bcryptjs'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
-  const validation = ApiPasswordResetSchema.safeParse(body)
+  const validation = PasswordResetSchema.safeParse(body)
 
   if (!validation.success)
     return NextResponse.json(
