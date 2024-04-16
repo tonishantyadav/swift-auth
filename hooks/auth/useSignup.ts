@@ -8,9 +8,10 @@ export const useSignup = () => {
       const response = await axios.post('/api/auth/signup', data)
       return response.data
     },
-    onSuccess: async (response) => {
+    onSuccess: async (response, data) => {
       if (response) {
-        const { email, token } = response.data
+        const email = data.email
+        const { token } = response.data
         await axios.post('/api/auth/verify/send', { email, token })
       }
     },

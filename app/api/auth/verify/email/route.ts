@@ -1,11 +1,11 @@
 import { deleteVerificationToken } from '@/actions/deleteVerificationToken'
 import prisma from '@/prisma/client'
-import { ApiVerifyEmailSchema } from '@/schemas/validation'
+import { EmailVerifySchema } from '@/schemas/validation'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
-  const validation = ApiVerifyEmailSchema.safeParse(body)
+  const validation = EmailVerifySchema.safeParse(body)
 
   if (!validation.success)
     return NextResponse.json(
@@ -51,6 +51,7 @@ export async function POST(request: NextRequest) {
         emailVerified: new Date(),
       },
     })
+    await deleteVerificationToken(token)
     return NextResponse.json(
       { success: 'Email is been verified.' },
       { status: 200 }

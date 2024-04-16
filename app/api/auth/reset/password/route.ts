@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
   })
 
   if (!user)
-    return NextResponse.json({ error: 'User doesn`t exists.' }, { status: 404 })
+    return NextResponse.json({ error: 'Invalid user.' }, { status: 404 })
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -48,6 +48,7 @@ export async function POST(request: NextRequest) {
       where: { id: user.id },
       data: { password: hashedPassword },
     })
+    await deleteVerificationToken(token)
     return NextResponse.json(
       { success: 'Password is been reset.' },
       { status: 200 }

@@ -1,9 +1,14 @@
-import { SigninSchema, SignupSchema } from '@/schemas/validation'
+import {
+  PasswordResetSchema,
+  SigninSchema,
+  SignupSchema,
+} from '@/schemas/validation'
 import React from 'react'
 import { z } from 'zod'
 
 export type SigninFormData = z.infer<typeof SigninSchema>
 export type SignupFormData = z.infer<typeof SignupSchema>
+export type PasswordResetFormData = z.infer<typeof PasswordResetSchema>
 
 export interface Field {
   label: string

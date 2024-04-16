@@ -1,8 +1,9 @@
-import { deleteVerificationToken } from '@/actions/deleteVerificationToken'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 export const useEmailVerify = () => {
+  const router = useRouter()
   return useMutation({
     mutationFn: async (token: string) => {
       await axios.post('/api/auth/verify/email', {
@@ -10,7 +11,7 @@ export const useEmailVerify = () => {
       })
     },
     onSuccess: async (_, token: string) => {
-      await deleteVerificationToken(token)
+      router.push('/auth/signin')
     },
   })
 }

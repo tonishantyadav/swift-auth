@@ -1,6 +1,7 @@
 'use client'
 
 import { Input } from '@/components/ui'
+import { PasswordResetSchema } from '@/schemas/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -61,12 +62,5 @@ const PasswordResetCard = () => {
     </Form>
   )
 }
-
-const PasswordResetSchema = z.object({
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters long.')
-    .max(255, 'Password is too long.'),
-})
 
 export default PasswordResetCard

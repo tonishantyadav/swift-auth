@@ -9,7 +9,7 @@ import { Button, Spinner } from '../ui'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import ToastContainer from '../ui/toast'
 
-const EmailVerificationCard = () => {
+const EmailVerifyCard = () => {
   const params = useSearchParams()
   const router = useRouter()
   const emailVerify = useEmailVerify()
@@ -20,7 +20,6 @@ const EmailVerificationCard = () => {
     try {
       if (token) {
         await emailVerify.mutateAsync(token)
-        router.push('/auth/signin')
       }
     } catch (error) {
       const errorMessage = handleCredentialsError(error)
@@ -70,4 +69,4 @@ const EmailVerificationCard = () => {
   )
 }
 
-export default EmailVerificationCard
+export default EmailVerifyCard

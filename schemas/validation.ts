@@ -19,6 +19,14 @@ export const SendEmailSchema = z.object({
   token: z.string(),
 })
 
+export const EmailVerifySchema = z.object({
+  token: z.string(),
+})
+
+export const PasswordForgotSchema = z.object({
+  email: z.string().email('Invalid email.'),
+})
+
 export const PasswordResetSchema = z.object({
   token: z.string(),
   password: z

@@ -37,9 +37,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         data: {
-          email: verificationToken?.email,
           token: verificationToken?.token,
-          expiredAt: verificationToken?.expiredAt,
         },
         success: 'A verification link is been sent to your email.',
       },

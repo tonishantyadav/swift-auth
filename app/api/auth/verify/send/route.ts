@@ -39,4 +39,4 @@ export async function POST(request: NextRequest) {
 }
 
 const content =
-  'Thank you for joining Swift Auth! To complete your registration, pleaseclick the confirmation link below:'
+  'Thank you for joining Swift Auth! To complete your registration, Please click the confirmation link below:'
