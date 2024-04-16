@@ -5,8 +5,7 @@ const ToastContainer = () => {
   return (
     <ReactToastContainer
       position="bottom-left"
-      autoClose={5000}
-      hideProgressBar={true}
+      autoClose={3000}
       newestOnTop={false}
       closeOnClick={true}
       rtl={false}

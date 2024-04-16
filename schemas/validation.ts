@@ -15,8 +15,8 @@ export const SignupSchema = z.object({
 })
 
 export const SendEmailSchema = z.object({
-  email: z.string().email(),
   token: z.string(),
+  email: z.string().email(),
 })
 
 export const EmailVerifySchema = z.object({
@@ -29,6 +29,13 @@ export const PasswordForgotSchema = z.object({
 
 export const PasswordResetSchema = z.object({
   token: z.string(),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters long.')
+    .max(255, 'Password is too long.'),
+})
+
+export const PasswordInputSchema = z.object({
   password: z
     .string()
     .min(8, 'Password must be at least 8 characters long.')

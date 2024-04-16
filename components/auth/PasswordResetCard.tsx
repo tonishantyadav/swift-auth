@@ -1,23 +1,44 @@
 'use client'
 
 import { Input } from '@/components/ui'
-import { PasswordResetSchema } from '@/schemas/validation'
+import { usePasswordReset } from '@/hooks/auth/usePasswordReset'
+import { handleError } from '@/lib/error'
+import { PasswordInputSchema } from '@/schemas/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { FormCardError } from '../FormCard'
 import { Button } from '../ui'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 
 const PasswordResetCard = () => {
-  const form = useForm<z.infer<typeof PasswordResetSchema>>({
-    resolver: zodResolver(PasswordResetSchema),
+  const form = useForm<z.infer<typeof PasswordInputSchema>>({
+    resolver: zodResolver(PasswordInputSchema),
     defaultValues: { password: '' },
   })
   const params = useSearchParams()
+  const passwordReset = usePasswordReset()
+  const [token, setToken] = useState('')
+  const [error, setError] = useState('')
 
-  const onSubmit = async (data: { password: string }) => {}
+  useEffect(() => {
+    const token = params.get('token')
+    if (token) {
+      setToken(token)
+    }
+  }, [params])
+
+  const onSubmit = async ({ password }: { password: string }) => {
+    try {
+      await passwordReset.mutateAsync({ token, password })
+    } catch (error) {
+      const errorMessage = handleError(error)
+      setError(errorMessage)
+    }
+  }
 
   return (
     <Form {...form}>
@@ -48,11 +69,13 @@ const PasswordResetCard = () => {
                 </FormItem>
               )}
             />
+            {error && <FormCardError message={error} />}
           </CardContent>
           <CardFooter>
             <Button
               className="btn-primary hover:btn-hover w-full rounded-full text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
               type="submit"
+              disabled={!token}
             >
               Reset
             </Button>

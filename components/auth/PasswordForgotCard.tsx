@@ -40,7 +40,7 @@ const PasswordForgotCard = () => {
   }
 
   if (passwordForgot.isSuccess || passwordForgot.isError) {
-    setTimeout(() => router.push('/auth/signin'), 2000)
+    setTimeout(() => router.push('/auth/signin'), 3000)
   }
 
   return (

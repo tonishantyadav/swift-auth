@@ -35,7 +35,6 @@ export async function POST(request: NextRequest) {
 
   try {
     const verificationToken = await generateVerificationToken(email)
-    console.log(verificationToken)
     return NextResponse.json(
       {
         data: { token: verificationToken?.token },

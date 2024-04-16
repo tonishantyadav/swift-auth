@@ -16,6 +16,13 @@ const EmailVerifyCard = () => {
   const [token, setToken] = useState('')
   const [error, setError] = useState('')
 
+  useEffect(() => {
+    const token = params.get('token')
+    if (token) {
+      setToken(token)
+    }
+  }, [params])
+  
   const onClick = async () => {
     try {
       if (token) {
@@ -27,12 +34,6 @@ const EmailVerifyCard = () => {
     }
   }
 
-  useEffect(() => {
-    const token = params.get('token')
-    if (token) {
-      setToken(token)
-    }
-  }, [params])
 
   return (
     <>
