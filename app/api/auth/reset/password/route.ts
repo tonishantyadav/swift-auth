@@ -1,4 +1,4 @@
-import { deleteVerificationToken } from '@/actions/deleteVerificationToken'
+import { deleteVerificationToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { PasswordResetSchema } from '@/schemas/validation'
 import bcrypt from 'bcryptjs'

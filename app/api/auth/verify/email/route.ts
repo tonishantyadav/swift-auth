@@ -1,4 +1,4 @@
-import { deleteVerificationToken } from '@/actions/deleteVerificationToken'
+import { deleteVerificationToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { EmailVerifySchema } from '@/schemas/validation'
 import { NextRequest, NextResponse } from 'next/server'
