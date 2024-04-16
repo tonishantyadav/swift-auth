@@ -1,6 +1,6 @@
 'use client'
 
-import { useVerifyEmail } from '@/hooks/auth/useVerification'
+import { useEmailVerify } from '@/hooks/auth/useEmailVerify'
 import { handleCredentialsError } from '@/lib/error'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -9,17 +9,17 @@ import { Button, Spinner } from '../ui'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import ToastContainer from '../ui/toast'
 
-const VerificationCard = () => {
+const EmailVerificationCard = () => {
   const params = useSearchParams()
   const router = useRouter()
-  const verifyEmail = useVerifyEmail()
+  const emailVerify = useEmailVerify()
   const [token, setToken] = useState('')
   const [error, setError] = useState('')
 
   const onClick = async () => {
     try {
       if (token) {
-        await verifyEmail.mutateAsync(token)
+        await emailVerify.mutateAsync(token)
         router.push('/auth/signin')
       }
     } catch (error) {
@@ -49,7 +49,7 @@ const VerificationCard = () => {
             <CardContent className="mx-2 max-w-xl space-y-3">
               <p className="text-slate-200">
                 To complete your registration, Please verify your email by
-                entering the password and clicking the button below.
+                clicking the button below.
               </p>
               {error && <FormCardError message={error} />}
             </CardContent>
@@ -60,7 +60,7 @@ const VerificationCard = () => {
                 type="submit"
                 onClick={onClick}
               >
-                {verifyEmail.isPending ? <Spinner /> : 'Verify'}
+                {emailVerify.isPending ? <Spinner /> : 'Verify'}
               </Button>
             </CardFooter>
           </Card>
@@ -70,4 +70,4 @@ const VerificationCard = () => {
   )
 }
 
-export default VerificationCard
+export default EmailVerificationCard

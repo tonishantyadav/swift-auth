@@ -1,11 +1,11 @@
 import { deleteVerificationToken } from '@/actions/deleteVerificationToken'
 import prisma from '@/prisma/client'
-import { VerificationTokenSchema } from '@/schemas/userValidation'
+import { EmailVerifySchema } from '@/schemas/validation'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
-  const validation = VerificationTokenSchema.safeParse(body)
+  const validation = EmailVerifySchema.safeParse(body)
 
   if (!validation.success)
     return NextResponse.json(

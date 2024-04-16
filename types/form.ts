@@ -1,4 +1,4 @@
-import { SigninSchema, SignupSchema } from '@/schemas/userValidation'
+import { SigninSchema, SignupSchema } from '@/schemas/validation'
 import React from 'react'
 import { z } from 'zod'
 

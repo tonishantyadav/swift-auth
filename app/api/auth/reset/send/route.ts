@@ -1,6 +1,6 @@
 import Email from '@/components/Email'
 import prisma from '@/prisma/client'
-import { SendEmailSchema } from '@/schemas/userValidation'
+import { SendEmailSchema } from '@/schemas/validation'
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 

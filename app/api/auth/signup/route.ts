@@ -1,6 +1,6 @@
 import { generateVerificationToken } from '@/lib/token'
 import prisma from '@/prisma/client'
-import { SignupSchema } from '@/schemas/userValidation'
+import { SignupSchema } from '@/schemas/validation'
 import bcrypt from 'bcryptjs'
 import { NextRequest, NextResponse } from 'next/server'
 

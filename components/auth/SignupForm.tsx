@@ -10,7 +10,7 @@ import {
 } from '@/components/FormCard'
 import { useSignup } from '@/hooks/auth/useSignup'
 import { handleCredentialsError } from '@/lib/error'
-import { SignupSchema } from '@/schemas/userValidation'
+import { SignupSchema } from '@/schemas/validation'
 import { Field, SignupFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'

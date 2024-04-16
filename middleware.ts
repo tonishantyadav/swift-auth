@@ -9,6 +9,7 @@ const authRoutes = [
   '/auth/signup',
   '/auth/verify/email',
   '/auth/forgot/password',
+  '/auth/reset/password',
 ]
 
 const { auth: middleware } = NextAuth(authConfig)

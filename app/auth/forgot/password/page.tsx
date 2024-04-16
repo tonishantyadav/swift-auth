@@ -12,7 +12,7 @@ const ForgotPasswordPage = () => {
       <Card className="mx-2">
         <CardHeader className="ml-1">
           <p className="text-4xl font-semibold md:text-4xl lg:text-4xl">
-            Reset Password
+            Forgot Password
           </p>
         </CardHeader>
         <CardContent className="mx-2 max-w-xl space-y-3">

@@ -10,7 +10,7 @@ import {
 } from '@/components/FormCard'
 import { useSignin } from '@/hooks/auth/useSignin'
 import { handleCredentialsError, handleOAuthError } from '@/lib/error'
-import { SigninSchema } from '@/schemas/userValidation'
+import { SigninSchema } from '@/schemas/validation'
 import { Field, SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
