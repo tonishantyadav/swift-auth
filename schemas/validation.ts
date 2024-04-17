@@ -35,8 +35,12 @@ export const PasswordResetSchema = z.object({
     .max(255, 'Password is too long.'),
 })
 
-export const PasswordInputSchema = z.object({
+export const PasswordResetInputSchema = z.object({
   password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters long.')
+    .max(255, 'Password is too long.'),
+  confirmPassword: z
     .string()
     .min(8, 'Password must be at least 8 characters long.')
     .max(255, 'Password is too long.'),
