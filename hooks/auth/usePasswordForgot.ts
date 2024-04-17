@@ -1,8 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 
 export const usePasswordForgot = () => {
+  const router = useRouter()
   return useMutation({
     mutationFn: async (email: string) => {
       const response = await axios.post('/api/auth/forgot/password', { email })

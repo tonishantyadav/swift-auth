@@ -21,6 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form'
+import ToastContainer from '../ui/toast'
 
 const PasswordResetCard = () => {
   const form = useForm<z.infer<typeof PasswordResetInputSchema>>({
@@ -60,74 +61,77 @@ const PasswordResetCard = () => {
       if (isPasswordConfirmed) {
         const errorMessage = handleError(error)
         setError(errorMessage)
+        setTimeout(() => router.push('/auth/signin'), 1000)
       }
     }
-    if (isPasswordConfirmed) setTimeout(() => router.push('/auth/signin'), 1000)
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Card className="mx-2">
-          <CardHeader>
-            <p className="text-4xl font-semibold md:text-5xl lg:text-5xl">
-              Reset Password
-            </p>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="lg:text-md text-sm text-slate-200">
-              Please enter your new password.
-            </p>
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
-                      placeholder="Type your new password"
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
-                      placeholder="Re-type your new password"
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {error && <FormCardError message={error} />}
-          </CardContent>
-          <CardFooter>
-            <Button
-              className="btn-primary hover:btn-hover w-full rounded-full text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
-              type="submit"
-              disabled={!token || passwordReset.isPending}
-            >
-              {passwordReset.isPending ? <Spinner /> : 'Reset'}
-            </Button>
-          </CardFooter>
-        </Card>
-      </form>
-    </Form>
+    <>
+      <ToastContainer />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Card className="mx-2">
+            <CardHeader>
+              <p className="text-4xl font-semibold md:text-5xl lg:text-5xl">
+                Reset Password
+              </p>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="lg:text-md text-sm text-slate-200">
+                Please enter your new password.
+              </p>
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                        placeholder="Type your new password"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                        placeholder="Re-type your new password"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {error && <FormCardError message={error} />}
+            </CardContent>
+            <CardFooter>
+              <Button
+                className="btn-primary hover:btn-hover w-full rounded-full text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                type="submit"
+                disabled={!token || passwordReset.isPending}
+              >
+                {passwordReset.isPending ? <Spinner /> : 'Reset'}
+              </Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
+    </>
   )
 }
 

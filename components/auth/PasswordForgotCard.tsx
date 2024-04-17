@@ -33,11 +33,12 @@ const PasswordForgotCard = () => {
     try {
       await passwordForgot.mutateAsync(email)
       form.reset()
-    } catch (error) {
+      setTimeout(() => router.push('/auth/signin'), 1000)
+    } catch (error: any) {
+      console.log(error)
       const errorMessage = handleError(error)
       setError(errorMessage)
     }
-    setTimeout(() => router.push('/auth/signin'), 4000)
   }
 
   return (
