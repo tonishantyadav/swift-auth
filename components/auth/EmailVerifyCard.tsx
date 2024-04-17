@@ -1,13 +1,14 @@
 'use client'
 
+import { FormCardError } from '@/components/FormCard'
+import { Button } from '@/components/ui'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import ToastContainer from '@/components/ui/toast'
 import { useEmailVerify } from '@/hooks/auth/useEmailVerify'
 import { handleError } from '@/lib/error'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { FormCardError } from '../FormCard'
-import { Button, Spinner } from '../ui'
-import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
-import ToastContainer from '../ui/toast'
+import BeatLoader from 'react-spinners/BeatLoader'
 
 const EmailVerifyCard = () => {
   const params = useSearchParams()
@@ -22,7 +23,7 @@ const EmailVerifyCard = () => {
       setToken(token)
     }
   }, [params])
-  
+
   const onClick = async () => {
     try {
       if (token) {
@@ -33,7 +34,6 @@ const EmailVerifyCard = () => {
       setError(errorMessage)
     }
   }
-
 
   return (
     <>
@@ -60,7 +60,11 @@ const EmailVerifyCard = () => {
                 type="submit"
                 onClick={onClick}
               >
-                {emailVerify.isPending ? <Spinner /> : 'Verify'}
+                {emailVerify.isPending ? (
+                  <BeatLoader color="white" size={10} />
+                ) : (
+                  'Verify'
+                )}
               </Button>
             </CardFooter>
           </Card>

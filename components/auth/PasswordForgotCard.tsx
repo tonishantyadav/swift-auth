@@ -1,14 +1,17 @@
 'use client'
 
-import { Button, Input, Spinner } from '@/components/ui'
+import { FormCardError } from '@/components/FormCard'
+import { Button, Input } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import ToastContainer from '@/components/ui/toast'
 import { usePasswordForgot } from '@/hooks/auth/usePasswordForgot'
 import { handleError } from '@/lib/error'
 import { PasswordForgotSchema } from '@/schemas/validation'
@@ -16,9 +19,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import BeatLoader from 'react-spinners/BeatLoader'
 import { z } from 'zod'
-import { FormCardError } from '../FormCard'
-import ToastContainer from '../ui/toast'
 
 const PasswordForgotCard = () => {
   const form = useForm<z.infer<typeof PasswordForgotSchema>>({
@@ -54,7 +56,7 @@ const PasswordForgotCard = () => {
                 </p>
               </CardHeader>
               <CardContent className="mx-2 max-w-xl space-y-3">
-                <p className="lg:text-md text-sm text-slate-200">
+                <p className="md:text-md lg:text-md text-sm text-slate-200">
                   Please enter your email to reset your password.
                 </p>
                 <FormField
@@ -62,6 +64,7 @@ const PasswordForgotCard = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
                           className="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
@@ -81,7 +84,11 @@ const PasswordForgotCard = () => {
                   type="submit"
                   disabled={passwordForgot.isPending}
                 >
-                  {passwordForgot.isPending ? <Spinner /> : 'Submit'}
+                  {passwordForgot.isPending ? (
+                    <BeatLoader color="white" size={10} />
+                  ) : (
+                    'Submit'
+                  )}
                 </Button>
               </CardFooter>
             </Card>

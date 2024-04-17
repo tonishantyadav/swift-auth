@@ -27,11 +27,16 @@ export async function POST(request: NextRequest) {
     where: { email },
   })
 
-  if (isVerificationToken)
-    return NextResponse.json(
-      { error: 'Password reset link is already been sent to your email.' },
-      { status: 409 }
-    )
+  if (isVerificationToken) {
+    const hasExpired = new Date(isVerificationToken.expiredAt) < new Date()
+
+    if (!hasExpired) {
+      return NextResponse.json(
+        { error: 'Password reset link is already been sent to your email.' },
+        { status: 409 }
+      )
+    }
+  }
 
   try {
     const verificationToken = await generateVerificationToken(email)

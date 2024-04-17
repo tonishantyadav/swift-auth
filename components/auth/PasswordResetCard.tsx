@@ -1,6 +1,17 @@
 'use client'
 
-import { Input, Spinner } from '@/components/ui'
+import { FormCardError } from '@/components/FormCard'
+import { Button, Input } from '@/components/ui'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import ToastContainer from '@/components/ui/toast'
 import { usePasswordReset } from '@/hooks/auth/usePasswordReset'
 import { handleError } from '@/lib/error'
 import { PasswordResetInputSchema } from '@/schemas/validation'
@@ -9,19 +20,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import BeatLoader from 'react-spinners/BeatLoader'
 import { z } from 'zod'
-import { FormCardError } from '../FormCard'
-import { Button } from '../ui'
-import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form'
-import ToastContainer from '../ui/toast'
 
 const PasswordResetCard = () => {
   const form = useForm<z.infer<typeof PasswordResetInputSchema>>({
@@ -125,7 +125,11 @@ const PasswordResetCard = () => {
                 type="submit"
                 disabled={!token || passwordReset.isPending}
               >
-                {passwordReset.isPending ? <Spinner /> : 'Reset'}
+                {passwordReset.isPending ? (
+                  <BeatLoader color="white" size={10} />
+                ) : (
+                  'Reset'
+                )}
               </Button>
             </CardFooter>
           </Card>

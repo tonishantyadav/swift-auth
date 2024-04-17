@@ -1,4 +1,4 @@
-import { Button, Input, Spinner } from '@/components/ui'
+import { Button, Input } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import {
   FormControl,
@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { ReactNode } from 'react'
 import { UseFormReturn } from 'react-hook-form'
+import BeatLoader from 'react-spinners/BeatLoader'
 
 const FormCard = ({ children }: { children: React.ReactNode }) => {
   return <Card className="mx-2 lg:container">{children}</Card>
@@ -137,10 +138,7 @@ const FormActionButton = ({
       type="submit"
       disabled={isSubmitting}
     >
-      <div className="flex gap-2">
-        <span>{label}</span>
-        {isSubmitting && <Spinner />}
-      </div>
+      {isSubmitting ? <BeatLoader size={10} /> : <span>{label}</span>}
     </Button>
   )
 }
