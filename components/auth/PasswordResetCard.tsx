@@ -78,7 +78,7 @@ const PasswordResetCard = () => {
               </p>
             </CardHeader>
             <CardContent className="space-y-3">
-              <p className="lg:text-md text-sm text-slate-200">
+              <p className="text-sm text-gray-300 md:text-lg lg:text-lg">
                 Please enter your new password.
               </p>
               <FormField
@@ -121,7 +121,7 @@ const PasswordResetCard = () => {
             </CardContent>
             <CardFooter>
               <Button
-                className="btn-primary hover:btn-hover w-full rounded-full text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                className="btn-primary hover:btn-hover text-md w-full font-semibold text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                 type="submit"
                 disabled={!token || passwordReset.isPending}
               >

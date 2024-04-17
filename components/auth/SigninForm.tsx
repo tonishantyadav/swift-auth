@@ -8,17 +8,17 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
+import SocialAuth from '@/components/auth/SocialAuth'
+import { Form } from '@/components/ui/form'
 import { useSignin } from '@/hooks/auth/useSignin'
-import { handleError, handleOAuthError } from '@/lib/error'
+import { handleError } from '@/lib/error'
 import { SigninSchema } from '@/schemas/validation'
 import { Field, SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Form } from '../ui/form'
-import SocialAuth from './SocialAuth'
 
 const SigninForm = () => {
   const form = useForm<z.infer<typeof SigninSchema>>({
@@ -26,9 +26,7 @@ const SigninForm = () => {
     defaultValues: { ...defaultValues },
   })
   const router = useRouter()
-  const params = useSearchParams()
   const signinMutation = useSignin()
-  const OAuthError = handleOAuthError(params)
   const [error, setError] = useState('')
 
   const onSubmit = async (data: SigninFormData) => {
@@ -52,9 +50,7 @@ const SigninForm = () => {
                 label="Signin"
                 isSubmitting={signinMutation.isPending}
               />
-              {(error || OAuthError) && (
-                <FormCardError message={error || OAuthError} />
-              )}
+              {error && <FormCardError message={error} />}
             </FormCardBody>
           </form>
         </Form>

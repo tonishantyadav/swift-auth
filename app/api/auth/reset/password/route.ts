@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     })
     await deleteVerificationToken(token)
     return NextResponse.json(
-      { success: 'Password is been reset.' },
+      { success: 'Your password is been reset.' },
       { status: 200 }
     )
   } catch (error) {

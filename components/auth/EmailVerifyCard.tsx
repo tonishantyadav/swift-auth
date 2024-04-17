@@ -43,11 +43,11 @@ const EmailVerifyCard = () => {
           <Card>
             <CardHeader className="ml-1">
               <p className="text-4xl font-semibold md:text-4xl lg:text-4xl">
-                Verification
+                Verify Email
               </p>
             </CardHeader>
             <CardContent className="mx-2 max-w-xl space-y-3">
-              <p className="text-slate-200">
+              <p className="text-gray-300">
                 To complete your registration, Please verify your email by
                 clicking the button below.
               </p>
@@ -55,7 +55,7 @@ const EmailVerifyCard = () => {
             </CardContent>
             <CardFooter className="mx-2">
               <Button
-                className="btn-primary hover:btn-hover w-full rounded-full text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                className="btn-primary hover:btn-hover text-md w-full font-semibold text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                 disabled={!token}
                 type="submit"
                 onClick={onClick}

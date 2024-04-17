@@ -56,7 +56,7 @@ const PasswordForgotCard = () => {
                 </p>
               </CardHeader>
               <CardContent className="mx-2 max-w-xl space-y-3">
-                <p className="md:text-md lg:text-md text-sm text-slate-200">
+                <p className="text-sm text-gray-300 md:text-lg lg:text-lg">
                   Please enter your email to reset your password.
                 </p>
                 <FormField
@@ -80,7 +80,7 @@ const PasswordForgotCard = () => {
               </CardContent>
               <CardFooter className="mx-2">
                 <Button
-                  className="btn-primary hover:btn-hover w-full rounded-full text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                  className="btn-primary hover:btn-hover text-md w-full font-semibold text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                   type="submit"
                   disabled={passwordForgot.isPending}
                 >
