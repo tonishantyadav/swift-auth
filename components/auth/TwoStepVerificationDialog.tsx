@@ -50,16 +50,14 @@ const TwoStepVerificationCodeDialog = ({ open, setOpen }: Props) => {
               name="code"
               render={({ field }) => (
                 <FormItem className="space-y-4">
-                  <span className="text-3xl font-semibold">
-                    2-Step Verification
-                  </span>
+                  <span className="text-3xl font-semibold">Verification</span>
                   <div>
-                    <FormDescription className="text-md pb-2">
-                      Enter 2-step verification code.
+                    <FormDescription className="text-md">
+                      Please enter your 2-step verification code.
                     </FormDescription>
                     <FormControl>
                       <InputOTP maxLength={6} {...field}>
-                        <InputOTPGroup>
+                        <InputOTPGroup className="py-2">
                           <InputOTPSlot index={0} />
                           <InputOTPSlot index={1} />
                         </InputOTPGroup>

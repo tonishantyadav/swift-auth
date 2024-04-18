@@ -48,6 +48,6 @@ export const PasswordResetInputSchema = z.object({
 
 export const Input2FACodeSchema = z.object({
   code: z.string().min(6, {
-    message: 'Your 2-Step verification code must be 6 characters.',
+    message: 'Invalid code.',
   }),
 })
