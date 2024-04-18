@@ -6,13 +6,12 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import ToastContainer from '@/components/ui/toast'
 import { useEmailVerify } from '@/hooks/auth/useEmailVerify'
 import { handleError } from '@/lib/error'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import BeatLoader from 'react-spinners/BeatLoader'
 
 const EmailVerifyCard = () => {
   const params = useSearchParams()
-  const router = useRouter()
   const emailVerify = useEmailVerify()
   const [token, setToken] = useState('')
   const [error, setError] = useState('')

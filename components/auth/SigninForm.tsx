@@ -8,7 +8,7 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
-import SocialAuth from '@/components/auth/SocialAuth'
+import { SocialAuth, TwoStepVerificationDialog } from '@/components/auth'
 import { Form } from '@/components/ui/form'
 import { useSignin } from '@/hooks/auth/useSignin'
 import { handleError } from '@/lib/error'
@@ -28,11 +28,13 @@ const SigninForm = () => {
   const router = useRouter()
   const signinMutation = useSignin()
   const [error, setError] = useState('')
+  const [open, setOpen] = useState(false)
 
   const onSubmit = async (data: SigninFormData) => {
     try {
-      await signinMutation.mutateAsync(data)
-      router.push('/')
+      // await signinMutation.mutateAsync(data)
+      setOpen(true)
+      // router.push('/')
     } catch (error) {
       const errorMessage = handleError(error)
       setError(errorMessage)
@@ -41,6 +43,7 @@ const SigninForm = () => {
 
   return (
     <>
+      {open && <TwoStepVerificationDialog open={open} setOpen={setOpen} />}
       <FormCard>
         <FormCardHeader header="Signin to Your Account" />
         <Form {...form}>

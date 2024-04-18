@@ -45,3 +45,9 @@ export const PasswordResetInputSchema = z.object({
     .min(8, 'Password must be at least 8 characters long.')
     .max(255, 'Password is too long.'),
 })
+
+export const Input2FACodeSchema = z.object({
+  code: z.string().min(6, {
+    message: 'Your 2-Step verification code must be 6 characters.',
+  }),
+})
