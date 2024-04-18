@@ -1,6 +1,8 @@
+import { SendEmailSchema } from '@/schemas/validation'
 import { SignupFormData } from '@/types/form'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import { z } from 'zod'
 
 export const useSignup = () => {
   return useMutation({
@@ -12,8 +14,22 @@ export const useSignup = () => {
       if (response) {
         const email = data.email
         const { token } = response.data
-        await axios.post('/api/auth/verify/send', { email, token })
+        const sendEmail: z.infer<typeof SendEmailSchema> = {
+          from,
+          to: email!,
+          subject,
+          content,
+          verificationLink: verificationLink + token,
+        }
+        console.log(sendEmail)
+        await axios.post('/api/auth/send', { ...sendEmail })
       }
     },
   })
 }
+
+const from = 'Acme <onboarding@resend.dev>'
+const subject = 'Welcome to Swift Auth - Complete Your Registration Now!'
+const content =
+  'Thank you for joining Swift Auth! To complete your registration, Please click the confirmation link below:'
+const verificationLink = 'http://localhost:3000/auth/verify/email?token='

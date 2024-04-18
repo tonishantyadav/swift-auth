@@ -32,9 +32,8 @@ const SigninForm = () => {
 
   const onSubmit = async (data: SigninFormData) => {
     try {
-      // await signinMutation.mutateAsync(data)
-      setOpen(true)
-      // router.push('/')
+      await signinMutation.mutateAsync(data)
+      router.push('/')
     } catch (error) {
       const errorMessage = handleError(error)
       setError(errorMessage)

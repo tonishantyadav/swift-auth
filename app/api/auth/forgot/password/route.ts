@@ -1,4 +1,4 @@
-import { generateVerificationToken } from '@/lib/token'
+import { createToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { PasswordForgotSchema } from '@/schemas/validation'
 import { NextRequest, NextResponse } from 'next/server'
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       { status: 404 }
     )
 
-  const isVerificationToken = await prisma.verificationToken.findFirst({
+  const isVerificationToken = await prisma.token.findFirst({
     where: { email },
   })
 
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const verificationToken = await generateVerificationToken(email)
+    const verificationToken = await createToken(email)
     return NextResponse.json(
       {
         data: { token: verificationToken?.token },

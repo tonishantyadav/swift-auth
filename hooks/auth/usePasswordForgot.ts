@@ -1,7 +1,9 @@
+import { SendEmailSchema } from '@/schemas/validation'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
+import { z } from 'zod'
 
 export const usePasswordForgot = () => {
   const router = useRouter()
@@ -12,10 +14,22 @@ export const usePasswordForgot = () => {
     },
     onSuccess: async (response, email) => {
       if (response) {
-        toast.success(response.success)
         const { token } = response.data
-        await axios.post('/api/auth/reset/send', { email, token })
+        const sendEmail: z.infer<typeof SendEmailSchema> = {
+          from,
+          to: email,
+          subject,
+          content,
+          verificationLink: verificationLink + token,
+        }
+        toast.success(response.success)
+        await axios.post('/api/auth/send', { ...sendEmail })
       }
     },
   })
 }
+
+const from = 'Acme <onboarding@resend.dev>'
+const subject = 'Swift Auth - Reset Password!'
+const content = 'To reset your password, Please click the link below:'
+const verificationLink = 'http://localhost:3000/auth/reset/password?token='

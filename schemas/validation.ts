@@ -3,6 +3,7 @@ import { z } from 'zod'
 export const SigninSchema = z.object({
   email: z.string().email('Invalid email.'),
   password: z.string().min(8, 'Invalid password.').max(255, 'Invalid password'),
+  code: z.string().min(6, 'Invalid code.').optional(),
 })
 
 export const SignupSchema = z.object({
@@ -15,8 +16,12 @@ export const SignupSchema = z.object({
 })
 
 export const SendEmailSchema = z.object({
-  token: z.string(),
-  email: z.string().email(),
+  from: z.string(),
+  to: z.string().email(),
+  subject: z.string(),
+  content: z.string(),
+  verificationLink: z.string().optional(),
+  verificationCode: z.string().optional(),
 })
 
 export const EmailVerifySchema = z.object({
@@ -46,8 +51,6 @@ export const PasswordResetInputSchema = z.object({
     .max(255, 'Password is too long.'),
 })
 
-export const Input2FACodeSchema = z.object({
-  code: z.string().min(6, {
-    message: 'Invalid code.',
-  }),
+export const InputTwoStepCodeSchema = z.object({
+  code: z.string().min(6, 'Invalid code.'),
 })

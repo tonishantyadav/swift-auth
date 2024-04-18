@@ -38,22 +38,34 @@ model Account {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  password      String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now())
-  userRole      UserRole  @default(USER)
-  accounts      Account[]
+  id                       String        @id @default(cuid())
+  name                     String?
+  password                 String?
+  email                    String?       @unique
+  emailVerified            DateTime?
+  image                    String?
+  createdAt                DateTime      @default(now())
+  userRole                 UserRole      @default(USER)
+  accounts                 Account[]
+  TwoStepVerificationToken TwoStepToken? @relation(fields: [twoStepTokenId], references: [id])
+  twoStepTokenId           String?
 }
 
-model VerificationToken {
+model Token {
   id        String   @id @default(cuid())
   email     String   @unique
   token     String   @unique
   expiredAt DateTime
+
+  @@unique([email, token])
+}
+
+model TwoStepToken {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  token     String   @unique
+  expiredAt DateTime
+  User      User[]
 
   @@unique([email, token])
 }

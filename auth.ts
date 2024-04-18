@@ -39,9 +39,11 @@ export const {
         const existingUser = await prisma.user.findUnique({
           where: { id: user.id },
         })
-        if (existingUser) return existingUser?.emailVerified ? true : false
+        if (!existingUser) return false
+        if (!existingUser.emailVerified) return false
+        // if (!existingUser.twoStepTokenId) return false
       }
-      return false
+      return true
     },
     async session({ token, session }) {
       const userRole = await prisma.user.findUnique({

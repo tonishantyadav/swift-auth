@@ -1,4 +1,4 @@
-import { deleteVerificationToken } from '@/lib/token'
+import { deleteToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { PasswordResetSchema } from '@/schemas/validation'
 import bcrypt from 'bcryptjs'
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
   const { token, password } = validation.data
 
-  const verificationToken = await prisma.verificationToken.findUnique({
+  const verificationToken = await prisma.token.findUnique({
     where: { token },
   })
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
   const hasExpired = new Date(verificationToken.expiredAt) < new Date()
 
   if (hasExpired) {
-    await deleteVerificationToken(token)
+    await deleteToken(token)
     return NextResponse.json(
       { error: 'Token has been expired.' },
       { status: 401 }
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       where: { id: user.id },
       data: { password: hashedPassword },
     })
-    await deleteVerificationToken(token)
+    await deleteToken(token)
     return NextResponse.json(
       { success: 'Your password is been reset.' },
       { status: 200 }

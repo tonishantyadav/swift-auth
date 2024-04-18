@@ -1,4 +1,4 @@
-import { deleteVerificationToken } from '@/lib/token'
+import { deleteToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { EmailVerifySchema } from '@/schemas/validation'
 import { NextRequest, NextResponse } from 'next/server'
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
   const { token } = validation.data
 
-  const verificationToken = await prisma.verificationToken.findUnique({
+  const verificationToken = await prisma.token.findUnique({
     where: { token },
   })
 
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   const hasExpired = new Date(verificationToken.expiredAt) < new Date()
 
   if (hasExpired) {
-    await deleteVerificationToken(token)
+    await deleteToken(token)
     return NextResponse.json(
       { error: 'Token has been expired.' },
       { status: 401 }
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
         emailVerified: new Date(),
       },
     })
-    await deleteVerificationToken(token)
+    await deleteToken(token)
     return NextResponse.json(
       { success: 'Email is been verified.' },
       { status: 200 }

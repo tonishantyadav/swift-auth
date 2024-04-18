@@ -16,7 +16,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from '@/components/ui/input-otp'
-import { Input2FACodeSchema } from '@/schemas/validation'
+import { InputTwoStepCodeSchema } from '@/schemas/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SetStateAction } from 'react'
 import { useForm } from 'react-hook-form'
@@ -28,14 +28,14 @@ interface Props {
 }
 
 const TwoStepVerificationCodeDialog = ({ open, setOpen }: Props) => {
-  const form = useForm<z.infer<typeof Input2FACodeSchema>>({
-    resolver: zodResolver(Input2FACodeSchema),
+  const form = useForm<z.infer<typeof InputTwoStepCodeSchema>>({
+    resolver: zodResolver(InputTwoStepCodeSchema),
     defaultValues: {
       code: '',
     },
   })
 
-  const onSubmit = (data: z.infer<typeof Input2FACodeSchema>) => {
+  const onSubmit = (data: z.infer<typeof InputTwoStepCodeSchema>) => {
     console.log(data)
     setOpen(false)
   }
@@ -50,7 +50,9 @@ const TwoStepVerificationCodeDialog = ({ open, setOpen }: Props) => {
               name="code"
               render={({ field }) => (
                 <FormItem className="space-y-4">
-                  <span className="text-3xl font-semibold">Verification</span>
+                  <span className="text-3xl font-semibold">
+                    2-Step Verification
+                  </span>
                   <div>
                     <FormDescription className="text-md">
                       Please enter your 2-step verification code.

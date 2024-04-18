@@ -1,15 +1,16 @@
+'use server'
+
 import prisma from '@/prisma/client'
-import { VerificationToken } from '@prisma/client'
+import { Token, TwoStepToken } from '@prisma/client'
 import { v4 as uuidv4 } from 'uuid'
 
-export const generateVerificationToken = async (
-  email: string
-): Promise<VerificationToken | null> => {
-  const oldVerificationToken = await getVerificationToken(email)
+// Operations related to Verification Token
+export const createToken = async (email: string): Promise<Token | null> => {
+  const oldToken = await getToken(email)
 
-  if (oldVerificationToken) {
-    await prisma.verificationToken.delete({
-      where: { id: oldVerificationToken.id },
+  if (oldToken) {
+    await prisma.token.delete({
+      where: { id: oldToken.id },
     })
   }
 
@@ -17,10 +18,10 @@ export const generateVerificationToken = async (
   const expiredAt = new Date(new Date().getTime() + 3600 * 1000) // In one hour
 
   try {
-    const newVerificationToken = await prisma.verificationToken.create({
+    const newToken = await prisma.token.create({
       data: { email, token, expiredAt },
     })
-    return newVerificationToken
+    return newToken
   } catch (error) {
     console.log(
       `Failed to generate the verification token for this ${email}:`,
@@ -30,11 +31,9 @@ export const generateVerificationToken = async (
   }
 }
 
-export const getVerificationToken = async (
-  email: string
-): Promise<VerificationToken | null> => {
+export const getToken = async (email: string): Promise<Token | null> => {
   try {
-    return await prisma.verificationToken.findFirst({ where: { email } })
+    return await prisma.token.findFirst({ where: { email } })
   } catch (error) {
     console.log(
       `Failed to get the verification token for this ${email}:`,
@@ -44,15 +43,76 @@ export const getVerificationToken = async (
   }
 }
 
-export const deleteVerificationToken = async (token: string) => {
+export const deleteToken = async (token: string) => {
   try {
-    const verificationToken = await prisma.verificationToken.findUnique({
+    const verificationToken = await prisma.token.findUnique({
       where: { token },
     })
 
     if (verificationToken) {
-      await prisma.verificationToken.delete({
+      await prisma.token.delete({
         where: { id: verificationToken.id },
+      })
+    }
+  } catch (error) {
+    console.log(`Failed to delete the verification token: `, error)
+  }
+}
+
+// Operations related to two-step verification token
+export const createTwoStepToken = async (
+  email: string
+): Promise<TwoStepToken | null> => {
+  const oldTwoStepToken = await getTwoStepToken(email)
+
+  if (oldTwoStepToken) {
+    await prisma.twoStepToken.delete({
+      where: { id: oldTwoStepToken.id },
+    })
+  }
+
+  const token = uuidv4()
+  const expiredAt = new Date(new Date().getTime() + 3600 * 1000) // In one hour
+
+  try {
+    const newTwoStepToken = await prisma.twoStepToken.create({
+      data: { email, token, expiredAt },
+    })
+    return newTwoStepToken
+  } catch (error) {
+    console.log(
+      `Failed to generate the two-step verification token for this ${email}:`,
+      error
+    )
+    return null
+  }
+}
+
+export const getTwoStepToken = async (
+  email: string
+): Promise<TwoStepToken | null> => {
+  try {
+    return await prisma.twoStepToken.findFirst({
+      where: { email },
+    })
+  } catch (error) {
+    console.log(
+      `Failed to get the two-step verification token for this ${email}`,
+      error
+    )
+    return null
+  }
+}
+
+export const deleteTwoStepToken = async (token: string) => {
+  try {
+    const twoStepToken = await prisma.twoStepToken.findUnique({
+      where: { token },
+    })
+
+    if (twoStepToken) {
+      await prisma.twoStepToken.delete({
+        where: { id: twoStepToken.id },
       })
     }
   } catch (error) {

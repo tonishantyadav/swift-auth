@@ -1,4 +1,4 @@
-import { generateVerificationToken } from '@/lib/token'
+import { createToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { SignupSchema } from '@/schemas/validation'
 import bcrypt from 'bcryptjs'
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
         password: hashedPassword,
       },
     })
-    const verificationToken = await generateVerificationToken(email)
+    const verificationToken = await createToken(email)
     return NextResponse.json(
       {
         data: {

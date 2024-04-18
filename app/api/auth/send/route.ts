@@ -16,26 +16,43 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     )
 
-  const { email, token } = validation.data
+  const {
+    from,
+    to: email,
+    subject,
+    content,
+    verificationLink,
+    verificationCode,
+  } = validation.data
 
-  const link = `http://localhost:3000/auth/reset/password?token=${token}`
+  console.log({
+    from,
+    to: email,
+    subject,
+    content,
+    verificationLink,
+    verificationCode,
+  })
 
   const user = await prisma.user.findUnique({ where: { email } })
 
   if (!user)
-    return NextResponse.json({ error: 'Invalid user.' }, { status: 404 })
+    return NextResponse.json({ error: 'User doesn`t exists.' }, { status: 404 })
 
   try {
     const data = await resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
+      from,
       to: email,
-      subject: 'Swift Auth - Reset Password!',
-      react: Email({ name: user.name!, link, content }),
+      subject,
+      react: Email({
+        name: user.name!,
+        content,
+        verificationLink,
+        verificationCode,
+      }),
     })
     return Response.json(data)
   } catch (error) {
     return Response.json({ error })
   }
 }
-
-const content = 'To reset your password, Please click the link below:'
