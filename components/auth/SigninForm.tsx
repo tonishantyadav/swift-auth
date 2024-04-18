@@ -11,10 +11,12 @@ import {
 import { SocialAuth, TwoStepVerificationDialog } from '@/components/auth'
 import { Form } from '@/components/ui/form'
 import { useSignin } from '@/hooks/auth/useSignin'
+import { useTwoStepVerify } from '@/hooks/auth/useTwoStepVerify'
 import { handleError } from '@/lib/error'
 import { SigninSchema } from '@/schemas/validation'
 import { Field, SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -26,14 +28,21 @@ const SigninForm = () => {
     defaultValues: { ...defaultValues },
   })
   const router = useRouter()
+  const queyrClient = useQueryClient()
   const signinMutation = useSignin()
+  const twoStepVerify = useTwoStepVerify()
   const [error, setError] = useState('')
   const [open, setOpen] = useState(false)
 
   const onSubmit = async (data: SigninFormData) => {
     try {
-      await signinMutation.mutateAsync(data)
-      router.push('/')
+      await twoStepVerify.mutateAsync(data.email)
+      if (twoStepVerify.isSuccess) {
+        const isOpen = queyrClient.getQueryData<boolean>(['open'])
+        setOpen(isOpen!)
+        // await signinMutation.mutateAsync(data)
+        // router.push('/')
+      }
     } catch (error) {
       const errorMessage = handleError(error)
       setError(errorMessage)
