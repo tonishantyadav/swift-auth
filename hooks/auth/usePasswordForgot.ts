@@ -1,4 +1,4 @@
-import { SendEmailSchema } from '@/schemas/validation'
+import { EmailSchema } from '@/schemas/validation'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -15,7 +15,7 @@ export const usePasswordForgot = () => {
     onSuccess: async (response, email) => {
       if (response) {
         const { token } = response.data
-        const sendEmail: z.infer<typeof SendEmailSchema> = {
+        const sendEmail: z.infer<typeof EmailSchema> = {
           from,
           to: email,
           subject,

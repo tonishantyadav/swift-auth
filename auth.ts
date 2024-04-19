@@ -41,7 +41,7 @@ export const {
         })
         if (!existingUser) return false
         if (!existingUser.emailVerified) return false
-        // if (!existingUser.twoStepId) return false
+        if (!existingUser.twoFactorAuthId) return false
       }
       return true
     },

@@ -15,7 +15,7 @@ export const SignupSchema = z.object({
     .max(255, 'Password is too long.'),
 })
 
-export const SendEmailSchema = z.object({
+export const EmailSchema = z.object({
   from: z.string(),
   to: z.string().email(),
   subject: z.string(),
@@ -51,6 +51,10 @@ export const PasswordResetInputSchema = z.object({
     .max(255, 'Password is too long.'),
 })
 
-export const InputTwoStepCodeSchema = z.object({
+export const TwoFactorAuthSchema = z.object({
+  email: z.string().email('Invalid email'),
+})
+
+export const Input2FACodeSchema = z.object({
   code: z.string().min(6, 'Invalid code.'),
 })

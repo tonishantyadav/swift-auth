@@ -16,28 +16,41 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from '@/components/ui/input-otp'
-import { InputTwoStepCodeSchema } from '@/schemas/validation'
+import { useSignin } from '@/hooks/auth/useSignin'
+import { Input2FACodeSchema } from '@/schemas/validation'
+import { SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SetStateAction } from 'react'
+import { SetStateAction, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 interface Props {
   open: boolean
   setOpen: (value: SetStateAction<boolean>) => void
+  data: SigninFormData | null
 }
 
-const TwoStepVerificationCodeDialog = ({ open, setOpen }: Props) => {
-  const form = useForm<z.infer<typeof InputTwoStepCodeSchema>>({
-    resolver: zodResolver(InputTwoStepCodeSchema),
+const TwoFactorAuthDialog = ({ open, setOpen, data }: Props) => {
+  const form = useForm<z.infer<typeof Input2FACodeSchema>>({
+    resolver: zodResolver(Input2FACodeSchema),
     defaultValues: {
       code: '',
     },
   })
+  const signin = useSignin()
 
-  const onSubmit = (data: z.infer<typeof InputTwoStepCodeSchema>) => {
-    console.log(data)
-    setOpen(false)
+  useEffect(() => {
+    if (signin.isSuccess || signin.error) setOpen(false)
+  }, [signin.isSuccess, signin.isError])
+
+  const onSubmit = async (formData: z.infer<typeof Input2FACodeSchema>) => {
+    if (data) {
+      await signin.mutateAsync({
+        email: data.email,
+        password: data.password,
+        code: formData.code,
+      })
+    }
   }
 
   return (
@@ -103,4 +116,4 @@ const TwoStepVerificationCodeDialog = ({ open, setOpen }: Props) => {
   )
 }
 
-export default TwoStepVerificationCodeDialog
+export default TwoFactorAuthDialog

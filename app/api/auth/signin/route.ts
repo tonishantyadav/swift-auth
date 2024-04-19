@@ -23,6 +23,8 @@ export async function POST(request: NextRequest) {
   if (!checkPassowrd)
     return NextResponse.json({ error: 'Invalid password.' }, { status: 404 })
 
+  if (!user.twoFactorAuthId) return NextResponse.json({ required2FA: true })
+
   try {
     await signIn('credentials', user)
   } catch (error) {

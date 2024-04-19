@@ -8,16 +8,15 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
-import { SocialAuth, TwoStepVerificationDialog } from '@/components/auth'
+import { SocialAuth, TwoFactorAuthDialog } from '@/components/auth'
 import { Form } from '@/components/ui/form'
 import ToastContainer from '@/components/ui/toast'
 import { useSignin } from '@/hooks/auth/useSignin'
-import { useTwoStepVerify } from '@/hooks/auth/useTwoStepVerify'
+import { useTwoFactorAuth } from '@/hooks/auth/useTwoFactorAuth'
 import { handleError } from '@/lib/error'
 import { SigninSchema } from '@/schemas/validation'
 import { Field, SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -29,25 +28,22 @@ const SigninForm = () => {
     defaultValues: { ...defaultValues },
   })
   const router = useRouter()
-  const queyrClient = useQueryClient()
-  const signinMutation = useSignin()
-  const twoStepVerify = useTwoStepVerify()
+  const signin = useSignin()
+  const twoFactorAuth = useTwoFactorAuth()
   const [error, setError] = useState('')
   const [open, setOpen] = useState(false)
+  const [data, setData] = useState<SigninFormData | null>(null)
 
   useEffect(() => {
-    if (twoStepVerify.isSuccess) {
-      const isOpen = queyrClient.getQueryData<boolean>(['open'])
-      setOpen(isOpen!)
-    }
-  }, [twoStepVerify.isSuccess])
+    if (twoFactorAuth.isSuccess) setOpen(true)
+  }, [twoFactorAuth.isSuccess])
 
-  const onSubmit = async (data: SigninFormData) => {
+  const onSubmit = async (formData: SigninFormData) => {
     try {
-      await twoStepVerify.mutateAsync(data.email)
-      if (twoStepVerify.isSuccess) {
-        // await signinMutation.mutateAsync(data)
-        // router.push('/')
+      const response = await signin.mutateAsync(formData)
+      if (response.required2FA) {
+        setData({ ...formData })
+        await twoFactorAuth.mutateAsync(formData.email)
       }
     } catch (error) {
       const errorMessage = handleError(error)
@@ -57,7 +53,9 @@ const SigninForm = () => {
 
   return (
     <>
-      {open && <TwoStepVerificationDialog open={open} setOpen={setOpen} />}
+      {open && (
+        <TwoFactorAuthDialog data={data} open={open} setOpen={setOpen} />
+      )}
       <ToastContainer />
       <FormCard>
         <FormCardHeader header="Signin to Your Account" />
@@ -66,7 +64,7 @@ const SigninForm = () => {
             <FormCardBody form={form} fields={fields}>
               <FormActionButton
                 label="Signin"
-                isSubmitting={signinMutation.isPending}
+                isSubmitting={signin.isPending}
               />
               {error && <FormCardError message={error} />}
             </FormCardBody>

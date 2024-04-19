@@ -27,7 +27,7 @@ CREATE TABLE `User` (
     `image` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `userRole` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
-    `twoStepId` VARCHAR(191) NULL,
+    `twoFactorAuthId` VARCHAR(191) NULL,
 
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -47,15 +47,15 @@ CREATE TABLE `Token` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `TwoStep` (
+CREATE TABLE `TwoFactorAuth` (
     `id` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `code` VARCHAR(191) NOT NULL,
     `expiredAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `TwoStep_email_key`(`email`),
-    UNIQUE INDEX `TwoStep_code_key`(`code`),
-    UNIQUE INDEX `TwoStep_email_code_key`(`email`, `code`),
+    UNIQUE INDEX `TwoFactorAuth_email_key`(`email`),
+    UNIQUE INDEX `TwoFactorAuth_code_key`(`code`),
+    UNIQUE INDEX `TwoFactorAuth_email_code_key`(`email`, `code`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -63,4 +63,4 @@ CREATE TABLE `TwoStep` (
 ALTER TABLE `Account` ADD CONSTRAINT `Account_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `User` ADD CONSTRAINT `User_twoStepId_fkey` FOREIGN KEY (`twoStepId`) REFERENCES `TwoStep`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `User` ADD CONSTRAINT `User_twoFactorAuthId_fkey` FOREIGN KEY (`twoFactorAuthId`) REFERENCES `TwoFactorAuth`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

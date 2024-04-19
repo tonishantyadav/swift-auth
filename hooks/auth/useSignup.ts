@@ -1,4 +1,4 @@
-import { SendEmailSchema } from '@/schemas/validation'
+import { EmailSchema } from '@/schemas/validation'
 import { SignupFormData } from '@/types/form'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
@@ -14,7 +14,7 @@ export const useSignup = () => {
       if (response) {
         const email = data.email
         const { token } = response.data
-        const sendEmail: z.infer<typeof SendEmailSchema> = {
+        const sendEmail: z.infer<typeof EmailSchema> = {
           from,
           to: email!,
           subject,

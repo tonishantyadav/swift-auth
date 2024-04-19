@@ -38,17 +38,17 @@ model Account {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  password      String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now())
-  userRole      UserRole  @default(USER)
-  accounts      Account[]
-  TwoStep       TwoStep?  @relation(fields: [twoStepId], references: [id])
-  twoStepId     String?
+  id              String         @id @default(cuid())
+  name            String?
+  password        String?
+  email           String?        @unique
+  emailVerified   DateTime?
+  image           String?
+  createdAt       DateTime       @default(now())
+  userRole        UserRole       @default(USER)
+  accounts        Account[]
+  TwoFactorAuth   TwoFactorAuth? @relation(fields: [twoFactorAuthId], references: [id])
+  twoFactorAuthId String?
 }
 
 model Token {
@@ -60,7 +60,7 @@ model Token {
   @@unique([email, token])
 }
 
-model TwoStep {
+model TwoFactorAuth {
   id        String   @id @default(cuid())
   email     String   @unique
   code      String   @unique

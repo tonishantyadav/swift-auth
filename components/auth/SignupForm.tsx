@@ -28,12 +28,12 @@ const SignupForm = () => {
     defaultValues: { ...defaultValues },
   })
   const router = useRouter()
-  const signupMutation = useSignup()
+  const signup = useSignup()
   const [error, setError] = useState('')
 
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
-      const response = await signupMutation.mutateAsync(data)
+      const response = await signup.mutateAsync(data)
       toast.success(response.success)
       form.reset()
     } catch (error) {
@@ -42,7 +42,7 @@ const SignupForm = () => {
     }
   }
 
-  if (signupMutation.isSuccess) {
+  if (signup.isSuccess) {
     setTimeout(() => router.push('/auth/signin'), 2000)
   }
 
@@ -56,7 +56,7 @@ const SignupForm = () => {
             <FormCardBody form={form} fields={fields}>
               <FormActionButton
                 label="Signup"
-                isSubmitting={signupMutation.isPending}
+                isSubmitting={signup.isPending}
               />
               {error && <FormCardError message={error} />}
             </FormCardBody>
