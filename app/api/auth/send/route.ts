@@ -25,15 +25,6 @@ export async function POST(request: NextRequest) {
     verificationCode,
   } = validation.data
 
-  console.log({
-    from,
-    to: email,
-    subject,
-    content,
-    verificationLink,
-    verificationCode,
-  })
-
   const user = await prisma.user.findUnique({ where: { email } })
 
   if (!user)

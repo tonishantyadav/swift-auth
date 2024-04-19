@@ -2,6 +2,7 @@ import { createTwoStepCode, getTwoStepCode } from '@/lib/twoStep'
 import { SendEmailSchema } from '@/schemas/validation'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 export const useTwoStepVerify = () => {
@@ -24,6 +25,9 @@ export const useTwoStepVerify = () => {
             verificationCode: newTwoStepCode.code,
           }
           await axios.post('/api/auth/send', { ...sendEmail })
+          toast.success(
+            'A 2-step verification code is been sent to your email.'
+          )
           queryClient.setQueryData(['open'], true)
         }
       }

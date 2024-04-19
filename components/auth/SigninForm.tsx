@@ -10,6 +10,7 @@ import {
 } from '@/components/FormCard'
 import { SocialAuth, TwoStepVerificationDialog } from '@/components/auth'
 import { Form } from '@/components/ui/form'
+import ToastContainer from '@/components/ui/toast'
 import { useSignin } from '@/hooks/auth/useSignin'
 import { useTwoStepVerify } from '@/hooks/auth/useTwoStepVerify'
 import { handleError } from '@/lib/error'
@@ -18,7 +19,7 @@ import { Field, SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -34,12 +35,17 @@ const SigninForm = () => {
   const [error, setError] = useState('')
   const [open, setOpen] = useState(false)
 
+  useEffect(() => {
+    if (twoStepVerify.isSuccess) {
+      const isOpen = queyrClient.getQueryData<boolean>(['open'])
+      setOpen(isOpen!)
+    }
+  }, [twoStepVerify.isSuccess])
+
   const onSubmit = async (data: SigninFormData) => {
     try {
       await twoStepVerify.mutateAsync(data.email)
       if (twoStepVerify.isSuccess) {
-        const isOpen = queyrClient.getQueryData<boolean>(['open'])
-        setOpen(isOpen!)
         // await signinMutation.mutateAsync(data)
         // router.push('/')
       }
@@ -52,6 +58,7 @@ const SigninForm = () => {
   return (
     <>
       {open && <TwoStepVerificationDialog open={open} setOpen={setOpen} />}
+      <ToastContainer />
       <FormCard>
         <FormCardHeader header="Signin to Your Account" />
         <Form {...form}>
