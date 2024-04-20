@@ -55,7 +55,7 @@ const EmailVerifyCard = () => {
             <CardFooter className="mx-2">
               <Button
                 className="btn-primary hover:btn-hover text-md w-full font-semibold text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
-                disabled={!token}
+                disabled={!token || emailVerify.isPending}
                 type="submit"
                 onClick={onClick}
               >

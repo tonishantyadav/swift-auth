@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid password.' }, { status: 404 })
 
   // Run as cron job to delete expired 2FA code in dev. environment
-  if (inDevEnvironment) {
+  if (inDevEnvironment && user.emailVerified) {
     const is2FACode = await get2FACode(email)
     if (is2FACode) {
       const is2FACodeExpired = new Date(is2FACode.expiredAt) < new Date()
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  if (!user.twoFactorAuthId && !code)
+  if (!user.twoFactorAuthId && !code && user.emailVerified)
     return NextResponse.json({ required2FA: true })
 
   if (code) {
