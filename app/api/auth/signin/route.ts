@@ -32,7 +32,10 @@ export async function POST(request: NextRequest) {
       const is2FACodeExpired = new Date(is2FACode.expiredAt) < new Date()
       if (is2FACodeExpired) {
         await delete2FACode(email)
-        return NextResponse.json({ required2FA: true })
+        return NextResponse.json(
+          { error: 'The code has been expired.', required2FA: true },
+          { status: 404 }
+        )
       }
     }
   }

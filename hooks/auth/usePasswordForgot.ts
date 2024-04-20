@@ -19,6 +19,7 @@ export const usePasswordForgot = () => {
           from,
           to: email,
           subject,
+          heading,
           content,
           verificationLink: verificationLink + token,
         }
@@ -30,6 +31,7 @@ export const usePasswordForgot = () => {
 }
 
 const from = 'Acme <onboarding@resend.dev>'
-const subject = 'Swift Auth - Reset Password!'
+const subject = 'Reset Password'
+const heading = 'Swift Auth - Reset Password'
 const content = 'To reset your password, Please click the link below:'
 const verificationLink = 'http://localhost:3000/auth/reset/password?token='

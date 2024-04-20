@@ -48,6 +48,7 @@ const SigninForm = () => {
         router.push('/')
       }
     } catch (error) {
+      console.log(error)
       const errorMessage = handleError(error)
       setError(errorMessage)
     }

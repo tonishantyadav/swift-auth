@@ -74,11 +74,11 @@ const TwoFactorAuthDialog = ({ data, open, setOpen }: Props) => {
                 render={({ field }) => (
                   <FormItem className="space-y-4">
                     <span className="text-3xl font-semibold">
-                      2-Step Verification
+                      2FA Verification
                     </span>
                     <div>
                       <FormDescription className="text-md">
-                        Please enter your 2-step verification code.
+                        Enter your 2FA verification code.
                       </FormDescription>
                       <FormControl>
                         <InputOTP maxLength={6} {...field}>
@@ -118,16 +118,12 @@ const TwoFactorAuthDialog = ({ data, open, setOpen }: Props) => {
                 Cancel
               </Button>
               <Button
-                className="btn-primary hover:btn-hover font-semibold text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                className="font-semibold transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                 type="submit"
                 variant="default"
                 disabled={signin.isPending}
               >
-                {signin.isPending ? (
-                  <BeatLoader color="white" size={5} />
-                ) : (
-                  'Confirm'
-                )}
+                {signin.isPending ? <BeatLoader size={5} /> : 'Confirm'}
               </Button>
             </div>
           </form>

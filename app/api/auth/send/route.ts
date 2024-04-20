@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
     to: email,
     subject,
     content,
+    heading,
     verificationLink,
     verificationCode,
   } = validation.data
@@ -38,6 +39,7 @@ export async function POST(request: NextRequest) {
       react: Email({
         name: user.name!,
         content,
+        heading,
         verificationLink,
         verificationCode,
       }),

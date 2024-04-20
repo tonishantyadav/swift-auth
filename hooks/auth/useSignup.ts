@@ -18,6 +18,7 @@ export const useSignup = () => {
           from,
           to: email!,
           subject,
+          heading,
           content,
           verificationLink: verificationLink + token,
         }
@@ -29,7 +30,8 @@ export const useSignup = () => {
 }
 
 const from = 'Acme <onboarding@resend.dev>'
-const subject = 'Welcome to Swift Auth - Complete Your Registration Now!'
+const subject = 'Email verification'
+const heading = 'Welcome to Swift Auth - Complete Your Registration Now!'
 const content =
   'Thank you for joining Swift Auth! To complete your registration, Please click the confirmation link below:'
 const verificationLink = 'http://localhost:3000/auth/verify/email?token='

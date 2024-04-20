@@ -17,6 +17,7 @@ export const useTwoFactorAuth = () => {
           from,
           to: email,
           subject,
+          heading,
           content,
           verificationCode: code,
         }
@@ -28,5 +29,6 @@ export const useTwoFactorAuth = () => {
 }
 
 const from = 'Acme <onboarding@resend.dev>'
-const subject = 'Swift Auth - 2FA Verification'
-const content = "Here's your 2FA verification code"
+const subject = '2FA Verification'
+const heading = 'Swift Auth - 2FA Verification'
+const content = "Here's your 2FA verification code:"

@@ -121,15 +121,11 @@ const PasswordResetCard = () => {
             </CardContent>
             <CardFooter>
               <Button
-                className="btn-primary hover:btn-hover text-md w-full font-semibold text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                className="text-md w-full font-semibold transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                 type="submit"
                 disabled={!token || passwordReset.isPending}
               >
-                {passwordReset.isPending ? (
-                  <BeatLoader color="white" size={10} />
-                ) : (
-                  'Reset'
-                )}
+                {passwordReset.isPending ? <BeatLoader size={10} /> : 'Reset'}
               </Button>
             </CardFooter>
           </Card>

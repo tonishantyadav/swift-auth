@@ -1,20 +1,20 @@
 const Email = ({
   name,
+  heading,
   content,
   verificationLink,
   verificationCode,
 }: {
   name: string
+  heading: string
   content: string
   verificationLink?: string
   verificationCode?: string
 }) => {
   return (
     <div className="mx-auto max-w-md rounded-md bg-white p-8 shadow-md">
-      <h1 className="mb-6 text-center text-2xl font-semibold">
-        Welcome to Swift Auth
-      </h1>
-      <p className="mb-4 text-center text-lg">Hello {name},</p>
+      <h1 className="mb-6 text-center text-2xl font-semibold">{heading}</h1>
+      <p className="mb-4 text-center text-lg">Hey {name},</p>
       <p className="mb-4 text-center text-base">{content}</p>
       {verificationLink && (
         <a

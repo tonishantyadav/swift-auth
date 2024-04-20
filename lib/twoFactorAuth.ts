@@ -1,5 +1,3 @@
-'use server'
-
 import prisma from '@/prisma/client'
 import { TwoFactorAuth } from '@prisma/client'
 import bcrypt from 'bcryptjs'

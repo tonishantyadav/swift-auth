@@ -19,6 +19,7 @@ export const EmailSchema = z.object({
   from: z.string(),
   to: z.string().email(),
   subject: z.string(),
+  heading: z.string(),
   content: z.string(),
   verificationLink: z.string().optional(),
   verificationCode: z.string().optional(),
