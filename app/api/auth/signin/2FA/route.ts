@@ -1,7 +1,9 @@
+import { delete2FACode, get2FACode } from '@/lib/twoFactorAuth'
 import prisma from '@/prisma/client'
 import { TwoFactorAuthSchema } from '@/schemas/validation'
+import bcrypt from 'bcryptjs'
+import crypto from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
-import { v4 as uuidv4 } from 'uuid'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
@@ -11,33 +13,37 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(validation.error.format(), { status: 400 })
 
   const { email } = validation.data
-  const code = uuidv4()
-  const expiredAt = new Date(new Date().getTime() + 3600 * 1000) // In one hour
 
-  const twoFactorAuth = await prisma.twoFactorAuth.create({
+  const old2FACode = await get2FACode(email)
+  if (old2FACode) {
+    const has2FACodeExpired = new Date(old2FACode.expiredAt) < new Date()
+    if (has2FACodeExpired) await delete2FACode(email)
+    else return NextResponse.json({ status: 200 })
+  }
+
+  const code = crypto.randomInt(1_00_000, 1_000_000).toString()
+  const expiredAt = new Date(new Date().getTime() + 1 * 60 * 1000)
+  const hashedCode = await bcrypt.hash(code, 10)
+
+  const new2FACode = await prisma.twoFactorAuth.create({
     data: {
       email,
-      code,
+      code: hashedCode,
       expiredAt,
     },
   })
 
-  if (!twoFactorAuth)
+  if (!new2FACode)
     return NextResponse.json(
       { error: 'An unexpected error occurred.' },
       { status: 500 }
     )
 
-  await prisma.user.update({
-    where: { email },
-    data: { twoFactorAuthId: twoFactorAuth.id },
-  })
-
   return NextResponse.json(
     {
       data: {
-        code: twoFactorAuth.code,
-        expiredAt: twoFactorAuth.expiredAt,
+        code,
+        expiredAt,
       },
     },
     { status: 201 }

@@ -17,20 +17,23 @@ import {
   InputOTPSlot,
 } from '@/components/ui/input-otp'
 import { useSignin } from '@/hooks/auth/useSignin'
+import { handleError } from '@/lib/error'
 import { Input2FACodeSchema } from '@/schemas/validation'
 import { SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SetStateAction, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { SetStateAction, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import BeatLoader from 'react-spinners/BeatLoader'
 import { z } from 'zod'
 
 interface Props {
+  data: SigninFormData | null
   open: boolean
   setOpen: (value: SetStateAction<boolean>) => void
-  data: SigninFormData | null
 }
 
-const TwoFactorAuthDialog = ({ open, setOpen, data }: Props) => {
+const TwoFactorAuthDialog = ({ data, open, setOpen }: Props) => {
   const form = useForm<z.infer<typeof Input2FACodeSchema>>({
     resolver: zodResolver(Input2FACodeSchema),
     defaultValues: {
@@ -38,18 +41,24 @@ const TwoFactorAuthDialog = ({ open, setOpen, data }: Props) => {
     },
   })
   const signin = useSignin()
-
-  useEffect(() => {
-    if (signin.isSuccess || signin.error) setOpen(false)
-  }, [signin.isSuccess, signin.isError])
+  const router = useRouter()
+  const [error, setError] = useState('')
 
   const onSubmit = async (formData: z.infer<typeof Input2FACodeSchema>) => {
-    if (data) {
-      await signin.mutateAsync({
-        email: data.email,
-        password: data.password,
-        code: formData.code,
-      })
+    try {
+      if (data) {
+        const response = await signin.mutateAsync({
+          email: data.email,
+          password: data.password,
+          code: formData.code,
+        })
+        setOpen(false)
+        router.push('/')
+      }
+    } catch (error) {
+      const errorMessage = handleError(error)
+      setError(errorMessage)
+      setTimeout(() => setOpen(false), 3000)
     }
   }
 
@@ -58,41 +67,48 @@ const TwoFactorAuthDialog = ({ open, setOpen, data }: Props) => {
       <AlertDialogContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="code"
-              render={({ field }) => (
-                <FormItem className="space-y-4">
-                  <span className="text-3xl font-semibold">
-                    2-Step Verification
-                  </span>
-                  <div>
-                    <FormDescription className="text-md">
-                      Please enter your 2-step verification code.
-                    </FormDescription>
-                    <FormControl>
-                      <InputOTP maxLength={6} {...field}>
-                        <InputOTPGroup className="py-2">
-                          <InputOTPSlot index={0} />
-                          <InputOTPSlot index={1} />
-                        </InputOTPGroup>
-                        <InputOTPSeparator />
-                        <InputOTPGroup>
-                          <InputOTPSlot index={2} />
-                          <InputOTPSlot index={3} />
-                        </InputOTPGroup>
-                        <InputOTPSeparator />
-                        <InputOTPGroup>
-                          <InputOTPSlot index={4} />
-                          <InputOTPSlot index={5} />
-                        </InputOTPGroup>
-                      </InputOTP>
-                    </FormControl>
-                    <FormMessage />
-                  </div>
-                </FormItem>
+            <div>
+              <FormField
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <span className="text-3xl font-semibold">
+                      2-Step Verification
+                    </span>
+                    <div>
+                      <FormDescription className="text-md">
+                        Please enter your 2-step verification code.
+                      </FormDescription>
+                      <FormControl>
+                        <InputOTP maxLength={6} {...field}>
+                          <InputOTPGroup className="py-2">
+                            <InputOTPSlot index={0} />
+                            <InputOTPSlot index={1} />
+                          </InputOTPGroup>
+                          <InputOTPSeparator />
+                          <InputOTPGroup>
+                            <InputOTPSlot index={2} />
+                            <InputOTPSlot index={3} />
+                          </InputOTPGroup>
+                          <InputOTPSeparator />
+                          <InputOTPGroup>
+                            <InputOTPSlot index={4} />
+                            <InputOTPSlot index={5} />
+                          </InputOTPGroup>
+                        </InputOTP>
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              {error && (
+                <p className="text-[0.8rem] font-normal text-red-500">
+                  {error}
+                </p>
               )}
-            />
+            </div>
             <div className="flex justify-end space-x-2">
               <Button
                 className="font-semibold transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
@@ -105,8 +121,13 @@ const TwoFactorAuthDialog = ({ open, setOpen, data }: Props) => {
                 className="btn-primary hover:btn-hover font-semibold text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                 type="submit"
                 variant="default"
+                disabled={signin.isPending}
               >
-                Confirm
+                {signin.isPending ? (
+                  <BeatLoader color="white" size={5} />
+                ) : (
+                  'Confirm'
+                )}
               </Button>
             </div>
           </form>

@@ -44,6 +44,8 @@ const SigninForm = () => {
       if (response.required2FA) {
         setData({ ...formData })
         await twoFactorAuth.mutateAsync(formData.email)
+      } else {
+        router.push('/')
       }
     } catch (error) {
       const errorMessage = handleError(error)
@@ -64,7 +66,7 @@ const SigninForm = () => {
             <FormCardBody form={form} fields={fields}>
               <FormActionButton
                 label="Signin"
-                isSubmitting={signin.isPending}
+                isSubmitting={signin.isPending || twoFactorAuth.isPending}
               />
               {error && <FormCardError message={error} />}
             </FormCardBody>

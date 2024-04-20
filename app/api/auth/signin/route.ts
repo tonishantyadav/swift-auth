@@ -1,4 +1,6 @@
 import { signIn } from '@/auth'
+import { inDevEnvironment } from '@/lib/env'
+import { delete2FACode, get2FACode, verify2FACode } from '@/lib/twoFactorAuth'
 import prisma from '@/prisma/client'
 import { SigninSchema } from '@/schemas/validation'
 import bcrypt from 'bcryptjs'
@@ -12,7 +14,7 @@ export async function POST(request: NextRequest) {
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 })
 
-  const { email, password } = validation.data
+  const { email, password, code } = validation.data
 
   const user = await prisma.user.findUnique({ where: { email } })
 
@@ -23,7 +25,40 @@ export async function POST(request: NextRequest) {
   if (!checkPassowrd)
     return NextResponse.json({ error: 'Invalid password.' }, { status: 404 })
 
-  if (!user.twoFactorAuthId) return NextResponse.json({ required2FA: true })
+  // Run as cron job to delete expired 2FA code in dev. environment
+  if (inDevEnvironment) {
+    const is2FACode = await get2FACode(email)
+    if (is2FACode) {
+      const is2FACodeExpired = new Date(is2FACode.expiredAt) < new Date()
+      if (is2FACodeExpired) {
+        await delete2FACode(email)
+        return NextResponse.json({ required2FA: true })
+      }
+    }
+  }
+
+  if (!user.twoFactorAuthId && !code)
+    return NextResponse.json({ required2FA: true })
+
+  if (code) {
+    const input2FACode = await verify2FACode(email, code)
+    if (!input2FACode) {
+      return NextResponse.json({ error: 'Invalid code.' }, { status: 404 })
+    }
+
+    const hasInput2FACodeExpired = new Date(input2FACode.expiredAt) < new Date()
+    if (hasInput2FACodeExpired) {
+      await delete2FACode(email)
+      return NextResponse.json(
+        { error: 'The code has been expired.' },
+        { status: 404 }
+      )
+    }
+    await prisma.user.update({
+      where: { email },
+      data: { twoFactorAuthId: input2FACode.id },
+    })
+  }
 
   try {
     await signIn('credentials', user)

@@ -1,6 +1,7 @@
 import { EmailSchema } from '@/schemas/validation'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 export const useTwoFactorAuth = () => {
@@ -10,15 +11,18 @@ export const useTwoFactorAuth = () => {
       return response.data
     },
     onSuccess: async (response, email) => {
-      const { code } = response.data
-      const sendEmail: z.infer<typeof EmailSchema> = {
-        from,
-        to: email,
-        subject,
-        content,
-        verificationCode: code,
+      if (response && response.data) {
+        const { code } = response.data
+        const sendEmail: z.infer<typeof EmailSchema> = {
+          from,
+          to: email,
+          subject,
+          content,
+          verificationCode: code,
+        }
+        await axios.post('/api/auth/send', { ...sendEmail })
+        toast.success('A 2FA code is been sent to your email.')
       }
-      await axios.post('/api/auth/send', { ...sendEmail })
     },
   })
 }
