@@ -35,7 +35,9 @@ const SigninForm = () => {
   const [data, setData] = useState<SigninFormData | null>(null)
 
   useEffect(() => {
-    if (twoFactorAuth.isSuccess) setOpen(true)
+    if (twoFactorAuth.isSuccess) {
+      setOpen(true)
+    }
   }, [twoFactorAuth.isSuccess])
 
   const onSubmit = async (formData: SigninFormData) => {

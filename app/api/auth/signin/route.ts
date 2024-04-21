@@ -25,17 +25,16 @@ export async function POST(request: NextRequest) {
   if (!checkPassowrd)
     return NextResponse.json({ error: 'Invalid password.' }, { status: 404 })
 
-  // Run as cron job to delete expired 2FA code in dev. environment
-  if (inDevEnvironment && user.emailVerified) {
+  // Run as cron job to delete expired 2FA code after 1 sec in dev. environment
+  if (inDevEnvironment && user.emailVerified && !code) {
     const is2FACode = await get2FACode(email)
     if (is2FACode) {
       const is2FACodeExpired = new Date(is2FACode.expiredAt) < new Date()
       if (is2FACodeExpired) {
         await delete2FACode(email)
-        return NextResponse.json(
-          { error: 'The code has been expired.', required2FA: true },
-          { status: 404 }
-        )
+        return NextResponse.json({
+          required2FA: true,
+        })
       }
     }
   }
@@ -50,6 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     const hasInput2FACodeExpired = new Date(input2FACode.expiredAt) < new Date()
+
     if (hasInput2FACodeExpired) {
       await delete2FACode(email)
       return NextResponse.json(
@@ -71,21 +71,20 @@ export async function POST(request: NextRequest) {
         case 'CredentialsSignin':
           return NextResponse.json(
             {
-              error:
-                'Unable to signin! Check your credentials or try again after sometime.',
+              error: 'Invalid credentials.',
             },
             { status: 401 }
           )
         case 'AccessDenied':
           return NextResponse.json(
             {
-              error: 'Unable to signin! Email is not verified.',
+              error: 'Email is not verified.',
             },
             { status: 401 }
           )
         default:
           return NextResponse.json(
-            { error: 'Unable to signin! An unexpected error occurred.' },
+            { error: 'An unexpected error occurred.' },
             { status: 500 }
           )
       }
