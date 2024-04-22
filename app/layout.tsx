@@ -1,6 +1,5 @@
 import QueryClientProvider from '@/app/QueryClientProvider'
 import ThemeProvider from '@/app/ThemeProvider'
-import NavBar from '@/components/NavBar'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import AuthProvider from './AuthProvider'
@@ -31,7 +30,6 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <NavBar />
               {children}
             </ThemeProvider>
           </AuthProvider>
