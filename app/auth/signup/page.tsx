@@ -2,7 +2,7 @@ import { SignupForm } from '@/components/auth'
 
 const SignupPage = () => {
   return (
-    <div className="grid min-h-screen items-center justify-center gap-2 bg-[radial-gradient(#ffffff33_1px,#000000_1px)] bg-[size:20px_20px] md:grid-cols-2 lg:grid-cols-2">
+    <div className="grid min-h-screen items-center justify-center gap-2 md:grid-cols-2 lg:grid-cols-2">
       <div className="relative hidden  min-h-full md:block">
         <HeroSection />
       </div>

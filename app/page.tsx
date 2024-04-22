@@ -6,7 +6,7 @@ import Image from 'next/image'
 const HomePage = async () => {
   const session = await auth()
   return (
-    <main className="grid min-h-screen items-center justify-center gap-2 bg-[radial-gradient(#ffffff33_1px,#000000_1px)] bg-[size:20px_20px]">
+    <main className="grid min-h-screen items-center justify-center gap-2">
       <div className="flex flex-col items-center gap-2 p-5 md:flex-row lg:flex-row">
         <div className="flex flex-col items-center space-y-3 p-2 lg:space-y-5">
           <div className="hero-shadow flex flex-row items-center gap-2">
