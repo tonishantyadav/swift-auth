@@ -8,7 +8,11 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
-import { SocialAuth, TwoFactorAuthDialog } from '@/components/auth'
+import {
+  OAuthErrorDialog,
+  SocialAuth,
+  TwoFactorAuthDialog,
+} from '@/components/auth'
 import { Form } from '@/components/ui/form'
 import ToastContainer from '@/components/ui/toast'
 import { useSignin } from '@/hooks/auth/useSignin'
@@ -17,7 +21,7 @@ import { handleError } from '@/lib/error'
 import { SigninSchema } from '@/schemas/validation'
 import { Field, SigninFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -28,17 +32,23 @@ const SigninForm = () => {
     defaultValues: { ...defaultValues },
   })
   const router = useRouter()
+  const searchParams = useSearchParams()
   const signin = useSignin()
   const twoFactorAuth = useTwoFactorAuth()
   const [error, setError] = useState('')
   const [open, setOpen] = useState(false)
   const [data, setData] = useState<SigninFormData | null>(null)
+  const [showOauthError, setShowOauthError] = useState(false)
 
   useEffect(() => {
     if (twoFactorAuth.isSuccess) {
       setOpen(true)
     }
-  }, [twoFactorAuth.isSuccess])
+    if (searchParams.get('error') === 'OAuthAccountNotLinked') {
+      setShowOauthError(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [twoFactorAuth.isSuccess, searchParams])
 
   const onSubmit = async (formData: SigninFormData) => {
     try {
@@ -50,7 +60,6 @@ const SigninForm = () => {
         router.push('/')
       }
     } catch (error) {
-      console.log(error)
       const errorMessage = handleError(error)
       setError(errorMessage)
     }
@@ -58,6 +67,12 @@ const SigninForm = () => {
 
   return (
     <>
+      {showOauthError && (
+        <OAuthErrorDialog
+          showOauthError={showOauthError}
+          setShowOauthError={setShowOauthError}
+        />
+      )}
       {open && (
         <TwoFactorAuthDialog data={data} open={open} setOpen={setOpen} />
       )}

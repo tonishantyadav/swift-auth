@@ -17,6 +17,10 @@ export default middleware((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
 
+  // I know I can merge the below three if-statements into a resusable one, but I'm too lazy right now!
+  if (nextUrl.pathname === '/auth/error' && !nextUrl.search)
+    return Response.redirect(new URL('/auth/signin', nextUrl))
+
   if (nextUrl.pathname === '/auth/reset/password' && !nextUrl.search)
     return Response.redirect(new URL('/auth/signin', nextUrl))
 
