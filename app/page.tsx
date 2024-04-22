@@ -11,7 +11,6 @@ import ToastContainer from '@/components/ui/toast'
 import shieldIcon from '@/public/shield.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaUser } from 'react-icons/fa6'
 
 const HomePage = async () => {
   const session = await auth()
@@ -64,17 +63,18 @@ const ProfileDialog = ({
     <>
       <ToastContainer />
       <Popover>
-        <PopoverTrigger className="text-gray-300 hover:text-gray-100">
-          Profile
+        <PopoverTrigger>
+          <Avatar>
+            <AvatarImage src={image} alt="Profile" />
+            <AvatarFallback>{name[0]}</AvatarFallback>
+          </Avatar>
         </PopoverTrigger>
         <PopoverContent className="mx-4 flex flex-col space-y-5">
           <div>
             <div className="flex items-center gap-2">
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>
-                  <FaUser />
-                </AvatarFallback>
+                <AvatarImage src={image} alt={`@${name}`} />
+                <AvatarFallback>{name[0]}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
                 <Link href="/auth/profile?q=edit">
