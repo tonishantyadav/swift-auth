@@ -1,19 +1,29 @@
 import { auth } from '@/auth'
-import ProfileDialog from '@/components/auth/ProfileDialog'
+import SignoutButton from '@/components/SignoutButton'
 import GetStartedButton from '@/components/home/GetStartedButton'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import ToastContainer from '@/components/ui/toast'
 import shieldIcon from '@/public/shield.png'
 import Image from 'next/image'
+import Link from 'next/link'
+import { FaUser } from 'react-icons/fa6'
 
 const HomePage = async () => {
   const session = await auth()
+
   return (
     <div>
-      {session?.user && (
+      {session && session.user && (
         <div className="flex justify-end p-5">
           <ProfileDialog
-            name={session.user.name!}
-            email={session.user.email!}
-            image={session.user.image!}
+            name={session.user?.name!}
+            email={session.user?.email!}
+            image={session.user?.image!}
           />
         </div>
       )}
@@ -33,11 +43,53 @@ const HomePage = async () => {
                 Experience Seamless Authentication{' '}
               </p>
             </div>
-            {session?.user && <GetStartedButton />}
+            {!session && <GetStartedButton />}
           </div>
         </div>
       </main>
     </div>
+  )
+}
+
+const ProfileDialog = ({
+  name,
+  email,
+  image,
+}: {
+  name: string
+  email: string
+  image: string
+}) => {
+  return (
+    <>
+      <ToastContainer />
+      <Popover>
+        <PopoverTrigger className="text-gray-300 hover:text-gray-100">
+          Profile
+        </PopoverTrigger>
+        <PopoverContent className="mx-4 flex flex-col space-y-5">
+          <div>
+            <div className="flex items-center gap-2">
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>
+                  <FaUser />
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col">
+                <Link href="/auth/profile?q=edit">
+                  <span className="text-lg font-medium hover:underline">
+                    {name}
+                  </span>
+                </Link>
+                <span className="text-sm text-gray-300">{email}</span>
+              </div>
+            </div>
+          </div>
+          <SignoutButton />
+        </PopoverContent>
+      </Popover>
+    </>
   )
 }
 

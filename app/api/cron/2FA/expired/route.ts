@@ -1,4 +1,5 @@
 import prisma from '@/prisma/client'
+import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
@@ -17,7 +18,9 @@ export async function GET() {
       },
     })
     console.log(`Deleted ${expiredRecords.length} expired 2FA records`)
+    return NextResponse.json({ status: 200 })
   } catch (error) {
     console.error('Error deleting expired 2FA records:', error)
+    return NextResponse.json({ status: 500 })
   }
 }

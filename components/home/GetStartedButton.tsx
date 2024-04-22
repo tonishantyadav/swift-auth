@@ -11,7 +11,7 @@ const GetStartedButton = () => {
     <div className="py-1">
       <Link href="/auth/signin">
         <Button
-          className="hover:btn-hover btn-primary rounded-full text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+          className="hover:btn-hover btn-primary rounded-full font-semibold text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
           size={isMobile ? 'sm' : 'lg'}
         >
           Get Started
