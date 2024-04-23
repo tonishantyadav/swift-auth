@@ -56,6 +56,6 @@ export const TwoFactorAuthSchema = z.object({
   email: z.string().email('Invalid email'),
 })
 
-export const Input2FACodeSchema = z.object({
+export const InputOTPSchema = z.object({
   code: z.string().min(6, 'Invalid code.'),
 })

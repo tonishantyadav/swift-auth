@@ -8,6 +8,9 @@ import {
   FormCardFooter,
   FormCardHeader,
 } from '@/components/FormCard'
+import { SocialAuth } from '@/components/auth'
+import { Form } from '@/components/ui/form'
+import ToastContainer from '@/components/ui/toast'
 import { useSignup } from '@/hooks/auth/useSignup'
 import { handleError } from '@/lib/error'
 import { SignupSchema } from '@/schemas/validation'
@@ -16,11 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
 import { z } from 'zod'
-import { Form } from '../ui/form'
-import ToastContainer from '../ui/toast'
-import SocialAuth from './SocialAuth'
 
 const SignupForm = () => {
   const form = useForm<z.infer<typeof SignupSchema>>({
@@ -30,20 +29,20 @@ const SignupForm = () => {
   const router = useRouter()
   const signup = useSignup()
   const [error, setError] = useState('')
+  const [token, setToken] = useState('')
 
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
       const response = await signup.mutateAsync(data)
-      toast.success(response.success)
-      form.reset()
+      if (response.data) setToken(response.data.token)
     } catch (error) {
       const errorMessage = handleError(error)
       setError(errorMessage)
     }
   }
 
-  if (signup.isSuccess) {
-    setTimeout(() => router.push('/auth/signin'), 2000)
+  if (signup.isSuccess && token) {
+    router.push(`/auth/verify/email?token=${token}`)
   }
 
   return (
