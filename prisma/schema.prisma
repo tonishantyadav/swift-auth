@@ -49,6 +49,8 @@ model User {
   accounts        Account[]
   TwoFactorAuth   TwoFactorAuth? @relation(fields: [twoFactorAuthId], references: [id])
   twoFactorAuthId String?
+  OTP             OTP?           @relation(fields: [oTPId], references: [id])
+  oTPId           String?
 }
 
 model Token {
@@ -68,4 +70,12 @@ model TwoFactorAuth {
   User      User[]
 
   @@unique([email, code])
+}
+
+model OTP {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  code      String   @unique
+  expiredAt DateTime
+  User      User[]
 }

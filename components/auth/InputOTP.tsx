@@ -17,8 +17,8 @@ import { UseFormReturn } from 'react-hook-form'
 
 interface InputOTPProps {
   form: UseFormReturn<any>
-  label: string
-  description: string
+  label?: string
+  description?: string
   error?: string
 }
 
@@ -30,11 +30,13 @@ const InputOTP = ({ form, label, description, error }: InputOTPProps) => {
         name="code"
         render={({ field }) => (
           <FormItem className="space-y-4">
-            <span className="text-3xl font-semibold">{label}</span>
+            {label && <span className="text-3xl font-semibold">{label}</span>}
             <div>
-              <FormDescription className="text-md">
-                {description}
-              </FormDescription>
+              {description && (
+                <FormDescription className="text-md">
+                  {description}
+                </FormDescription>
+              )}
               <FormControl>
                 <BaseInputOTP maxLength={6} {...field}>
                   <InputOTPGroup className="py-2">

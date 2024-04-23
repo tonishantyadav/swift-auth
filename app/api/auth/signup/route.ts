@@ -1,3 +1,4 @@
+import { createOtp } from '@/lib/otp'
 import { createToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { SignupSchema } from '@/schemas/validation'
@@ -26,24 +27,39 @@ export async function POST(request: NextRequest) {
   const hashedPassword = await bcrypt.hash(password, 10)
 
   try {
-    const newUser = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-      },
-    })
     const verificationToken = await createToken(email)
-    return NextResponse.json(
-      {
+    const otp = await createOtp(email)
+
+    if (verificationToken && otp) {
+      const hashedOtp = await bcrypt.hash(otp.code, 10)
+      await prisma.oTP.update({
+        where: { email },
+        data: { code: hashedOtp },
+      })
+
+      const newUser = await prisma.user.create({
         data: {
-          token: verificationToken?.token,
+          name,
+          email,
+          password: hashedPassword,
+          oTPId: otp.id,
         },
-        success: 'A verification link is been sent to your email.',
-      },
-      { status: 201 }
-    )
+      })
+      return NextResponse.json(
+        {
+          data: {
+            token: verificationToken.token,
+            code: otp.code,
+          },
+          success: 'An OTP has been sent to your email.',
+        },
+        { status: 201 }
+      )
+    }
   } catch (error) {
-    return NextResponse.json({ error: 'Unable to signup.' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Unable to signup! An unexpected error occurred.' },
+      { status: 500 }
+    )
   }
 }

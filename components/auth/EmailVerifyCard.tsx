@@ -35,19 +35,19 @@ const EmailVerifyCard = () => {
     }
   }, [params])
 
-  const onClick = async () => {
+  const onSubmit = async (formData: z.infer<typeof InputOTPSchema>) => {
     try {
       if (token) {
-        await emailVerify.mutateAsync(token)
+        await emailVerify.mutateAsync({
+          token,
+          code: formData.code,
+        })
       }
     } catch (error) {
       const errorMessage = handleError(error)
       setError(errorMessage)
     }
-  }
-
-  const onSubmit = (formData: z.infer<typeof InputOTPSchema>) => {
-    console.log(formData)
+    form.reset()
   }
 
   return (
@@ -59,15 +59,16 @@ const EmailVerifyCard = () => {
             <div className="container">
               <Card>
                 <CardHeader className="ml-1">
-                  <p className="text-4xl font-semibold md:text-4xl lg:text-4xl">
-                    Verify Email
-                  </p>
+                  <span className="text-4xl font-semibold md:text-4xl lg:text-4xl">
+                    Email Verification
+                  </span>
                 </CardHeader>
                 <CardContent className="mx-2 max-w-xl space-y-3">
                   <InputOTP
                     form={form}
-                    label={'Email Verification'}
-                    description={'Enter the verification code.'}
+                    description={
+                      'Enter the OTP code that has been sent to your email.'
+                    }
                   />
                   {error && <FormCardError message={error} />}
                 </CardContent>
@@ -76,7 +77,6 @@ const EmailVerifyCard = () => {
                     className="btn-primary hover:btn-hover text-md w-full font-semibold text-white transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                     disabled={!token || emailVerify.isPending}
                     type="submit"
-                    onClick={onClick}
                   >
                     {emailVerify.isPending ? (
                       <BeatLoader color="white" size={10} />

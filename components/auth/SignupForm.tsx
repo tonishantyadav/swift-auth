@@ -19,6 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 const SignupForm = () => {
@@ -34,7 +35,9 @@ const SignupForm = () => {
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
       const response = await signup.mutateAsync(data)
-      if (response.data) setToken(response.data.token)
+      if (response.data) {
+        setToken(response.data.token)
+      }
     } catch (error) {
       const errorMessage = handleError(error)
       setError(errorMessage)

@@ -13,16 +13,15 @@ export const useSignup = () => {
     onSuccess: async (response, data) => {
       if (response) {
         const email = data.email
-        const { token } = response.data
+        const { code } = response.data
         const sendEmail: z.infer<typeof EmailSchema> = {
           from,
           to: email!,
           subject,
           heading,
           content,
-          verificationLink: verificationLink + token,
+          verificationCode: code,
         }
-        console.log(sendEmail)
         await axios.post('/api/auth/send', { ...sendEmail })
       }
     },
@@ -33,5 +32,4 @@ const from = 'Acme <onboarding@resend.dev>'
 const subject = 'Email verification'
 const heading = 'Welcome to Swift Auth - Complete Your Registration Now!'
 const content =
-  'Thank you for joining Swift Auth! To complete your registration, Please click the confirmation link below:'
-const verificationLink = 'http://localhost:3000/auth/verify/email?token='
+  'Thank you for joining Swift Auth! To complete your registration, below is your OTP code for email verification:'

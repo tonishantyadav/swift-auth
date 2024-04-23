@@ -1,3 +1,4 @@
+import { deleteOtp, verifyOtp } from '@/lib/otp'
 import { deleteToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { EmailVerifySchema } from '@/schemas/validation'
@@ -13,19 +14,20 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     )
 
-  const { token } = validation.data
+  const { token, code } = validation.data
 
   const verificationToken = await prisma.token.findUnique({
     where: { token },
   })
 
   if (!verificationToken) {
-    return NextResponse.json({ error: 'Invalid token' }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid token.' }, { status: 400 })
   }
 
-  const hasExpired = new Date(verificationToken.expiredAt) < new Date()
+  const hasVerificationTokenExpired =
+    new Date(verificationToken.expiredAt) < new Date()
 
-  if (hasExpired) {
+  if (hasVerificationTokenExpired) {
     await deleteToken(token)
     return NextResponse.json(
       { error: 'Token has been expired.' },
@@ -43,7 +45,24 @@ export async function POST(request: NextRequest) {
       { status: 404 }
     )
 
+  const otp = await verifyOtp(user.email!, code)
+
+  if (!otp) return NextResponse.json({ error: 'Invalid OTP.' }, { status: 404 })
+
+  const hasOtpExired = new Date(otp.expiredAt) < new Date()
+
+  if (hasOtpExired) {
+    await deleteToken(token)
+    await deleteOtp(user.email!)
+    return NextResponse.json(
+      { error: 'OTP has been expired.' },
+      { status: 404 }
+    )
+  }
+
   try {
+    await deleteToken(token)
+    await deleteOtp(user.email!)
     await prisma.user.update({
       where: { id: user.id },
       data: {
@@ -51,7 +70,6 @@ export async function POST(request: NextRequest) {
         emailVerified: new Date(),
       },
     })
-    await deleteToken(token)
     return NextResponse.json(
       { success: 'Email is been verified.' },
       { status: 200 }

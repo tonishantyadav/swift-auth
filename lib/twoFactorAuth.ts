@@ -6,7 +6,7 @@ export const get2FACode = async (
   email: string
 ): Promise<TwoFactorAuth | null> => {
   try {
-    return await prisma.twoFactorAuth.findFirst({
+    return await prisma.twoFactorAuth.findUnique({
       where: { email },
     })
   } catch (error) {
@@ -47,7 +47,7 @@ export const verify2FACode = async (
 
     return is2FACode
   } catch (error) {
-    console.log('The provided 2-step code is invalid: ', error)
+    console.log('The provided 2FA code is invalid: ', error)
     return null
   }
 }
