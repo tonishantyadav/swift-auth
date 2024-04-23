@@ -34,13 +34,13 @@ const PasswordForgotCard = () => {
   const onSubmit = async ({ email }: { email: string }) => {
     try {
       await passwordForgot.mutateAsync(email)
-      form.reset()
       setTimeout(() => router.push('/auth/signin'), 1000)
     } catch (error: any) {
       console.log(error)
       const errorMessage = handleError(error)
       setError(errorMessage)
     }
+    form.reset()
   }
 
   return (
@@ -56,9 +56,7 @@ const PasswordForgotCard = () => {
                 </p>
               </CardHeader>
               <CardContent className="mx-2 max-w-xl space-y-3">
-                <p className="text-sm text-gray-300 md:text-lg lg:text-lg">
-                  Please enter your email to reset your password.
-                </p>
+                <FormLabel>Enter your email to reset your password.</FormLabel>
                 <FormField
                   control={form.control}
                   name="email"

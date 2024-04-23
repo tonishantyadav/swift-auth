@@ -63,6 +63,7 @@ const SigninForm = () => {
       const errorMessage = handleError(error)
       setError(errorMessage)
     }
+    form.reset()
   }
 
   return (
@@ -82,11 +83,11 @@ const SigninForm = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormCardBody form={form} fields={fields}>
+              {error && <FormCardError message={error} />}
               <FormActionButton
                 label="Signin"
                 isSubmitting={signin.isPending || twoFactorAuth.isPending}
               />
-              {error && <FormCardError message={error} />}
             </FormCardBody>
           </form>
         </Form>

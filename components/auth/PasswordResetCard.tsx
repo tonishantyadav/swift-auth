@@ -78,9 +78,6 @@ const PasswordResetCard = () => {
               </p>
             </CardHeader>
             <CardContent className="space-y-3">
-              <p className="text-sm text-gray-300 md:text-lg lg:text-lg">
-                Please enter your new password.
-              </p>
               <FormField
                 control={form.control}
                 name="password"

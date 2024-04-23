@@ -56,11 +56,11 @@ const SignupForm = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormCardBody form={form} fields={fields}>
+              {error && <FormCardError message={error} />}
               <FormActionButton
                 label="Signup"
                 isSubmitting={signup.isPending}
               />
-              {error && <FormCardError message={error} />}
             </FormCardBody>
           </form>
         </Form>
