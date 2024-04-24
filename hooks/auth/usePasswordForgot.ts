@@ -23,7 +23,6 @@ export const usePasswordForgot = () => {
           content,
           verificationCode: code,
         }
-        toast.success(response.success)
         await axios.post('/api/auth/send', { ...sendEmail })
       }
     },

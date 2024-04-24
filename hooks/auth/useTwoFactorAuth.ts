@@ -22,7 +22,7 @@ export const useTwoFactorAuth = () => {
           verificationCode: code,
         }
         await axios.post('/api/auth/send', { ...sendEmail })
-        toast.success('A 2FA code is been sent to your email.')
+        toast.success('A verification code has been sent to your email.')
       }
     },
   })

@@ -62,7 +62,7 @@ const TwoFactorAuthDialog = ({
             <InputOTP
               form={form}
               label={'2FA Verification'}
-              description={'Enter your 2FA verification code.'}
+              description={'Enter your verification code.'}
               error={error}
             />
             <div className="flex justify-end space-x-2">

@@ -47,6 +47,7 @@ const InputOTPDialog = ({
     } catch (error) {
       const errorMessage = handleError(error)
       setError(errorMessage)
+      setTimeout(() => setOpen(false), 1000)
     }
   }
 
@@ -58,17 +59,10 @@ const InputOTPDialog = ({
             <InputOTP
               form={form}
               label="Verification"
-              description="Enter the OTP code."
+              description="Enter the verification code."
               error={error}
             />
             <div className="flex justify-end space-x-2">
-              <Button
-                className="font-semibold transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
-                variant="outline"
-                onClick={() => setOpen(false)}
-              >
-                Cancel
-              </Button>
               <Button
                 className="font-semibold transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                 type="submit"

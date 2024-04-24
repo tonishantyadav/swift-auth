@@ -20,6 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BeatLoader from 'react-spinners/BeatLoader'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 const PasswordForgotCard = () => {
@@ -29,17 +30,24 @@ const PasswordForgotCard = () => {
   })
   const passwordForgot = usePasswordForgot()
   const [open, setOpen] = useState(false)
+  const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
   const [token, setToken] = useState('')
 
   useEffect(() => {
-    if (passwordForgot.isSuccess) setOpen(true)
-  }, [passwordForgot.isSuccess])
+    if (passwordForgot.isSuccess) {
+      toast.success(success)
+      setOpen(true)
+    }
+  }, [passwordForgot.isSuccess, success])
 
   const onSubmit = async ({ email }: { email: string }) => {
     try {
       const response = await passwordForgot.mutateAsync(email)
-      if (response && response.data) setToken(response.data.token)
+      if (response && response.data) {
+        setSuccess(response.success)
+        setToken(response.data.token)
+      }
     } catch (error) {
       const errorMessage = handleError(error)
       setError(errorMessage)

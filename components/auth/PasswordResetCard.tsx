@@ -61,9 +61,9 @@ const PasswordResetCard = () => {
       if (isPasswordConfirmed) {
         const errorMessage = handleError(error)
         setError(errorMessage)
-        setTimeout(() => router.push('/auth/signin'), 1000)
       }
     }
+    form.reset()
   }
 
   return (

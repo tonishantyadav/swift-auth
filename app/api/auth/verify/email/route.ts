@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
   if (!validation.success)
     return NextResponse.json(
-      { error: 'Token is not provided.' },
+      { error: 'Invalid verification credentials.' },
       { status: 400 }
     )
 
@@ -22,17 +22,6 @@ export async function POST(request: NextRequest) {
 
   if (!verificationToken) {
     return NextResponse.json({ error: 'Invalid token.' }, { status: 400 })
-  }
-
-  const hasVerificationTokenExpired =
-    new Date(verificationToken.expiredAt) < new Date()
-
-  if (hasVerificationTokenExpired) {
-    await deleteToken(token)
-    return NextResponse.json(
-      { error: 'Token has been expired.' },
-      { status: 401 }
-    )
   }
 
   const user = await prisma.user.findUnique({
@@ -50,13 +39,22 @@ export async function POST(request: NextRequest) {
   if (!otp) return NextResponse.json({ error: 'Invalid OTP.' }, { status: 404 })
 
   const hasOtpExired = new Date(otp.expiredAt) < new Date()
+  const hasVerificationTokenExpired =
+    new Date(verificationToken.expiredAt) < new Date()
 
-  if (hasOtpExired) {
+  if (hasVerificationTokenExpired) {
+    await deleteToken(token)
+    await deleteOtp(user.email!)
+    return NextResponse.json(
+      { error: 'Token has been expired.' },
+      { status: 401 }
+    )
+  } else if (hasOtpExired) {
     await deleteToken(token)
     await deleteOtp(user.email!)
     return NextResponse.json(
       { error: 'OTP has been expired.' },
-      { status: 404 }
+      { status: 401 }
     )
   }
 

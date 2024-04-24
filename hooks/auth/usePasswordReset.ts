@@ -1,6 +1,6 @@
 import { PasswordResetFormData } from '@/types/form'
 import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 
@@ -17,6 +17,10 @@ export const usePasswordReset = () => {
     onSuccess: (response) => {
       toast.success(response.success)
       setTimeout(() => router.push('/auth/signin'), 2000)
+    },
+    onError: (error: AxiosError) => {
+      if (error.response?.status !== 409)
+        setTimeout(() => router.push('/auth/signin'), 1000)
     },
   })
 }

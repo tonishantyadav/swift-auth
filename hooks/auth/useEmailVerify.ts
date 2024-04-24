@@ -11,7 +11,6 @@ export const useEmailVerify = () => {
   const router = useRouter()
   return useMutation({
     mutationFn: async ({ code, token, deleteToken }: EmailVerifyData) => {
-      console.log({ token, code })
       await axios.post('/api/auth/verify/email', {
         code,
         token,

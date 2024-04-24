@@ -41,6 +41,14 @@ export async function POST(request: NextRequest) {
   if (!user)
     return NextResponse.json({ error: 'Invalid user.' }, { status: 404 })
 
+  const isPreviousPassword = await bcrypt.compare(password, user.password!)
+
+  if (isPreviousPassword)
+    return NextResponse.json(
+      { error: 'Please use a different password.' },
+      { status: 409 }
+    )
+
   const hashedPassword = await bcrypt.hash(password, 10)
 
   try {
