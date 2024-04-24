@@ -14,14 +14,14 @@ export const usePasswordForgot = () => {
     },
     onSuccess: async (response, email) => {
       if (response) {
-        const { token } = response.data
+        const { code } = response.data
         const sendEmail: z.infer<typeof EmailSchema> = {
           from,
           to: email,
           subject,
           heading,
           content,
-          verificationLink: verificationLink + token,
+          verificationCode: code,
         }
         toast.success(response.success)
         await axios.post('/api/auth/send', { ...sendEmail })
@@ -33,5 +33,5 @@ export const usePasswordForgot = () => {
 const from = 'Acme <onboarding@resend.dev>'
 const subject = 'Reset Password'
 const heading = 'Swift Auth - Reset Password'
-const content = 'To reset your password, Please click the link below:'
-const verificationLink = 'http://localhost:3000/auth/reset/password?token='
+const content =
+  'To reset your password, below is the OTP code for verification.'

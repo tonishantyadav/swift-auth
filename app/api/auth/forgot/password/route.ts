@@ -1,6 +1,8 @@
+import { createOtp } from '@/lib/otp'
 import { createToken } from '@/lib/token'
 import prisma from '@/prisma/client'
 import { PasswordForgotSchema } from '@/schemas/validation'
+import bcrypt from 'bcryptjs'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
@@ -15,7 +17,7 @@ export async function POST(request: NextRequest) {
   const user = await prisma.user.findUnique({ where: { email } })
 
   if (!user)
-    return NextResponse.json({ error: 'Invalid user' }, { status: 404 })
+    return NextResponse.json({ error: 'Invalid credentials.' }, { status: 404 })
 
   if (!user.emailVerified)
     return NextResponse.json(
@@ -23,30 +25,28 @@ export async function POST(request: NextRequest) {
       { status: 404 }
     )
 
-  const isVerificationToken = await prisma.token.findFirst({
-    where: { email },
-  })
+  try {
+    const otp = await createOtp(email)
+    const verificationToken = await createToken(email)
 
-  if (isVerificationToken) {
-    const hasExpired = new Date(isVerificationToken.expiredAt) < new Date()
+    if (otp && verificationToken) {
+      const hashedOtp = await bcrypt.hash(otp.code, 10)
+      await prisma.oTP.update({
+        where: { email },
+        data: { code: hashedOtp },
+      })
 
-    if (!hasExpired) {
       return NextResponse.json(
-        { error: 'Password reset link is already been sent to your email.' },
-        { status: 409 }
+        {
+          data: {
+            code: otp.code,
+            token: verificationToken.token,
+          },
+          success: 'An OTP has been sent to your email.',
+        },
+        { status: 201 }
       )
     }
-  }
-
-  try {
-    const verificationToken = await createToken(email)
-    return NextResponse.json(
-      {
-        data: { token: verificationToken?.token },
-        success: 'Password reset link is been sent to your email.',
-      },
-      { status: 201 }
-    )
   } catch (error) {
     return NextResponse.json(
       { error: 'An unexpected error is occurred.' },

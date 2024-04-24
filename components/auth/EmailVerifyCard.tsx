@@ -10,7 +10,7 @@ import { useEmailVerify } from '@/hooks/auth/useEmailVerify'
 import { handleError } from '@/lib/error'
 import { InputOTPSchema } from '@/schemas/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BeatLoader from 'react-spinners/BeatLoader'
@@ -23,25 +23,26 @@ const EmailVerifyCard = () => {
       code: '',
     },
   })
-  const params = useSearchParams()
+  const searchParams = useSearchParams()
+  const router = useRouter()
   const emailVerify = useEmailVerify()
   const [token, setToken] = useState('')
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const token = params.get('token')
-    if (token) {
-      setToken(token)
-    }
-  }, [params])
+    const token = searchParams.get('token')
+    if (token) setToken(token)
+  }, [searchParams])
 
   const onSubmit = async (formData: z.infer<typeof InputOTPSchema>) => {
     try {
       if (token) {
         await emailVerify.mutateAsync({
-          token,
           code: formData.code,
+          token,
+          deleteToken: true,
         })
+        router.push('/auth/signin')
       }
     } catch (error) {
       const errorMessage = handleError(error)

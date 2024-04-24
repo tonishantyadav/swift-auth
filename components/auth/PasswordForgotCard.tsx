@@ -1,6 +1,7 @@
 'use client'
 
 import { FormCardError } from '@/components/FormCard'
+import { InputOTPDialog } from '@/components/auth'
 import { Button, Input } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import {
@@ -16,8 +17,7 @@ import { usePasswordForgot } from '@/hooks/auth/usePasswordForgot'
 import { handleError } from '@/lib/error'
 import { PasswordForgotSchema } from '@/schemas/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BeatLoader from 'react-spinners/BeatLoader'
 import { z } from 'zod'
@@ -27,16 +27,20 @@ const PasswordForgotCard = () => {
     resolver: zodResolver(PasswordForgotSchema),
     defaultValues: { email: '' },
   })
-  const router = useRouter()
   const passwordForgot = usePasswordForgot()
+  const [open, setOpen] = useState(false)
   const [error, setError] = useState('')
+  const [token, setToken] = useState('')
+
+  useEffect(() => {
+    if (passwordForgot.isSuccess) setOpen(true)
+  }, [passwordForgot.isSuccess])
 
   const onSubmit = async ({ email }: { email: string }) => {
     try {
-      await passwordForgot.mutateAsync(email)
-      setTimeout(() => router.push('/auth/signin'), 1000)
-    } catch (error: any) {
-      console.log(error)
+      const response = await passwordForgot.mutateAsync(email)
+      if (response && response.data) setToken(response.data.token)
+    } catch (error) {
       const errorMessage = handleError(error)
       setError(errorMessage)
     }
@@ -45,6 +49,7 @@ const PasswordForgotCard = () => {
 
   return (
     <>
+      {open && <InputOTPDialog open={open} setOpen={setOpen} token={token} />}
       <ToastContainer />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>

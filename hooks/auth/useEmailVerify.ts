@@ -1,3 +1,4 @@
+import { deleteToken } from '@/lib/token'
 import { EmailVerifySchema } from '@/schemas/validation'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
@@ -9,14 +10,13 @@ export type EmailVerifyData = z.infer<typeof EmailVerifySchema>
 export const useEmailVerify = () => {
   const router = useRouter()
   return useMutation({
-    mutationFn: async ({ token, code }: EmailVerifyData) => {
+    mutationFn: async ({ code, token, deleteToken }: EmailVerifyData) => {
+      console.log({ token, code })
       await axios.post('/api/auth/verify/email', {
-        token,
         code,
+        token,
+        deleteToken,
       })
-    },
-    onSuccess: async () => {
-      router.push('/auth/signin')
     },
   })
 }

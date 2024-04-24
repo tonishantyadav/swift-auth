@@ -77,11 +77,7 @@ const ProfileDialog = ({
                 <AvatarFallback>{name[0]}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <Link href="/auth/profile?q=edit">
-                  <span className="text-lg font-medium hover:underline">
-                    {name}
-                  </span>
-                </Link>
+                <span className="text-lg font-medium">{name}</span>
                 <span className="text-sm text-gray-300">{email}</span>
               </div>
             </div>

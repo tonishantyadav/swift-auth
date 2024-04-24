@@ -23,7 +23,7 @@ export const createToken = async (email: string): Promise<Token | null> => {
     return newToken
   } catch (error) {
     console.log(
-      `Failed to generate the verification token for this ${email}:`,
+      `Failed to create the verification token for this ${email}:`,
       error
     )
     return null

@@ -26,8 +26,9 @@ export const EmailSchema = z.object({
 })
 
 export const EmailVerifySchema = z.object({
-  token: z.string(),
   code: z.string(),
+  token: z.string(),
+  deleteToken: z.boolean(),
 })
 
 export const PasswordForgotSchema = z.object({

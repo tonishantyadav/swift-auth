@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     )
 
-  const { token, code } = validation.data
+  const { code, token, deleteToken: isDeleteToken } = validation.data
 
   const verificationToken = await prisma.token.findUnique({
     where: { token },
@@ -61,13 +61,13 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    await deleteToken(token)
+    if (isDeleteToken) await deleteToken(token)
     await deleteOtp(user.email!)
     await prisma.user.update({
       where: { id: user.id },
       data: {
         email: verificationToken.email,
-        emailVerified: new Date(),
+        emailVerified: user.emailVerified ? user.emailVerified : new Date(),
       },
     })
     return NextResponse.json(
