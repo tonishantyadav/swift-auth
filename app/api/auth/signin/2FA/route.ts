@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   }
 
   const code = crypto.randomInt(1_00_000, 1_000_000).toString()
-  const expiredAt = new Date(new Date().getTime() + 5 * 60 * 1000) // In five minutes
+  const expiredAt = new Date(new Date().getTime() + 60 * 60 * 1000) // In five minutes
   const hashedCode = await bcrypt.hash(code, 10)
 
   const new2FACode = await prisma.twoFactorAuth.create({
