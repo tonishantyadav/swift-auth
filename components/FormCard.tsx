@@ -75,7 +75,7 @@ const FormCardFields = ({
                   className="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                 />
               </FormControl>
-              <div className="flex justify-between">
+              <div className="flex items-center justify-between">
                 <div>
                   <FormMessage />
                 </div>
@@ -83,10 +83,10 @@ const FormCardFields = ({
                   f.label.toLowerCase() === 'password' && (
                     <Link
                       href="/auth/forgot/password"
-                      className="text-sm text-muted-foreground transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-gray-300"
+                      className="text-xs text-muted-foreground transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-gray-300 md:text-sm lg:text-sm"
                     >
                       {' '}
-                      Forgot your password?
+                      Forgot password?
                     </Link>
                   )}
               </div>

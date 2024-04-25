@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
   if (code) {
     const input2FACode = await verify2FACode(email, code)
     if (!input2FACode) {
-      return NextResponse.json({ error: 'Invalid code.' }, { status: 404 })
+      return NextResponse.json({ error: 'Invalid OTP.' }, { status: 404 })
     }
 
     const hasInput2FACodeExpired = new Date(input2FACode.expiredAt) < new Date()
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     if (hasInput2FACodeExpired) {
       await delete2FACode(email)
       return NextResponse.json(
-        { error: 'The code has been expired.' },
+        { error: 'The OTP has been expired.' },
         { status: 404 }
       )
     }

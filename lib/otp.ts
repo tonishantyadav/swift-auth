@@ -18,7 +18,7 @@ export const createOtp = async (email: string): Promise<OTP | null> => {
   if (oldOtp) await deleteOtp(oldOtp.code)
 
   const code = crypto.randomInt(1_00_000, 1_000_000).toString()
-  const expiredAt = new Date(new Date().getTime() + 1 * 60 * 1000) // In one second
+  const expiredAt = new Date(new Date().getTime() + 5 * 60 * 1000) // In five minutes
 
   try {
     return await prisma.oTP.create({
