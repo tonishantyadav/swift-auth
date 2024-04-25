@@ -28,7 +28,7 @@ export const useSignup = () => {
   })
 }
 
-const from = 'Acme <onboarding@resend.dev>'
+const from = 'mail@tonishantyadav.site'
 const subject = 'Email verification'
 const heading = 'Welcome to Swift Auth - Complete Your Registration Now!'
 const content =
