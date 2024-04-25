@@ -10,10 +10,11 @@ import { useEmailVerify } from '@/hooks/auth/useEmailVerify'
 import { handleError } from '@/lib/error'
 import { InputOTPSchema } from '@/schemas/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BeatLoader from 'react-spinners/BeatLoader'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 const EmailVerifyCard = () => {
@@ -23,16 +24,31 @@ const EmailVerifyCard = () => {
       code: '',
     },
   })
-  const searchParams = useSearchParams()
   const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
   const emailVerify = useEmailVerify()
   const [token, setToken] = useState('')
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   useEffect(() => {
     const token = searchParams.get('token')
+    const success = searchParams.get('success')
+
     if (token) setToken(token)
-  }, [searchParams])
+    if (success) {
+      setSuccess(success)
+      router.push(`${pathname}?token=${token}`)
+    }
+  }, [token, searchParams]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (success) {
+      toast.success(success)
+      setSuccess('')
+    }
+  }, [success])
 
   const onSubmit = async (formData: z.infer<typeof InputOTPSchema>) => {
     try {
@@ -67,9 +83,7 @@ const EmailVerifyCard = () => {
                 <CardContent className="mx-2 max-w-xl space-y-3">
                   <InputOTP
                     form={form}
-                    description={
-                      'Enter the OTP code that has been sent to your email.'
-                    }
+                    description={'Enter the verification code.'}
                   />
                   {error && <FormCardError message={error} />}
                 </CardContent>

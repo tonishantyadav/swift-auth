@@ -28,8 +28,8 @@ export const useSignup = () => {
   })
 }
 
-const from = 'mail@tonishantyadav.site'
+const from = 'Swift Auth <mail@tonishantyadav.site>'
 const subject = 'Email verification'
 const heading = 'Welcome to Swift Auth - Complete Your Registration Now!'
 const content =
-  'Thank you for joining Swift Auth! To complete your registration, below is your OTP code for email verification:'
+  'Thank you for joining Swift Auth! To complete your registration, below is your verification code for email verification:'

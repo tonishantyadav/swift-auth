@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
             code: otp.code,
             token: verificationToken.token,
           },
-          success: 'An OTP has been sent to your email.',
+          success: 'A verification code is been sent to your email.',
         },
         { status: 201 }
       )

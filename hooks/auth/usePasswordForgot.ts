@@ -29,7 +29,7 @@ export const usePasswordForgot = () => {
   })
 }
 
-const from = 'Acme <onboarding@resend.dev>'
+const from = 'Swift Auth <mail@tonishantyadav.site>'
 const subject = 'Reset Password'
 const heading = 'Swift Auth - Reset Password'
 const content =

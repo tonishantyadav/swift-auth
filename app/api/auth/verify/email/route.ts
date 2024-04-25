@@ -36,7 +36,11 @@ export async function POST(request: NextRequest) {
 
   const otp = await verifyOtp(user.email!, code)
 
-  if (!otp) return NextResponse.json({ error: 'Invalid OTP.' }, { status: 404 })
+  if (!otp)
+    return NextResponse.json(
+      { error: 'Invalid verification code.' },
+      { status: 404 }
+    )
 
   const hasOtpExired = new Date(otp.expiredAt) < new Date()
   const hasVerificationTokenExpired =
@@ -53,7 +57,7 @@ export async function POST(request: NextRequest) {
     await deleteToken(token)
     await deleteOtp(user.email!)
     return NextResponse.json(
-      { error: 'OTP has been expired.' },
+      { error: 'The code has been expired.' },
       { status: 401 }
     )
   }

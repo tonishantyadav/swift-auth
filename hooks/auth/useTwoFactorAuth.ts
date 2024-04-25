@@ -28,7 +28,7 @@ export const useTwoFactorAuth = () => {
   })
 }
 
-const from = 'mail@tonishantyadav.site'
+const from = 'Swift Auth <mail@tonishantyadav.site>'
 const subject = '2FA Verification'
 const heading = 'Swift Auth - 2FA Verification'
 const content = "Here's your 2FA verification code:"

@@ -17,8 +17,9 @@ import { SignupSchema } from '@/schemas/validation'
 import { Field, SignupFormData } from '@/types/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 const SignupForm = () => {
@@ -30,21 +31,25 @@ const SignupForm = () => {
   const signup = useSignup()
   const [error, setError] = useState('')
   const [token, setToken] = useState('')
+  const [success, setSuccess] = useState('')
+
+  useEffect(() => {
+    if (signup.isSuccess && token) {
+      router.push(`/auth/verify/email?token=${token}&success=${success}`)
+    }
+  }, [signup.isSuccess, token, success, router])
 
   const onSubmit = async (data: Partial<SignupFormData>) => {
     try {
       const response = await signup.mutateAsync(data)
       if (response.data) {
+        setSuccess(response.success)
         setToken(response.data.token)
       }
     } catch (error) {
       const errorMessage = handleError(error)
       setError(errorMessage)
     }
-  }
-
-  if (signup.isSuccess && token) {
-    router.push(`/auth/verify/email?token=${token}`)
   }
 
   return (
