@@ -39,9 +39,9 @@ const EmailVerifyCard = () => {
     if (token) setToken(token)
     if (success) {
       setSuccess(success)
-      router.push(`${pathname}?token=${token}`)
+      router.replace(`${pathname}?token=${token}`, { scroll: true })
     }
-  }, [token, searchParams]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [token, searchParams, router, pathname])
 
   useEffect(() => {
     if (success) {
