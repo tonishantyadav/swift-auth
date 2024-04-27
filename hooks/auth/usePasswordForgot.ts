@@ -1,11 +1,9 @@
 import { EmailSchema } from '@/schemas/validation'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
 import { z } from 'zod'
 
 export const usePasswordForgot = () => {
-  const router = useRouter()
   return useMutation({
     mutationFn: async (email: string) => {
       const response = await axios.post('/api/auth/forgot/password', { email })

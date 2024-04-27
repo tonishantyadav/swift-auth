@@ -3,7 +3,7 @@ import { SignupForm } from '@/components/auth'
 const SignupPage = () => {
   return (
     <div className="grid min-h-screen items-center justify-center gap-2 md:grid-cols-2 lg:grid-cols-2">
-      <div className="relative hidden  min-h-full md:block">
+      <div className="relative hidden min-h-full md:block">
         <HeroSection />
       </div>
       <div className="flex justify-center lg:m-8">
