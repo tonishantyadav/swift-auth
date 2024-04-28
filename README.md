@@ -15,7 +15,6 @@ Welcome to Swift Auth, your all-in-one authentication solution. We offer OAuth, 
 7. 🙂 [Contact](#contact)
 
 ## Getting Started
-![Alt text](public/banner.png)
 
 First, run the development server:
 
