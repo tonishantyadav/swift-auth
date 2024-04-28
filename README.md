@@ -6,15 +6,20 @@ Welcome to Swift Auth, your all-in-one authentication solution. We offer OAuth, 
 
 ## 📌 <a name="table">Contents</a>
 
-1. 🛠️ [Tech Stack](#tech-stack)
-2. ⚡ [Features](#features)
-3. 🎞️ [Demo](#demo)
-4. 🚀 [Quick Start](#quick-start)
-5. ❤️ [Contributing](#contributing)
-6. 🛡️ [License](#license)
-7. 🙂 [Contact](#contact)
+🛠️ [Tech Stack](#tech-stack)
+⚡ [Features](#features)
+🎞️ [Demo](#demo)
+🚀 [Quick Start](#quick-start)
+❤️ [Contributing](#contributing)
+🛡️ [License](#license)
+🙂 [Contact](#contact)
 
 ## Getting Started
+<<<<<<< HEAD
+=======
+
+![Alt text](public/banner.png)
+>>>>>>> e25b7db (Update README.md)
 
 First, run the development server:
 
