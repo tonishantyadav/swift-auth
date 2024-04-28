@@ -1,4 +1,18 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Swift Auth
+
+Welcome to Swift Auth, your all-in-one authentication solution. We offer OAuth, credential-based sign-in/sign-up, and Two-Factor Authentication (2FA) for robust security. Our seamless interface, powered by Next.js, ensures a smooth user experience. Backed by MySQL for efficient database management and Prisma for optimized data modeling. Plus, we've integrated NextAuth for enhanced authentication features. Simplify your authentication needs with Swift Auth.
+
+![Banner](public/banner.png)
+
+## 📌 <a name="table">Contents</a>
+
+1. 🛠️ [Tech Stack](#tech-stack)
+2. ⚡ [Features](#features)
+3. 🎞️ [Demo](#demo)
+4. 🚀 [Quick Start](#quick-start)
+5. ❤️ [Contributing](#contributing)
+6. 🛡️ [License](#license)
+7. 🙂 [Contact](#contact)
 
 ## Getting Started
 
