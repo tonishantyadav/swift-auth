@@ -9,7 +9,7 @@ Welcome to Swift Auth, your all-in-one authentication solution. We offer OAuth, 
 🛠️ [Tech Stack](#tech-stack)
 ⚡ [Features](#features)
 🎞️ [Demo](#demo)
-🚀 [Quick Start](#quick-start)
+🚀 [Quick Start](#quick-star)
 ❤️ [Contributing](#contributing)
 🛡️ [License](#license)
 🙂 [Contact](#contact)
