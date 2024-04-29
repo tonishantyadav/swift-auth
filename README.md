@@ -6,13 +6,23 @@ Welcome to Swift Auth, your all-in-one authentication solution. We offer OAuth, 
 
 ## ⚡ Features
 
+<<<<<<< HEAD
+
 - **OAuth Integration:** Seamlessly authenticate users through popular OAuth providers.
 - **Credential Sign-in/Sign-up:** Allow users to create accounts and sign in using email and password credentials.
 - **Two-Factor Authentication (2FA):** Enhance security with an additional layer of verification for user accounts.
 - **Next.js Powered UI:** Enjoy a smooth and intuitive user interface crafted with Next.js for optimal performance.
 - **Efficient Database Management:** MySQL handles database management efficiently.
 - **Optimized Data Modeling:** Prisma serves as the ORM for streamlined data operations.
-- **NextAuth Integration:** Enhanced authentication capabilities with NextAuth.
+- # **NextAuth Integration:** Enhanced authentication capabilities with NextAuth.
+  🛠️ [Tech Stack](#tech-stack)
+  ⚡ [Features](#features)
+  🎞️ [Demo](#demo)
+  🚀 [Quick Start](#quick-star)
+  ❤️ [Contributing](#contributing)
+  🛡️ [License](#license)
+  🙂 [Contact](#contact)
+  > > > > > > > d63b1d69f290244589c3e9cdf37dd3d947d9f9db
 
 ## 🛠️ Getting Started
 
