@@ -1,6 +1,6 @@
 # Contributing to Swift Auth ❤️
 
-We welcome contributions to improve Snapgram. Please follow these simple guidelines to get started:
+We welcome contributions to improve Swift Auth. Please follow these simple guidelines to get started:
 
 1. **Report Issues**: If you encounter a bug or have a suggestion, please create an issue in the [Issue Tracker](https://github.com/tonishantyadav/swift-auth/issues). Provide a clear and concise description, including steps to reproduce the issue.
 
@@ -14,4 +14,4 @@ We welcome contributions to improve Snapgram. Please follow these simple guideli
 
 6. **License**: By contributing, you agree that your contributions will be licensed under the project's [MIT License](LICENSE).
 
-Thank you for contributing to Snapgram!
+Thank you for contributing to Swift Auth!
