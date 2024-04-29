@@ -9,8 +9,8 @@ import {
 } from '@/components/ui/popover'
 import ToastContainer from '@/components/ui/toast'
 import shieldIcon from '@/public/shield.png'
+import { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 
 const HomePage = async () => {
   const session = await auth()
@@ -87,6 +87,12 @@ const ProfileDialog = ({
       </Popover>
     </>
   )
+}
+
+export const metadata: Metadata = {
+  title: 'Swift Auth - Home',
+  description:
+    "Welcome to Swift Auth, your all-in-one authentication solution. We offer OAuth, credential-based sign-in/sign-up, and Two-Factor Authentication (2FA) for robust security. A seamless interface, powered by Next.js, ensures a smooth user experience. Backed by MySQL for efficient database management and Prisma for optimized data modeling. Plus, we've integrated NextAuth for enhanced authentication features. Simplify your authentication needs with Swift Auth.",
 }
 
 export default HomePage

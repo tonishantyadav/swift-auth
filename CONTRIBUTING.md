@@ -6,7 +6,7 @@ We welcome contributions to improve Snapgram. Please follow these simple guideli
 
 2. **Make Code Changes**: If you'd like to contribute code changes, fork the repository, create a new branch for your work, make your changes, and submit a pull request (PR). Be sure to include a clear description of your changes.
 
-3. **Testing**: Ensure that your code changes include relevant tests. Test your changes thoroughly and make sure all tests pass.
+3. **Testing**: Ensure that your code changes include relevant tests. Test your changes thoroughly and make surea all tests pass.
 
 4. **Commit Messages**: Use clear and concise commit messages. Reference the related issue number if applicable.
 

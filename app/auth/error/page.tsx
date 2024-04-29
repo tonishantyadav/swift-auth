@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Metadata } from 'next'
 import { useRouter } from 'next/navigation'
 
 const AuthErrorPage = () => {
@@ -25,6 +26,12 @@ const AuthErrorPage = () => {
       </Card>
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: 'Swift Auth - Error',
+  description:
+    'Oops! Something went wrong. The Swift Auth error page provides helpful information and guidance when encountering unexpected errors. From troubleshooting tips to contacting support, Swift Auth ensures a seamless user experience even in challenging moments. Trust us to swiftly resolve any issues and keep your authentication process running smoothly.',
 }
 
 export default AuthErrorPage

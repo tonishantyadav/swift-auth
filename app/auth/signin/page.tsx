@@ -1,5 +1,6 @@
 import { SigninForm } from '@/components/auth'
 import basketPattern from '@/public/basket-pattern.svg'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import { Suspense } from 'react'
 
@@ -21,6 +22,12 @@ const SigninPage = () => {
       </div>
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: 'Swift Auth - Signin',
+  description:
+    "Sign in effortlessly with Swift Auth. Our secure authentication process ensures a smooth login experience, whether you're accessing your account for the first time or returning. With Swift Auth, your login credentials are protected, providing peace of mind and convenience. Trust Swift Auth for seamless authentication and access to your account.",
 }
 
 export default SigninPage

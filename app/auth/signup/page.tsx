@@ -1,4 +1,5 @@
 import { SignupForm } from '@/components/auth'
+import { Metadata } from 'next'
 
 const SignupPage = () => {
   return (
@@ -30,6 +31,12 @@ const HeroSection = () => {
       </div>
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: 'Swift Auth - Signup',
+  description:
+    "Create your account effortlessly with Swift Auth. Our secure signup process ensures a seamless experience, whether you're registering for the first time or returning. With Swift Auth, your personal information is safeguarded, providing peace of mind and convenience. Trust Swift Auth for reliable authentication and a hassle-free account creation process.",
 }
 
 export default SignupPage
