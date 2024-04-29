@@ -1,50 +1,81 @@
 # Swift Auth
 
-Welcome to Swift Auth, your all-in-one authentication solution. We offer OAuth, credential-based sign-in/sign-up, and Two-Factor Authentication (2FA) for robust security. Our seamless interface, powered by Next.js, ensures a smooth user experience. Backed by MySQL for efficient database management and Prisma for optimized data modeling. Plus, we've integrated NextAuth for enhanced authentication features. Simplify your authentication needs with Swift Auth.
+Welcome to Swift Auth, your all-in-one authentication solution. We offer OAuth, credential-based sign-in/sign-up, and Two-Factor Authentication (2FA) for robust security. A seamless interface, powered by Next.js, ensures a smooth user experience. Backed by MySQL for efficient database management and Prisma for optimized data modeling. Plus, we've integrated NextAuth for enhanced authentication features. Simplify your authentication needs with Swift Auth.
 
 ![Banner](public/banner.png)
 
-## 📌 <a name="table">Contents</a>
+## ⚡ Features
 
-🛠️ [Tech Stack](#tech-stack)
-⚡ [Features](#features)
-🎞️ [Demo](#demo)
-🚀 [Quick Start](#quick-start)
-❤️ [Contributing](#contributing)
-🛡️ [License](#license)
-🙂 [Contact](#contact)
+- **OAuth Integration:** Seamlessly authenticate users through popular OAuth providers.
+- **Credential Sign-in/Sign-up:** Allow users to create accounts and sign in using email and password credentials.
+- **Two-Factor Authentication (2FA):** Enhance security with an additional layer of verification for user accounts.
+- **Next.js Powered UI:** Enjoy a smooth and intuitive user interface crafted with Next.js for optimal performance.
+- **Efficient Database Management:** MySQL handles database management efficiently.
+- **Optimized Data Modeling:** Prisma serves as the ORM for streamlined data operations.
+- **NextAuth Integration:** Enhanced authentication capabilities with NextAuth.
 
-## Getting Started
+## 🛠️ Getting Started
 
-First, run the development server:
+### Clone the repository
+
+```bash
+https://github.com/tonishantyadav/swift-auth.git
+cd swift-auth
+```
+
+### Install project dependencies
+
+```bash
+npm install
+```
+
+### Setup environment variable
+
+Create a new file named `.env` in the root of your project and add the following content:
+
+```env
+DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/swift-auth"
+
+AUTH_TRUST_HOST="http://localhost:3000"
+
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET=
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+RESEND_API_KEY=
+```
+
+- To set value for `NEXTAUTH_SECRET` key, Run this command `bash openssl rand -base64 32` in your terminal and it will give you a random 32-characters long string that you can use as a value for `NEXTAUTH_SECRET` key.
+
+- To configure Google OAuth provider, then refer to https://next-auth.js.org/providers/google
+
+- To configure GitHub OAuth provider, then refer to https://next-auth.js.org/providers/github
+
+- To use Resend as a mail service, then refer to https://resend.com/
+
+### Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ❤️ Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+If you'd like to contribute to this project, please follow our [Contribution Guidelines](CONTRIBUTING.md)
 
-## Learn More
+## 🛡️ License
 
-To learn more about Next.js, take a look at the following resources:
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🙂 Contact
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+For any questions or feedback, please contact me at [inishantyadav24@gmail.com](mailto:inishantyadav24@gmail.com)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+I hope you find Swift Auth useful for your needs. Happy coding!
