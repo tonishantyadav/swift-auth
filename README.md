@@ -16,6 +16,10 @@ Welcome to Swift Auth, your all-in-one authentication solution. We offer OAuth, 
 
 ## 🔔 Demo
 
+
+https://github.com/tonishantyadav/swift-auth/assets/91500634/3038ac72-702e-4a42-8aca-298f1ff610dd
+
+
 ## 🛠️ Getting Started
 
 ### Clone the repository
