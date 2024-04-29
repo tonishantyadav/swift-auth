@@ -1,6 +1,6 @@
 # Contributing to Swift Auth ❤️
 
-We welcome contributions to improve Snapgram. Please follow these simple guidelines to get started:
+We welcome contributions to improve Swift Auth. Please follow these simple guidelines to get started:
 
 1. **Report Issues**: If you encounter a bug or have a suggestion, please create an issue in the [Issue Tracker](https://github.com/tonishantyadav/swift-auth/issues). Provide a clear and concise description, including steps to reproduce the issue.
 
