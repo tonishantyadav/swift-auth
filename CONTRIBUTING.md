@@ -14,4 +14,4 @@ We welcome contributions to improve Swift Auth. Please follow these simple guide
 
 6. **License**: By contributing, you agree that your contributions will be licensed under the project's [MIT License](LICENSE).
 
-Thank you for contributing to Snapgram!
+Thank you for contributing to Swift Auth!
