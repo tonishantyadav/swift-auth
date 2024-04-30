@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/2FA/expired",
-      "schedule": "0 * * * *"
+      "schedule": "1 * * * *"
     },
     {
       "path": "/api/cron/users/email-verified",
