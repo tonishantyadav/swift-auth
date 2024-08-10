@@ -77,9 +77,3 @@ If you'd like to contribute to this project, please follow our [Contribution Gui
 ## 🛡️ License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🗿 Contact
-
-For any questions or feedback, please contact me at [inishantyadav24@gmail.com](mailto:inishantyadav24@gmail.com)
-
-I hope you find Swift Auth useful for your needs. Happy coding!
