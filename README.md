@@ -3,6 +3,8 @@
 
 Welcome to Swift Auth, your all-in-one authentication solution. We offer OAuth, credential-based sign-in/sign-up, and Two-Factor Authentication (2FA) for robust security. A seamless interface, powered by Next.js, ensures a smooth user experience. Backed by MySQL for efficient database management and Prisma for optimized data modeling. Plus, we've integrated NextAuth for enhanced authentication features. Simplify your authentication needs with Swift Auth.
 
+## ⚠️ Note
+This project is no longer actively maintained and the live deployment previously hosted on AWS Free Tier is no longer available due to AWS policy. However, the full functionality of the project remains intact. You can clone the repository and run it locally for learning or demonstration purposes.
 
 ## ⚡ Features
 
